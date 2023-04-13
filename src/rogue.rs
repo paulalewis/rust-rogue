@@ -1,16 +1,4 @@
-/*
- * Rogue definitions and variable declarations
- *
- * @(#)rogue.h	5.42 (Berkeley) 08/06/83
- *
- * Rogue: Exploring the Dungeons of Doom
- * Copyright (C) 1980-1983, 1985, 1999 Michael Toy, Ken Arnold and Glenn Wichman
- * All rights reserved.
- *
- * See the file LICENSE.TXT for full copyright and licensing information.
- */
-
-//#include "extern.h"
+use crate::extern_h::*;
 
 //#undef lines 
 
@@ -20,29 +8,29 @@
  * Maximum number of different things
  */
 //#define MAXROOMS	9
-const MAXROOMS: usize = 9;
+pub const MAXROOMS: usize = 9;
 //#define MAXTHINGS	9
-const MAXTHINGS: usize = 9;
+pub const MAXTHINGS: usize = 9;
 //#define MAXOBJ		9
-const MAXOBJ: usize = 9;
+pub const MAXOBJ: usize = 9;
 //#define MAXPACK		23
-const MAXPACK: usize = 23;
+pub const MAXPACK: usize = 23;
 //#define MAXTRAPS	10
-const MAXTRAPS: usize = 10;
+pub const MAXTRAPS: usize = 10;
 //#define AMULETLEVEL	26
-const AMULETLEVEL: usize = 26;
+pub const AMULETLEVEL: usize = 26;
 //#define	NUMTHINGS	7	/* number of types of things */
-const NUMTHINGS: usize = 7;
+pub const NUMTHINGS: usize = 7;
 //#define MAXPASS		13	/* upper limit on number of passages */
-const MAXPASS: usize = 13;
+pub const MAXPASS: usize = 13;
 //#define	NUMLINES	24
-const NUMLINES: usize = 24;
+pub const NUMLINES: usize = 24;
 //#define	NUMCOLS		80
-const NUMCOLS: usize = 80;
+pub const NUMCOLS: usize = 80;
 //#define STATLINE		(NUMLINES - 1)
-const STATLINE: usize = NUMLINES - 1;
+pub const STATLINE: usize = NUMLINES - 1;
 //#define BORE_LEVEL	50
-const BORE_LEVEL: usize = 50;
+pub const BORE_LEVEL: usize = 50;
 
 /*
  * return values for get functions
@@ -94,9 +82,6 @@ const INV_CLEAR: usize = 2;
 //#define flat(y,x)	(places[((x) << 5) + (y)].p_flags)
 //#define moat(y,x)	(places[((x) << 5) + (y)].p_monst)
 //#define unc(cp)		(cp).y, (cp).x
-//#ifdef MASTER
-//#define debug		if (wizard) msg
-//#endif
 
 /*
  * things that appear on the screens
@@ -148,339 +133,339 @@ const R_OR_S: isize = -2;
 //#define BEFORE		spread(1)
 //#define AFTER		spread(2)
 //#define HEALTIME	30
-const HEALTIME: usize = 30;
+pub const HEALTIME: usize = 30;
 //#define HUHDURATION	20
-const HUHDURATION: usize = 20;
+pub const HUHDURATION: usize = 20;
 //#define SEEDURATION	850
-const SEEDURATION: usize = 850;
+pub const SEEDURATION: usize = 850;
 //#define HUNGERTIME	1300
-const HUNGERTIME: usize = 1300;
+pub const HUNGERTIME: usize = 1300;
 //#define MORETIME	150
-const MORETIME: usize = 150;
+pub const MORETIME: usize = 150;
 //#define STOMACHSIZE	2000
-const STOMACHSIZE: usize = 2000;
+pub const STOMACHSIZE: usize = 2000;
 //#define STARVETIME	850
-const STARVETIME: usize = 850;
+pub const STARVETIME: usize = 850;
 //#define ESCAPE		27
-const ESCAPE: char = '\x1b';
+pub const ESCAPE: char = '\x1b';
 //#define LEFT		0
-const LEFT: usize = 0;
+pub const LEFT: usize = 0;
 //#define RIGHT		1
-const RIGHT: usize = 1;
+pub const RIGHT: usize = 1;
 //#define BOLT_LENGTH	6
-const BOLT_LENGTH: usize = 6;
+pub const BOLT_LENGTH: usize = 6;
 //#define LAMPDIST	3
-const LAMPDIST: usize = 3;
+pub const LAMPDIST: usize = 3;
 
 /*
  * Save against things
  */
 //#define VS_POISON	00
-const VS_POISON: usize = 0;
+pub const VS_POISON: usize = 0;
 //#define VS_PARALYZATION	00
-const VS_PARALYZATION: usize = 0;
+pub const VS_PARALYZATION: usize = 0;
 //#define VS_DEATH	00
-const VS_DEATH: usize = 0;
+pub const VS_DEATH: usize = 0;
 //#define VS_BREATH	02
-const VS_BREATH: usize = 2;
+pub const VS_BREATH: usize = 2;
 //#define VS_MAGIC	03
-const VS_MAGIC: usize = 3;
+pub const VS_MAGIC: usize = 3;
 
 /*
  * Various flag bits
  */
 /* flags for rooms */
 //#define ISDARK	0000001		/* room is dark */
-const ISDARK: usize = 1;
+pub const ISDARK: usize = 1;
 //#define ISGONE	0000002		/* room is gone (a corridor) */
-const ISGONE: usize = 2;
+pub const ISGONE: usize = 2;
 //#define ISMAZE	0000004		/* room is gone (a corridor) */
-const ISMAZE: usize = 4;
+pub const ISMAZE: usize = 4;
 
 /* flags for objects */
 //#define ISCURSED 000001		/* object is cursed */
-const ISCURSED: usize = 1;
+pub const ISCURSED: usize = 1;
 //#define ISKNOW	0000002		/* player knows details about the object */
-const ISKNOW: usize = 2;
+pub const ISKNOW: usize = 2;
 //#define ISMISL	0000004		/* object is a missile type */
-const ISMISL: usize = 4;
+pub const ISMISL: usize = 4;
 //#define ISMANY	0000010		/* object comes in groups */
-const ISMANY: usize = 10;
+pub const ISMANY: usize = 10;
 /*	ISFOUND 0000020		...is used for both objects and creatures */
 //#define	ISPROT	0000040		/* armor is permanently protected */
-const ISPROT: usize = 40;
+pub const ISPROT: usize = 40;
 
 /* flags for creatures */
 //#define CANHUH	0000001		/* creature can confuse */
-const CANHUH: usize = 1;
+pub const CANHUH: usize = 1;
 //#define CANSEE	0000002		/* creature can see invisible creatures */
-const CANSEE: usize = 2;
+pub const CANSEE: usize = 2;
 //#define ISBLIND	0000004		/* creature is blind */
-const ISBLIND: usize = 4;
+pub const ISBLIND: usize = 4;
 //#define ISCANC	0000010		/* creature has special qualities cancelled */
-const ISCANC: usize = 10;
+pub const ISCANC: usize = 10;
 //#define ISLEVIT	0000010		/* hero is levitating */
-const ISLEVIT: usize = 10;
+pub const ISLEVIT: usize = 10;
 //#define ISFOUND	0000020		/* creature has been seen (used for objects) */
-const ISFOUND: usize = 20;
+pub const ISFOUND: usize = 20;
 //#define ISGREED	0000040		/* creature runs to protect gold */
-const ISGREED: usize = 40;
+pub const ISGREED: usize = 40;
 //#define ISHASTE	0000100		/* creature has been hastened */
-const ISHASTE: usize = 100;
+pub const ISHASTE: usize = 100;
 //#define ISTARGET 000200		/* creature is the target of an 'f' command */
-const ISTARGET: usize = 200;
+pub const ISTARGET: usize = 200;
 //#define ISHELD	0000400		/* creature has been held */
-const ISHELD: usize = 400;
+pub const ISHELD: usize = 400;
 //#define ISHUH	0001000		/* creature is confused */
-const ISHUH: usize = 1000;
+pub const ISHUH: usize = 1000;
 //#define ISINVIS	0002000		/* creature is invisible */
-const ISINVIS: usize = 2000;
+pub const ISINVIS: usize = 2000;
 //#define ISMEAN	0004000		/* creature can wake when player enters room */
-const ISMEAN: usize = 4000;
+pub const ISMEAN: usize = 4000;
 //#define ISHALU	0004000		/* hero is on acid trip */
-const ISHALU: usize = 4000;
+pub const ISHALU: usize = 4000;
 //#define ISREGEN	0010000		/* creature can regenerate */
-const ISREGEN: usize = 10000;
+pub const ISREGEN: usize = 10000;
 //#define ISRUN	0020000		/* creature is running at the player */
-const ISRUN: usize = 20000;
+pub const ISRUN: usize = 20000;
 //#define SEEMONST 040000		/* hero can detect unseen monsters */
-const SEEMONST: usize = 40000;
+pub const SEEMONST: usize = 40000;
 //#define ISFLY	0040000		/* creature can fly */
-const ISFLY: usize = 400000;
+pub const ISFLY: usize = 400000;
 //#define ISSLOW	0100000		/* creature has been slowed */
-const ISSLOW: usize = 1000000;
+pub const ISSLOW: usize = 1000000;
 
 /*
  * Flags for level map
  */
 //#define F_PASS		0x80		/* is a passageway */
-const F_PASS: usize = 0x80;
+pub const F_PASS: usize = 0x80;
 //#define F_SEEN		0x40		/* have seen this spot before */
-const F_SEEN: usize = 0x40;
+pub const F_SEEN: usize = 0x40;
 //#define F_DROPPED	0x20		/* object was dropped here */
-const F_DROPPED: usize = 0x20;
+pub const F_DROPPED: usize = 0x20;
 //#define F_LOCKED	0x20		/* door is locked */
-const F_LOCKED: usize = 0x20;
+pub const F_LOCKED: usize = 0x20;
 //#define F_REAL		0x10		/* what you see is what you get */
-const F_REAL: usize = 0x10;
+pub const F_REAL: usize = 0x10;
 //#define F_PNUM		0x0f		/* passage number mask */
-const F_PNUM: usize = 0x0f;
+pub const F_PNUM: usize = 0x0f;
 //#define F_TMASK		0x07		/* trap number mask */
-const F_TMASK: usize = 0x07;
+pub const F_TMASK: usize = 0x07;
 
 /*
  * Trap types
  */
 //#define T_DOOR	00
-const T_DOOR: usize = 0;
+pub const T_DOOR: usize = 0;
 //#define T_ARROW	01
-const T_ARROW: usize = 1;
+pub const T_ARROW: usize = 1;
 //#define T_SLEEP	02
-const T_SLEEP: usize = 2;
+pub const T_SLEEP: usize = 2;
 //#define T_BEAR	03
-const T_BEAR: usize = 3;
+pub const T_BEAR: usize = 3;
 //#define T_TELEP	04
-const T_TELEP: usize = 4;
+pub const T_TELEP: usize = 4;
 //#define T_DART	05
-const T_DART: usize = 5;
+pub const T_DART: usize = 5;
 //#define T_RUST	06
-const T_RUST: usize = 6;
+pub const T_RUST: usize = 6;
 //#define T_MYST  07
-const T_MYST: usize = 7;
+pub const T_MYST: usize = 7;
 //#define NTRAPS	8
-const NTRAPS: usize = 8;
+pub const NTRAPS: usize = 8;
 
 /*
  * Potion types
  */
 //#define P_CONFUSE	0
-const P_CONFUSE: usize = 0;
+pub const P_CONFUSE: usize = 0;
 //#define P_LSD		1
-const P_LSD: usize = 1;
+pub const P_LSD: usize = 1;
 //#define P_POISON	2
-const P_POISON: usize = 2;
+pub const P_POISON: usize = 2;
 //#define P_STRENGTH	3
-const P_STRENGTH: usize = 3;
+pub const P_STRENGTH: usize = 3;
 //#define P_SEEINVIS	4
-const P_SEEINVIS: usize = 4;
+pub const P_SEEINVIS: usize = 4;
 //#define P_HEALING	5
-const P_HEALING: usize = 5;
+pub const P_HEALING: usize = 5;
 //#define P_MFIND		6
-const P_MFIND: usize = 6;
+pub const P_MFIND: usize = 6;
 //#define	P_TFIND 	7
-const P_TFIND: usize = 7;
+pub const P_TFIND: usize = 7;
 //#define	P_RAISE		8
-const P_RAISE: usize = 8;
+pub const P_RAISE: usize = 8;
 //#define P_XHEAL		9
-const P_XHEAL: usize = 9;
+pub const P_XHEAL: usize = 9;
 //#define P_HASTE		10
-const P_HASTE: usize = 10;
+pub const P_HASTE: usize = 10;
 //#define P_RESTORE	11
-const P_RESTORE: usize = 11;
+pub const P_RESTORE: usize = 11;
 //#define P_BLIND		12
-const P_BLIND: usize = 12;
+pub const P_BLIND: usize = 12;
 //#define P_LEVIT		13
-const P_LEVIT: usize = 13;
+pub const P_LEVIT: usize = 13;
 //#define MAXPOTIONS	14
-const MAXPOTIONS: usize = 14;
+pub const MAXPOTIONS: usize = 14;
 
 /*
  * Scroll types
  */
 //#define S_CONFUSE	0
-const S_CONFUSE: usize = 0;
+pub const S_CONFUSE: usize = 0;
 //#define S_MAP		1
-const S_MAP: usize = 1;
+pub const S_MAP: usize = 1;
 //#define S_HOLD		2
-const S_HOLD: usize = 2;
+pub const S_HOLD: usize = 2;
 //#define S_SLEEP		3
-const S_SLEEP: usize = 3;
+pub const S_SLEEP: usize = 3;
 //#define S_ARMOR		4
-const S_ARMOR: usize = 4;
+pub const S_ARMOR: usize = 4;
 //#define S_ID_POTION	5
-const S_ID_POTION: usize = 5;
+pub const S_ID_POTION: usize = 5;
 //#define S_ID_SCROLL	6
-const S_ID_SCROLL: usize = 6;
+pub const S_ID_SCROLL: usize = 6;
 //#define S_ID_WEAPON	7
-const S_ID_WEAPON: usize = 7;
+pub const S_ID_WEAPON: usize = 7;
 //#define S_ID_ARMOR	8
-const S_ID_ARMOR: usize = 8;
+pub const S_ID_ARMOR: usize = 8;
 //#define S_ID_R_OR_S	9
-const S_ID_R_OR_S: usize = 9;
+pub const S_ID_R_OR_S: usize = 9;
 //#define S_SCARE		10
-const S_SCARE: usize = 10;
+pub const S_SCARE: usize = 10;
 //#define S_FDET		11
-const S_FDET: usize = 11;
+pub const S_FDET: usize = 11;
 //#define S_TELEP		12
-const S_TELEP: usize = 12;
+pub const S_TELEP: usize = 12;
 //#define S_ENCH		13
-const S_ENCH: usize = 13;
+pub const S_ENCH: usize = 13;
 //#define S_CREATE	14
-const S_CREATE: usize = 14;
+pub const S_CREATE: usize = 14;
 //#define S_REMOVE	15
-const S_REMOVE: usize = 15;
+pub const S_REMOVE: usize = 15;
 //#define S_AGGR		16
-const S_AGGR: usize = 16;
+pub const S_AGGR: usize = 16;
 //#define S_PROTECT	17
-const S_PROTECT: usize = 17;
+pub const S_PROTECT: usize = 17;
 //#define MAXSCROLLS	18
-const MAXSCROLLS: usize = 18;
+pub const MAXSCROLLS: usize = 18;
 
 /*
  * Weapon types
  */
 //#define MACE		0
-const MACE: usize = 0;
+pub const MACE: usize = 0;
 //#define SWORD		1
-const SWORD: usize = 1;
+pub const SWORD: usize = 1;
 //#define BOW		2
-const BOW: usize = 2;
+pub const BOW: usize = 2;
 //#define ARROW		3
-const ARROW: usize = 3;
+pub const ARROW: usize = 3;
 //#define DAGGER		4
-const DAGGER: usize = 4;
+pub const DAGGER: usize = 4;
 //#define TWOSWORD	5
-const TWOSWORD: usize = 5;
+pub const TWOSWORD: usize = 5;
 //#define DART		6
-const DART: usize = 6;
+pub const DART: usize = 6;
 //#define SHIRAKEN	7
-const SHIRAKEN: usize = 7;
+pub const SHIRAKEN: usize = 7;
 //#define SPEAR		8
-const SPEAR: usize = 8;
+pub const SPEAR: usize = 8;
 //#define FLAME		9	/* fake entry for dragon breath (ick) */
-const FLAME: usize = 9;
+pub const FLAME: usize = 9;
 //#define MAXWEAPONS	9	/* this should equal FLAME */
-const MAXWEAPONS: usize = 9;
+pub const MAXWEAPONS: usize = 9;
 
 /*
  * Armor types
  */
 //#define LEATHER		0
-const LEATHER: usize = 0;
+pub const LEATHER: usize = 0;
 //#define RING_MAIL	1
-const RING_MAIL: usize = 1;
+pub const RING_MAIL: usize = 1;
 //#define STUDDED_LEATHER	2
-const STUDDED_LEATHER: usize = 2;
+pub const STUDDED_LEATHER: usize = 2;
 //#define SCALE_MAIL	3
-const SCALE_MAIL: usize = 3;
+pub const SCALE_MAIL: usize = 3;
 //#define CHAIN_MAIL	4
-const CHAIN_MAIL: usize = 4;
+pub const CHAIN_MAIL: usize = 4;
 //#define SPLINT_MAIL	5
-const SPLINT_MAIL: usize = 5;
+pub const SPLINT_MAIL: usize = 5;
 //#define BANDED_MAIL	6
-const BANDED_MAIL: usize = 6;
+pub const BANDED_MAIL: usize = 6;
 //#define PLATE_MAIL	7
-const PLATE_MAIL: usize = 7;
+pub const PLATE_MAIL: usize = 7;
 //#define MAXARMORS	8
-const MAXARMORS: usize = 8;
+pub const MAXARMORS: usize = 8;
 
 /*
  * Ring types
  */
 //#define R_PROTECT	0
-const R_PROTECT: usize = 0;
+pub const R_PROTECT: usize = 0;
 //#define R_ADDSTR	1
-const R_ADDSTR: usize = 1;
+pub const R_ADDSTR: usize = 1;
 //#define R_SUSTSTR	2
-const R_SUSTSTR: usize = 2;
+pub const R_SUSTSTR: usize = 2;
 //#define R_SEARCH	3
-const R_SEARCH: usize = 3;
+pub const R_SEARCH: usize = 3;
 //#define R_SEEINVIS	4
-const R_SEEINVIS: usize = 4;
+pub const R_SEEINVIS: usize = 4;
 //#define R_NOP		5
-const R_NOP: usize = 5;
+pub const R_NOP: usize = 5;
 //#define R_AGGR		6
-const R_AGGR: usize = 6;
+pub const R_AGGR: usize = 6;
 //#define R_ADDHIT	7
-const R_ADDHIT: usize = 7;
+pub const R_ADDHIT: usize = 7;
 //#define R_ADDDAM	8
-const R_ADDDAM: usize = 8;
+pub const R_ADDDAM: usize = 8;
 //#define R_REGEN		9
-const R_REGEN: usize = 9;
+pub const R_REGEN: usize = 9;
 //#define R_DIGEST	10
-const R_DIGEST: usize = 10;
+pub const R_DIGEST: usize = 10;
 //#define R_TELEPORT	11
-const R_TELEPORT: usize = 11;
+pub const R_TELEPORT: usize = 11;
 //#define R_STEALTH	12
-const R_STEALTH: usize = 12;
+pub const R_STEALTH: usize = 12;
 //#define R_SUSTARM	13
-const R_SUSTARM: usize = 13;
+pub const R_SUSTARM: usize = 13;
 //#define MAXRINGS	14
-const MAXRINGS: usize = 14;
+pub const MAXRINGS: usize = 14;
 
 /*
  * Rod/Wand/Staff types
  */
 //#define WS_LIGHT	0
-const WS_LIGHT: usize = 0;
+pub const WS_LIGHT: usize = 0;
 //#define WS_INVIS	1
-const WS_INVIS: usize = 1;
+pub const WS_INVIS: usize = 1;
 //#define WS_ELECT	2
-const WS_ELECT: usize = 2;
+pub const WS_ELECT: usize = 2;
 //#define WS_FIRE		3
-const WS_FIRE: usize = 3;
+pub const WS_FIRE: usize = 3;
 //#define WS_COLD		4
-const WS_COLD: usize = 4;
+pub const WS_COLD: usize = 4;
 //#define WS_POLYMORPH	5
-const WS_POLYMORPH: usize = 5;
+pub const WS_POLYMORPH: usize = 5;
 //#define WS_MISSILE	6
-const WS_MISSILE: usize = 6;
+pub const WS_MISSILE: usize = 6;
 //#define WS_HASTE_M	7
-const WS_HASTE_M: usize = 7;
+pub const WS_HASTE_M: usize = 7;
 //#define WS_SLOW_M	8
-const WS_SLOW_M: usize = 8;
+pub const WS_SLOW_M: usize = 8;
 //#define WS_DRAIN	9
-const WS_DRAIN: usize = 9;
+pub const WS_DRAIN: usize = 9;
 //#define WS_NOP		10
-const WS_NOP: usize = 10;
+pub const WS_NOP: usize = 10;
 //#define WS_TELAWAY	11
-const WS_TELAWAY: usize = 11;
+pub const WS_TELAWAY: usize = 11;
 //#define WS_TELTO	12
-const WS_TELTO: usize = 12;
+pub const WS_TELTO: usize = 12;
 //#define WS_CANCEL	13
-const WS_CANCEL: usize = 13;
+pub const WS_CANCEL: usize = 13;
 //#define MAXSTICKS	14
-const MAXSTICKS: usize = 14;
+pub const MAXSTICKS: usize = 14;
 
 /*
  * Now we define the structures and types
@@ -494,9 +479,9 @@ const MAXSTICKS: usize = 14;
     bool h_print;
 };*/
 pub struct HList {
-    h_ch: char,
-    h_desc: String,
-    h_print: bool,
+    pub ch: char,
+    pub desc: String,
+    pub print: bool,
 }
 
 /*
@@ -506,9 +491,10 @@ pub struct HList {
     int x;
     int y;
 } coord;*/
+#[derive(Copy, Clone)]
 pub struct Coord {
-    x: i32,
-    y: i32,
+    pub x: i32,
+    pub y: i32,
 }
 
 //typedef unsigned int str_t;
@@ -525,11 +511,11 @@ pub type str_t = u32;
     bool oi_know;
 };*/
 pub struct ObjInfo {
-    oi_name: String,
-    oi_prob: i32,
-    oi_worth: i32,
-    oi_guess: String,
-    oi_know: bool,
+    pub name: String,
+    pub prob: i32,
+    pub worth: i32,
+    pub guess: String,
+    pub know: bool,
 }
 
 /*
@@ -544,14 +530,29 @@ pub struct ObjInfo {
     int r_nexits;			/* Number of exits */
     coord r_exit[12];			/* Where the exits are */
 };*/
+#[derive(Copy, Clone)]
 pub struct Room {
-    r_pos: Coord,
-    r_max: Coord,
-    r_gold: Coord,
-    r_goldval: i32,
-    r_flags: i32,
-    r_nexits: i32,
-    r_exit: [Coord; 12],
+    pub pos: Coord,
+    pub max: Coord,
+    pub gold: Coord,
+    pub goldval: i32,
+    pub flags: usize,
+    pub nexits: i32,
+    pub exit: [Coord; 12],
+}
+
+impl Room {
+    pub fn new() -> Self {
+        Room {
+            pos: Coord { x: 0, y: 0 },
+            max: Coord { x: 0, y: 0 },
+            gold: Coord { x: 0, y: 0 },
+            goldval: 0,
+            flags: 0,
+            nexits: 0,
+            exit: [Coord { x: 0, y: 0 }; 12],
+        }
+    }
 }
 
 /*
@@ -566,14 +567,29 @@ pub struct Room {
     char s_dmg[13];			/* String describing damage done */
     int  s_maxhp;			/* Max hit points */
 };*/
+#[derive(Clone)]
 pub struct Stats {
-    s_str: str_t,
-    s_exp: i32,
-    s_lvl: i32,
-    s_arm: i32,
-    s_hpt: i32,
-    s_dmg: String,
-    s_maxhp: i32,
+    pub str: str_t,
+    pub exp: i32,
+    pub lvl: i32,
+    pub arm: i32,
+    pub hpt: i32,
+    pub dmg: String,
+    pub max_hp: i32,
+}
+
+impl Stats {
+    pub fn new() -> Self {
+        Stats {
+            str: 0,
+            exp: 0,
+            lvl: 0,
+            arm: 0,
+            hpt: 0,
+            dmg: String::new(),
+            max_hp: 0,
+        }
+    }
 }
 
 /*
@@ -613,41 +629,60 @@ pub struct Stats {
 	char *_o_label;			/* Label for object */
     } _o;
 };*/
+#[derive(Clone)]
 pub enum Thing {
-    T {
-        _l_next: Box<Thing>,
-        _l_prev: Box<Thing>,
-        _t_pos: Coord,
-        _t_turn: bool,
-        _t_type: char,
-        _t_disguise: char,
-        _t_oldch: char,
-        _t_dest: Box<Coord>,
-        _t_flags: i32,
-        _t_stats: Stats,
-        _t_room: Box<Room>,
-        _t_pack: Box<Thing>,
-        _t_reserved: i32,
+    Creature {
+        next: Box<Option<Thing>>,
+        prev: Box<Option<Thing>>,
+        pos: Coord,
+        turn: bool,
+        r#type: char,
+        disguise: char,
+        oldch: char,
+        dest: Option<Coord>,
+        flags: usize,
+        stats: Stats,
+        room: Box<Room>,
+        pack: Box<Option<(Thing, /* reserved */i32)>>,
     },
-    O {
-        _l_next: Box<Thing>,
-        _l_prev: Box<Thing>,
-        _o_type: i32,
-        _o_pos: Coord,
-        _o_text: String,
-        _o_launch: i32,
-        _o_packch: char,
-        _o_damage: String,
-        _o_hurldmg: String,
-        _o_count: i32,
-        _o_which: i32,
-        _o_hplus: i32,
-        _o_dplus: i32,
-        _o_arm: i32,
-        _o_flags: i32,
-        _o_group: i32,
-        _o_label: String,
+    Object {
+        next: Box<Option<Thing>>,
+        prev: Box<Option<Thing>>,
+        r#type: i32,
+        pos: Coord,
+        text: String,
+        launch: i32,
+        packch: char,
+        damage: String,
+        hurldmg: String,
+        count: i32,
+        which: i32,
+        hplus: i32,
+        dplus: i32,
+        arm: i32,
+        flags: usize,
+        group: i32,
+        label: String,
     },
+}
+
+impl Thing {
+    pub fn new_creature() -> Self {
+        Thing::Creature {
+            next: Box::new(None),
+            prev: Box::new(None),
+            pos: Coord { x: 0, y: 0 },
+            turn: false,
+            r#type: '\0',
+            disguise: '\0',
+            oldch: '\0',
+            dest: None,
+            flags: 0,
+            stats: Stats::new(),
+            room: Box::new(Room::new()),
+            pack: Box::new(None),
+        }
+    }
 }
 
 
@@ -693,10 +728,21 @@ pub type THING = Thing;
     char p_flags;
     THING *p_monst;
 } PLACE;*/
+#[derive(Clone)]
 pub struct Place {
-    p_ch: char,
-    p_flags: char,
-    p_monst: Box<Thing>,
+    pub ch: char,
+    pub flags: char,
+    pub monst: Option<Thing>,
+}
+
+impl Place {
+    pub fn new() -> Self {
+        Place {
+            ch: '\0',
+            flags: '\0',
+            monst: None,
+        }
+    }
 }
 
 /*
@@ -709,10 +755,10 @@ pub struct Place {
     struct stats m_stats;		/* Initial stats */
 };*/
 pub struct Monster {
-    m_name: String,
-    m_carry: i32,
-    m_flags: i16,
-    m_stats: Stats,
+    pub name: String,
+    pub carry: i32,
+    pub flags: usize,
+    pub stats: Stats,
 }
 
 /*
@@ -750,8 +796,6 @@ pub struct Monster {
 //extern struct h_list	helpstr[];
 
 //extern struct room	*oldrp, passages[], rooms[];
-
-//extern struct stats	max_stats;
 
 //extern struct monster	monsters[];
 
@@ -994,10 +1038,10 @@ const MAXDAEMONS: usize = 20;
     int d_time;
 } d_list[MAXDAEMONS];*/
 pub struct DelayedAction {
-    d_type: i32,
-    d_func: fn(),
-    d_arg: i32,
-    d_time: i32,
+    pub r#type: i32,
+    pub func: fn(),
+    pub arg: i32,
+    pub time: i32,
 }
 
 //pub static d_list: [DelayedAction; MAXDAEMONS] = [DelayedAction { d_type: 0, d_func: fn(), d_arg: 0, d_time: 0 }; MAXDAEMONS];
@@ -1007,8 +1051,8 @@ pub struct DelayedAction {
     int		st_value;
 } STONE;*/
 pub struct Stone {
-    st_name: String,
-    st_value: i32,
+    pub name: String,
+    pub value: i32,
 }
 
 //extern coord    nh;
