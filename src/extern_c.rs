@@ -403,7 +403,7 @@ lazy_static! {
 
 //struct h_list helpstr[]
 lazy_static! {
-    static ref helpstr: [HList; 66] = [
+    static ref helpstr: [HList; 65] = [
         HList { ch: '?', desc: String::from("prints help"), print: true },
         HList { ch: '/', desc: String::from("identify object"), print: true },
         HList { ch: 'h', desc: String::from("left"), print: true },
