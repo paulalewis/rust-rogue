@@ -2,7 +2,6 @@ use crate::extern_h::*;
 
 //#undef lines 
 
-//#define NOOP(x) (x += 0)
 //#define CCHAR(x) ( (char) (x & A_CHARTEXT) )
 /*
  * Maximum number of different things
@@ -762,47 +761,6 @@ pub struct Monster {
 }
 
 /*
- * External variables
- */
-//extern bool	after, again, allscore, amulet, door_stop, fight_flush,
-//		firstmove, has_hit, inv_describe, jump, kamikaze,
-//		lower_msg, move_on, msg_esc, pack_used[],
-//		passgo, playing, q_comm, running, save_msg, see_floor,
-//		seenstairs, stat_msg, terse, to_death, tombstone;
-
-//extern char	dir_ch, file_name[], home[], huh[], *inv_t_name[],
-//		l_last_comm, l_last_dir, last_comm, last_dir, *Numname,
-//		outbuf[], *p_colors[], *r_stones[], *release, runch,
-//		*s_names[], take, *tr_name[], *ws_made[], *ws_type[];
-
-//extern int	a_class[], count, food_left, hungry_state, inpack,
-//		inv_type, lastscore, level, max_hit, max_level, mpos,
-//		n_objs, no_command, no_food, no_move, noscore, ntraps, purse,
-//		quiet, vf_hit;
-
-//extern unsigned int	numscores;
-
-//extern int	dnum, e_levels[], seed;
-
-//extern WINDOW	*hw;
-
-//extern coord	delta, oldpos, stairs;
-
-//extern PLACE	places[];
-
-//extern THING	*cur_armor, *cur_ring[], *cur_weapon, *l_last_pick,
-//		*last_pick, *lvl_obj, *mlist, player;
-
-//extern struct h_list	helpstr[];
-
-//extern struct room	*oldrp, passages[], rooms[];
-
-//extern struct monster	monsters[];
-
-//extern struct obj_info	arm_info[], pot_info[], ring_info[],
-//			scr_info[], things[], ws_info[], weap_info[];
-
-/*
  * Function types
  */
 /*
@@ -947,7 +905,6 @@ void	search();
 void	set_know(THING *obj, struct obj_info *info);
 void	set_oldch(THING *tp, coord *cp);
 void	setup();
-void	shell();
 bool	show_floor();
 void	show_map();
 void	show_win(char *message);
@@ -1050,17 +1007,7 @@ pub struct DelayedAction {
     char	*st_name;
     int		st_value;
 } STONE;*/
-pub struct Stone {
-    pub name: String,
+pub struct Stone<'a> {
+    pub name: &'a str,
     pub value: i32,
 }
-
-//extern coord    nh;
-//extern char     *rainbow[];
-//extern int      cNCOLORS;
-//extern STONE    stones[];
-//extern int      cNSTONES;
-//extern char     *wood[];
-//extern int      cNWOOD;
-//extern char     *metal[];
-//extern int      cNMETAL;

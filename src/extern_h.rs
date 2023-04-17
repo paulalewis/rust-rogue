@@ -108,14 +108,6 @@ pub fn CTRL(c: char) -> char {
 }
 
 /*
- * Now all the global variables
- */
-//extern bool	got_ltc, in_shell;
-//extern char	fruit[], prbuf[];
-//extern int orig_dsusp;
-//extern FILE	*scoreboard;
-
-/*
  * Function types
  */
 /*
@@ -123,25 +115,19 @@ void    auto_save(int);
 void	come_down();
 void	doctor();
 void	end_line();
-void    endit(int sig);
-void	fatal();
 void	getltchars();
 void	land();
-void    leave(int);
 void	my_exit();
 void	nohaste();
 void	playit();
 void    playltchars(void);
 void	print_disc(char);
-void    quit(int);
-void    resetltchars(void);
 void	rollwand();
 void	runners();
 void	set_order();
 void	sight();
 void	stomach();
 void	swander();
-void	tstp(int ignored);
 void	unconfuse();
 void	unsee();
 void	visuals();
@@ -173,7 +159,6 @@ void	md_raw_standout();
 void	md_raw_standend();
 int	md_readchar();
 int	md_setdsuspchar(int c);
-int	md_shellescape();
 void	md_sleep(int s);
 int	md_suspchar();
 int	md_hasclreol();
