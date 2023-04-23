@@ -45,8 +45,6 @@ static save_msg: bool = true;
 static stat_msg: bool = false;
 //bool to_death = FALSE;			/* Fighting is to the death! */
 static to_death: bool = false;
-//bool tombstone = TRUE;			/* Print out tombstone at end */
-static tombstone: bool = true;
 //bool pack_used[26] = {			/* Is the character used in the pack? */
 //    FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
 //    FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
