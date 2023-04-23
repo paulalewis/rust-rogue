@@ -23,8 +23,6 @@ static got_ltc: bool = false;
 static has_hit: bool = false;
 //bool inv_describe = TRUE;		/* Say which way items are being used */
 static inv_describe: bool = true;
-//bool jump = FALSE;			/* Show running as series of jumps */
-static jump: bool = false;
 //bool kamikaze = FALSE;			/* to_death really to DEATH */
 static kamikaze: bool = false;
 //bool lower_msg = FALSE;			/* Messages should start w/lower case */
@@ -43,12 +41,8 @@ static q_comm: bool = false;
 static running: bool = false;
 //bool save_msg = TRUE;			/* Remember last msg */
 static save_msg: bool = true;
-//bool see_floor = TRUE;			/* Show the lamp illuminated floor */
-static see_floor: bool = true;
 //bool stat_msg = FALSE;			/* Should status() print as a msg() */
 static stat_msg: bool = false;
-//bool terse = FALSE;			/* True if we should be short */
-static terse: bool = false;
 //bool to_death = FALSE;			/* Fighting is to the death! */
 static to_death: bool = false;
 //bool tombstone = TRUE;			/* Print out tombstone at end */
@@ -79,8 +73,7 @@ pub static mut whoami: Option<String> = None;
 //char *ws_made[MAXSTICKS];		/* What sticks are made of */
 //char *ws_type[MAXSTICKS];		/* Is it a wand or a staff */
 //int  orig_dsusp;			/* Original dsusp char */
-//char fruit[MAXSTR] =			/* Favorite fruit */
-//		{ 's', 'l', 'i', 'm', 'e', '-', 'm', 'o', 'l', 'd', '\0' };
+//char fruit[MAXSTR]
 pub const FRUIT: &str = "slime-mold";
 //char home[MAXSTR] = { '\0' };		/* User's home directory */
 //char *inv_t_name[] = {
