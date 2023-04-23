@@ -260,26 +260,27 @@ fn generate_scroll_name() -> String {
     scroll_name
 }
 
-/*
 // Initialize the ring stone setting scheme for this time
-void
-init_stones()
-{
-    register int i, j;
-
-    for (i = 0; i < NSTONES; i++)
-	used[i] = FALSE;
-    for (i = 0; i < MAXRINGS; i++)
-    {
-	do
-	    j = rnd(NSTONES);
-	until (!used[j]);
-	used[j] = TRUE;
-	r_stones[i] = stones[j].st_name;
-	ring_info[i].oi_worth += stones[j].st_value;
+/*void init_stones()*/
+fn init_stones() {
+    let mut used = [false; NSTONES];
+    for i in 0..MAXRINGS {
+        let mut j;
+        loop {
+            j = rnd(NSTONES);
+            if !used[j] {
+                break;
+            }
+        }
+        used[j] = true;
+        unsafe {
+            r_stones[i] = stones[j].name;
+            ring_info[i].value += stones[j].value;
+        }
     }
 }
 
+/*/
 // Initialize the construction materials for wands and staffs
 void
 init_materials()
@@ -319,39 +320,9 @@ init_materials()
 	    }
 	ws_made[i] = str;
     }
-}
+}*/
 
 /*
- * sumprobs:
- *	Sum up the probabilities for items appearing
- */
-void
-sumprobs(struct obj_info *info, int bound
-)
-{
-    struct obj_info *endp;
-
-    endp = info + bound;
-    while (++info < endp)
-	info->oi_prob += (info - 1)->oi_prob;
-}
-
-/*
- * init_probs:
- *	Initialize the probabilities for the various items
- */
-void
-init_probs()
-{
-    sumprobs(things, NUMTHINGS);
-    sumprobs(pot_info, MAXPOTIONS);
-    sumprobs(scr_info, MAXSCROLLS);
-    sumprobs(ring_info, MAXRINGS);
-    sumprobs(ws_info, MAXSTICKS);
-    sumprobs(weap_info, MAXWEAPONS);
-    sumprobs(arm_info, MAXARMORS);
-}
-
 /*
  *	If he is halucinating, pick a random color name and return it,
  *	otherwise return the given color.

@@ -29,8 +29,6 @@ fn main() {
 
     if ((env = getenv("ROGUEOPTS")) != NULL)
 	parse_opts(env);
-    if (env == NULL || whoami[0] == '\0')
-        strucpy(whoami, md_getusername(), (int) strlen(md_getusername()));
     lowtime = (int) time(NULL);
 	dnum = lowtime + md_getpid();
     seed = dnum;
