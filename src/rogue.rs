@@ -77,7 +77,6 @@ pub fn is_ring(h: usize, r: usize) -> bool {
         },
         None => false
     }
-    //cur_ring[h].is_some() && cur_ring[h].unwrap().o_which == r
 }
 //#define ISWEARING(r)	(ISRING(LEFT, r) || ISRING(RIGHT, r))
 //#define ISMULT(type) 	(type == POTION || type == SCROLL || type == FOOD)
@@ -663,7 +662,7 @@ pub enum Thing {
         which: usize,
         hplus: i32,
         dplus: i32,
-        arm: i32,
+        arm: isize,
         flags: usize,
         group: i32,
         label: String,
