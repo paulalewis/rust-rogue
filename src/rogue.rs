@@ -1,35 +1,32 @@
-use crate::extern_c::*;
-use crate::extern_h::*;
+use crate::r#extern::*;
 
-//#undef lines 
+// This file contains most all of the glabol constants and statics
 
 //#define CCHAR(x) ( (char) (x & A_CHARTEXT) )
-/*
- * Maximum number of different things
- */
-//#define MAXROOMS	9
+
+//#define MAXROOMS
 pub const MAXROOMS: usize = 9;
-//#define MAXTHINGS	9
+//#define MAXTHINGS
 pub const MAXTHINGS: usize = 9;
-//#define MAXOBJ		9
+//#define MAXOBJ
 pub const MAXOBJ: usize = 9;
-//#define MAXPACK		23
+//#define MAXPACK
 pub const MAXPACK: usize = 23;
-//#define MAXTRAPS	10
+//#define MAXTRAPS 10
 pub const MAXTRAPS: usize = 10;
-//#define AMULETLEVEL	26
+//#define AMULETLEVEL 26
 pub const AMULETLEVEL: usize = 26;
-//#define	NUMTHINGS	7	/* number of types of things */
+//#define NUMTHINGS /* number of types of things */
 pub const NUMTHINGS: usize = 7;
-//#define MAXPASS		13	/* upper limit on number of passages */
+//#define MAXPASS /* upper limit on number of passages */
 pub const MAXPASS: usize = 13;
-//#define	NUMLINES	24
+//#define NUMLINES
 pub const NUMLINES: usize = 24;
-//#define	NUMCOLS		80
+//#define NUMCOLS
 pub const NUMCOLS: usize = 80;
-//#define STATLINE		(NUMLINES - 1)
+//#define STATLINE
 pub const STATLINE: usize = NUMLINES - 1;
-//#define BORE_LEVEL	50
+//#define BORE_LEVEL
 pub const BORE_LEVEL: usize = 50;
 
 /*

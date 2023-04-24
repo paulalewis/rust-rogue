@@ -1,8 +1,4 @@
-//#include <stdlib.h>
-//#include <curses.h>
-//#include <ctype.h>
-//#include <string.h>
-use crate::extern_c::*;
+use crate::r#extern::*;
 use crate::rogue::*;
 use crate::utils::*;
 use std::cmp;
