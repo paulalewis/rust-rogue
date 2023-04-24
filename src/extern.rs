@@ -496,7 +496,7 @@ lazy_static! {
 
 //struct h_list helpstr[]
 lazy_static! {
-    static ref helpstr: [HList; 60] = [
+    static ref helpstr: [HList; 59] = [
         HList { ch: '?', desc: String::from("prints help"), print: true },
         HList { ch: '/', desc: String::from("identify object"), print: true },
         HList { ch: 'h', desc: String::from("left"), print: true },
@@ -550,7 +550,6 @@ lazy_static! {
         HList { ch: ')', desc: String::from("print current weapon"), print: true },
         HList { ch: ']', desc: String::from("print current armor"), print: true },
         HList { ch: '=', desc: String::from("print current rings"), print: true },
-        HList { ch: '@', desc: String::from("print current stats"), print: true },
         HList { ch: 'D', desc: String::from("recall what's been discovered"), print: true },
         HList { ch: ESCAPE, desc: String::from("cancel command"), print: true },
         HList { ch: 'S', desc: String::from("save game"), print: true },

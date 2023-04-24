@@ -292,11 +292,6 @@ over:
 		when '=':
 		    current(cur_ring[LEFT], "wearing", "on left hand");
 		    current(cur_ring[RIGHT], "wearing", "on right hand");
-		when '@':
-		    stat_msg = TRUE;
-		    status();
-		    stat_msg = FALSE;
-		    after = FALSE;
 		otherwise:
 		    after = FALSE;
 			illcom(ch);
