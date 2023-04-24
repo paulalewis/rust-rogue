@@ -564,7 +564,7 @@ pub struct Stats {
     pub arm: i32,
     pub hpt: i32,
     pub dmg: String,
-    pub max_hp: i32,
+    pub max_hp: usize,
 }
 
 impl Stats {
@@ -877,7 +877,6 @@ bool	restore(char *file, char **envp);
 int	ring_eat(int hand);
 void	ring_on();
 void	ring_off();
-int	rnd(int range);
 int	rnd_room();
 int	roll(int number, int sides);
 int	rs_save_file(FILE *savef);

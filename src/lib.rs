@@ -5,5 +5,6 @@ pub mod init;
 pub mod vers;
 pub mod extern_c;
 pub mod extern_h;
+pub mod monsters;
 pub mod rogue;
 pub mod utils;

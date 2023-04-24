@@ -104,7 +104,7 @@ static inpack: usize = 0;
 //int inv_type = 0;			/* Type of inventory to use */
 static inv_type: usize = 0;
 //int level = 1;				/* What level she is on */
-static level: usize = 1;
+pub static level: usize = 1;
 //int max_hit;				/* Max damage done to her in to_death */
 static max_hit: usize = 0;
 //int max_level;				/* Deepest player has gone */
@@ -232,8 +232,9 @@ static rooms: Vec<Room> = Vec::new();
 //static passages: [Room; MAXPASS] = [Room::new(); MAXPASS];
 static passages: Vec<Room> = Vec::new();
 
+pub const NUMBER_OF_MONSTERS: usize = 26;
 lazy_static! {
-    static ref monsters: [Monster; 26] = [
+    static ref monsters: [Monster; NUMBER_OF_MONSTERS] = [
         Monster { name: String::from("aquator"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 20, lvl: 5, arm: 2, hpt: 1, dmg: String::from("0x0/0x0"), max_hp: 0 } },
         Monster { name: String::from("bat"), carry: 0, flags: ISFLY, stats: Stats { str: 10, exp: 1, lvl: 1, arm: 3, hpt: 1, dmg: String::from("1x2"), max_hp: 0 } },
         Monster { name: String::from("centaur"), carry: 15, flags: 0, stats: Stats { str: 10, exp: 17, lvl: 4, arm: 4, hpt: 1, dmg: String::from("1x2/1x5/1x5"), max_hp: 0 } },
