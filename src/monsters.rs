@@ -72,7 +72,7 @@ pub fn new_monster(tp: Box<Thing>, m_type: char, cp: Option<Coord>) {
     let mut cp: Coord;
     // let mut mlist: Vec<Thing>;
 
-    let lev_add = cmp::max(0, level - AMULETLEVEL);
+    let lev_add = cmp::max(0, level as isize - AMULETLEVEL as isize);
 
     /*attach(mlist, tp);
     tp.t_type = m_type;
