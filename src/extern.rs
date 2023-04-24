@@ -496,7 +496,7 @@ lazy_static! {
 
 //struct h_list helpstr[]
 lazy_static! {
-    static ref helpstr: [HList; 61] = [
+    static ref helpstr: [HList; 60] = [
         HList { ch: '?', desc: String::from("prints help"), print: true },
         HList { ch: '/', desc: String::from("identify object"), print: true },
         HList { ch: 'h', desc: String::from("left"), print: true },
@@ -536,7 +536,6 @@ lazy_static! {
         HList { ch: '.', desc: String::from("rest for a turn"), print: true },
         HList { ch: ',', desc: String::from("pick something up"), print: true },
         HList { ch: 'i', desc: String::from("inventory"), print: true },
-        HList { ch: 'I', desc: String::from("inventory single item"), print: true },
         HList { ch: 'q', desc: String::from("quaff potion"), print: true },
         HList { ch: 'r', desc: String::from("read scroll"), print: true },
         HList { ch: 'e', desc: String::from("eat food"), print: true },

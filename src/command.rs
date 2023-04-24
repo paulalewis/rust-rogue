@@ -228,7 +228,6 @@ over:
 		    quit(0);
 		    q_comm = FALSE;
 		when 'i': after = FALSE; inventory(pack, 0);
-		when 'I': after = FALSE; picky_inven();
 		when 'd': drop();
 		when 'r': read_scroll();
 		when 'e': eat();

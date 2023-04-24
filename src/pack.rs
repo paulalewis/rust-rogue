@@ -310,40 +310,6 @@ move_msg(THING *obj)
 }
 
 /*
- * picky_inven:
- *	Allow player to inventory a single item
- */
-
-void
-picky_inven()
-{
-    THING *obj;
-    char mch;
-
-    if (pack == NULL)
-	msg("you aren't carrying anything");
-    else if (next(pack) == NULL)
-	msg("a) %s", inv_name(pack, FALSE));
-    else
-    {
-	msg("which item do you wish to inventory: ");
-	mpos = 0;
-	if ((mch = readchar()) == ESCAPE)
-	{
-	    msg("");
-	    return;
-	}
-	for (obj = pack; obj != NULL; obj = next(obj))
-	    if (mch == obj->o_packch)
-	    {
-		msg("%c) %s", mch, inv_name(obj, FALSE));
-		return;
-	    }
-	msg("'%s' not in pack", unctrl(mch));
-    }
-}
-
-/*
  * get_item:
  *	Pick something out of a pack for a purpose
  */
