@@ -108,7 +108,7 @@ pub fn new_monster(tp: Box<Thing>, m_type: char, cp: Option<Coord>) {
 pub fn exp_add(monster: &Thing) -> usize {
     let mut xp: usize;
     match monster {
-        Thing::Creature { next: _, prev: _, pos: _, turn: _, r#type: _, disguise: _, oldch: _, dest: _, flags: _, stats, room: _, pack: _ } => {
+        Thing::Creature { stats, .. } => {
             xp = stats.max_hp / if stats.lvl == 1 { 8 } else { 6 };
             xp *= if stats.lvl > 9 { 20 } else if stats.lvl > 6 { 4 } else { 1 };
         },
@@ -206,18 +206,15 @@ wake_monster(int y, int x)
 */
 
 // Give a pack to a monster if it deserves one
-/*void give_pack(THING *tp) {
-    if (level >= max_level && rnd(100) < monsters[tp->t_type-'A'].m_carry)
-	attach(tp->t_pack, new_thing());
-}
-*/
+// void give_pack(THING *tp)
 pub fn give_pack(creature: Thing) {
     if level >= max_level {
         match creature {
-            Thing::Creature { next, prev, pos, turn, r#type, disguise, oldch, dest, flags, stats, room, pack } => {
-                //if rnd(100) < monsters[r#type - 'A'].carry {
+            Thing::Creature { pack, r#type, .. } => {
+                let index = (r#type as u8 - b'A') as usize;
+                if rnd(100) < monsters[index].carry {
                     // todo - attach(pack, new_thing());
-                //}
+                }
             },
             _ => ()
         }
@@ -228,7 +225,7 @@ pub fn give_pack(creature: Thing) {
 //int save_throw(int which, THING *tp)
 pub fn save_throw(which: usize, creature: &Thing) -> bool {
     match creature {
-        Thing::Creature { next: _, prev: _, pos: _, turn: _, r#type: _, disguise: _, oldch: _, dest: _, flags: _, stats, room: _, pack: _ } => {
+        Thing::Creature { stats, .. } => {
             let need: usize = 14 + which - stats.lvl / 2;
             roll(1, 20) >= need
         },
@@ -240,10 +237,9 @@ pub fn save_throw(which: usize, creature: &Thing) -> bool {
 //int save(int which)
 pub fn save(mut which: usize) -> bool {
     if which == VS_MAGIC {
-        which -= adjust_saving_throw(which, LEFT);
-        which -= adjust_saving_throw(which, RIGHT)
+        which -= adjust_saving_throw(LEFT);
+        which -= adjust_saving_throw(RIGHT);
     }
-    //let new_player = &player;
     match &player {
         Some(new_player) => {
             save_throw(which, new_player)
@@ -252,7 +248,7 @@ pub fn save(mut which: usize) -> bool {
     }
 }
 
-fn adjust_saving_throw(which: usize, side: usize) -> usize {
+fn adjust_saving_throw(side: usize) -> usize {
     if is_ring(side, R_PROTECT) {
         match &cur_ring[side] {
             Some(ring) => {

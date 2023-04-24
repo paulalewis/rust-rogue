@@ -759,7 +759,7 @@ impl Place {
 };*/
 pub struct Monster {
     pub name: String,
-    pub carry: i32,
+    pub carry: usize,
     pub flags: usize,
     pub stats: Stats,
 }
