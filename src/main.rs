@@ -107,9 +107,6 @@ fn set_player_name(args: &Vec<String>) {
 fn playit() {
     // char *opts;
 
-    // if (md_hasclreol())
-	// inv_type = INV_CLEAR;
-
     // parse environment declaration of options
     // if ((opts = getenv("ROGUEOPTS")) != NULL)
 	// parse_opts(opts);

@@ -42,16 +42,6 @@ const QUIT: usize = 1;
 const MINUS: usize = 2;
 
 /*
- * inventory types
- */
-//#define	INV_OVER	0
-const INV_OVER: usize = 0;
-//#define	INV_SLOW	1
-const INV_SLOW: usize = 1;
-//#define	INV_CLEAR	2
-const INV_CLEAR: usize = 2;
-
-/*
  * All the fun defines
  */
 //#define when		break;case
