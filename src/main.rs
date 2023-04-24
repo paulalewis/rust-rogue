@@ -1,14 +1,8 @@
 use std::env;
 use std::process;
 
-//#include <stdlib.h>
-//#include <signal.h>
-//#include <time.h>
-//#include <curses.h>
 use rust_rogue::rogue::*;
 use rust_rogue::extern_c::*;
-
-const DEFAULT_SAVE_FILE_NAME: &str = "rogue.save";
 
 fn main() {
     let args: Vec<String> = env::args().collect();

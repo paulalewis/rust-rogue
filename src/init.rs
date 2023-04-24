@@ -262,22 +262,22 @@ fn generate_scroll_name() -> String {
 
 // Initialize the ring stone setting scheme for this time
 /*void init_stones()*/
-fn init_stones() {
+pub fn init_stones() -> Vec<String> {
     let mut used = [false; NSTONES];
+    let mut ring_stones: Vec<String> = Vec::new();
     for i in 0..MAXRINGS {
         let mut j;
         loop {
             j = rnd(NSTONES);
-            if !used[j] {
-                break;
-            }
+            if !used[j] { break; }
         }
         used[j] = true;
         unsafe {
-            r_stones[i] = stones[j].name;
-            ring_info[i].value += stones[j].value;
+            // ring_info[i].worth += stones[j].value;
         }
+        ring_stones.push(String::from(stones[j].name));
     }
+    return ring_stones;
 }
 
 /*/

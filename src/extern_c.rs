@@ -1,6 +1,6 @@
 //#include <curses.h>
 use crate::extern_h::*;
-use crate::init::init_names;
+use crate::init::*;
 use crate::rogue::*;
 
 //bool after;				/* True if we want after daemons */
@@ -13,8 +13,6 @@ static seenstairs: bool = false;
 static amulet: bool = false;
 //bool door_stop = FALSE;			/* Stop running when we pass a door */
 static door_stop: bool = false;
-//bool fight_flush = FALSE;		/* True if toilet input */
-static fight_flush: bool = false;
 //bool firstmove = FALSE;			/* First move after setting door_stop */
 static firstmove: bool = false;
 //bool got_ltc = FALSE;			/* We have gotten the local tty chars */
@@ -53,13 +51,16 @@ static pack_used: [bool; 26] = [false; 26];
 //char dir_ch;				/* Direction from last get_dir() call */
 static dir_ch: char = '\0';
 //char file_name[MAXSTR];			/* Save file name */
+pub const DEFAULT_SAVE_FILE_NAME: &str = "rogue.save";
+pub static mut file_name: &str = DEFAULT_SAVE_FILE_NAME;
 //char huh[MAXSTR];			/* The last message printed */
 //char *p_colors[MAXPOTIONS];		/* Colors of the potions */
 pub static mut p_colors: [&str; MAXPOTIONS] = [""; MAXPOTIONS];
 //char prbuf[2*MAXSTR];			/* buffer for sprintfs */
-//char *r_stones[MAXRINGS];		/* Stone settings of the rings */
 //char runch;				/* Direction player is running */
 lazy_static! {
+    //char *r_stones[MAXRINGS];		/* Stone settings of the rings */
+    pub static ref r_stones: Vec<String> = init_stones();
     //char *s_names[MAXSCROLLS];		/* Names of the scrolls */
     pub static ref s_names: Vec<String> = init_names();
 }
@@ -311,7 +312,7 @@ lazy_static! {
 
 //struct obj_info ring_info[MAXRINGS]
 lazy_static! {
-    static ref ring_info: [ObjInfo; MAXRINGS] = [
+    pub static ref ring_info: [ObjInfo; MAXRINGS] = [
         ObjInfo { name: String::from("protection"), prob: 9, worth: 400, guess: String::new(), know: false },
         ObjInfo { name: String::from("add strength"), prob: 18, worth: 400, guess: String::new(), know: false },
         ObjInfo { name: String::from("sustain strength"), prob: 23, worth: 280, guess: String::new(), know: false },
