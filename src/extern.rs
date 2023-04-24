@@ -140,8 +140,6 @@ static playing: bool = true;
 static q_comm: bool = false;
 //bool running = FALSE;			/* True if player is running */
 static running: bool = false;
-//bool save_msg = TRUE;			/* Remember last msg */
-static save_msg: bool = true;
 //bool stat_msg = FALSE;			/* Should status() print as a msg() */
 static stat_msg: bool = false;
 //bool to_death = FALSE;			/* Fighting is to the death! */
@@ -158,7 +156,6 @@ static dir_ch: char = '\0';
 //char file_name[MAXSTR];			/* Save file name */
 pub const DEFAULT_SAVE_FILE_NAME: &str = "rogue.save";
 pub static mut file_name: &str = DEFAULT_SAVE_FILE_NAME;
-//char huh[MAXSTR];			/* The last message printed */
 //char *p_colors[MAXPOTIONS];		/* Colors of the potions */
 pub static mut p_colors: [&str; MAXPOTIONS] = [""; MAXPOTIONS];
 //char prbuf[2*MAXSTR];			/* buffer for sprintfs */
@@ -499,7 +496,7 @@ lazy_static! {
 
 //struct h_list helpstr[]
 lazy_static! {
-    static ref helpstr: [HList; 64] = [
+    static ref helpstr: [HList; 61] = [
         HList { ch: '?', desc: String::from("prints help"), print: true },
         HList { ch: '/', desc: String::from("identify object"), print: true },
         HList { ch: 'h', desc: String::from("left"), print: true },
@@ -556,13 +553,10 @@ lazy_static! {
         HList { ch: '=', desc: String::from("print current rings"), print: true },
         HList { ch: '@', desc: String::from("print current stats"), print: true },
         HList { ch: 'D', desc: String::from("recall what's been discovered"), print: true },
-        HList { ch: 'o', desc: String::from("examine/set options"), print: true },
-        HList { ch: CTRL('R'), desc: String::from("redraw screen"), print: true },
-        HList { ch: CTRL('P'), desc: String::from("repeat last message"), print: true },
         HList { ch: ESCAPE, desc: String::from("cancel command"), print: true },
         HList { ch: 'S', desc: String::from("save game"), print: true },
         HList { ch: 'Q', desc: String::from("quit"), print: true },
         HList { ch: 'F', desc: String::from("<dir> fight till either of you dies"), print: true },
-        HList { ch: 'v', desc: String::from("print version number"), print: true },
+        HList { ch: 'v', desc: String::from("print version"), print: true },
     ];
 }

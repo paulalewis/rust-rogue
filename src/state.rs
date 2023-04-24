@@ -1867,13 +1867,11 @@ rs_save_file(FILE *savef)
     rs_write_boolean(savef, playing);               /* 19 */
     rs_write_boolean(savef, q_comm);                /* 20 */
     rs_write_boolean(savef, running);               /* 21 */
-    rs_write_boolean(savef, save_msg);              /* 22 */
     rs_write_boolean(savef, stat_msg);              /* 24 */
     rs_write_boolean(savef, to_death);              /* 26 */
     rs_write_booleans(savef, pack_used, 26);        /* 29 */
     rs_write_char(savef, dir_ch);
     rs_write_chars(savef, file_name, MAXSTR);
-    rs_write_chars(savef, huh, MAXSTR);
     rs_write_potions(savef);
     rs_write_chars(savef,prbuf,2*MAXSTR);
     rs_write_rings(savef);
@@ -1974,13 +1972,11 @@ rs_restore_file(FILE *inf)
     rs_read_boolean(inf, &playing);             /* 19 */
     rs_read_boolean(inf, &q_comm);              /* 20 */
     rs_read_boolean(inf, &running);             /* 21 */
-    rs_read_boolean(inf, &save_msg);            /* 22 */
     rs_read_boolean(inf, &stat_msg);            /* 24 */
     rs_read_boolean(inf, &to_death);            /* 26 */
     rs_read_booleans(inf, pack_used, 26);       /* 29 */
     rs_read_char(inf, &dir_ch);
     rs_read_chars(inf, file_name, MAXSTR);
-    rs_read_chars(inf, huh, MAXSTR);
     rs_read_potions(inf);
     rs_read_chars(inf, prbuf, 2*MAXSTR);
     rs_read_rings(inf);

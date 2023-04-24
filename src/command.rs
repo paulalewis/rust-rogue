@@ -237,7 +237,6 @@ over:
 		when 'T': take_off();
 		when 'P': ring_on();
 		when 'R': ring_off();
-		when 'o': option(); after = FALSE;
 		when 'c': call(); after = FALSE;
 		when '>': after = FALSE; d_level();
 		when '<': after = FALSE; u_level();
@@ -250,11 +249,6 @@ over:
 		    else
 			after = FALSE;
 		when 'D': after = FALSE; discovered();
-		when CTRL('P'): after = FALSE; msg(huh);
-		when CTRL('R'):
-		    after = FALSE;
-		    clearok(curscr,TRUE);
-		    wrefresh(curscr);
 		when 'v':
 		    after = FALSE;
 		    msg("version %s", release);
@@ -343,10 +337,8 @@ over:
 void
 illcom(int ch)
 {
-    save_msg = FALSE;
     count = 0;
     msg("illegal command '%s'", unctrl(ch));
-    save_msg = TRUE;
 }
 
 /*
