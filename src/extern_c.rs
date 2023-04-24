@@ -394,7 +394,7 @@ lazy_static! {
 
 //struct h_list helpstr[]
 lazy_static! {
-    static ref helpstr: [HList; 65] = [
+    static ref helpstr: [HList; 64] = [
         HList { ch: '?', desc: String::from("prints help"), print: true },
         HList { ch: '/', desc: String::from("identify object"), print: true },
         HList { ch: 'h', desc: String::from("left"), print: true },
@@ -459,6 +459,5 @@ lazy_static! {
         HList { ch: 'Q', desc: String::from("quit"), print: true },
         HList { ch: 'F', desc: String::from("<dir> fight till either of you dies"), print: true },
         HList { ch: 'v', desc: String::from("print version number"), print: true },
-        HList { ch: '\0', desc: String::new(), print: false },
     ];
 }

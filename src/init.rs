@@ -66,7 +66,7 @@ init_player()
  */
 const NCOLORS: usize = 27;
 /*char *rainbow[] = {};*/
-static rainbow: [&str; NCOLORS] = [
+pub static rainbow: [&str; NCOLORS] = [
     "amber",
     "aquamarine",
     "black",
@@ -119,7 +119,7 @@ static sylls: [&str; NUMBER_OF_SYLLABLES] = [
 
 const NSTONES: usize = 26;
 //STONE stones[] = {
-static stones: [Stone; NSTONES] = [
+pub static stones: [Stone; NSTONES] = [
     Stone { name: "agate", value: 25 },
     Stone { name: "alexandrite", value: 40 },
     Stone { name: "amethyst", value: 50 },
@@ -150,7 +150,7 @@ static stones: [Stone; NSTONES] = [
 
 const NWOOD: usize = 33;
 //char *wood[] = {
-static wood: [&str; NWOOD] = [
+pub static wood: [&str; NWOOD] = [
     "avocado wood",
     "balsa",
     "bamboo",
@@ -188,7 +188,7 @@ static wood: [&str; NWOOD] = [
 
 const NMETAL: usize = 22;
 //char *metal[] = {
-static metal: [&str; NMETAL] = [
+pub static metal: [&str; NMETAL] = [
     "aluminum",
     "beryllium",
     "bone",
@@ -215,7 +215,7 @@ static metal: [&str; NMETAL] = [
 
 // Initialize the potion color scheme
 // void init_colors()
-fn init_colors() {
+pub fn init_colors() {
     let mut used = [false; NCOLORS];
     for i in 0..NCOLORS {
         let mut j;
