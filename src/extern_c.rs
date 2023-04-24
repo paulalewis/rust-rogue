@@ -94,25 +94,25 @@ pub const FRUIT: &str = "slime-mold";
 //};
 
 //int n_objs;				/* # items listed in inventory() call */
-static n_objs: usize = 0;
+pub static n_objs: usize = 0;
 //int ntraps;				/* Number of traps on this level */
-static ntraps: usize = 0;
+pub static ntraps: usize = 0;
 //int hungry_state = 0;			/* How hungry is he */
-static hungry_state: usize = 0;
+pub static hungry_state: usize = 0;
 //int inpack = 0;				/* Number of things in pack */
-static inpack: usize = 0;
+pub static inpack: usize = 0;
 //int inv_type = 0;			/* Type of inventory to use */
-static inv_type: usize = 0;
+pub static inv_type: usize = 0;
 //int level = 1;				/* What level she is on */
 pub static level: usize = 1;
 //int max_hit;				/* Max damage done to her in to_death */
-static max_hit: usize = 0;
+pub static max_hit: usize = 0;
 //int max_level;				/* Deepest player has gone */
-static max_level: usize = 0;
+pub static max_level: usize = 0;
 //int mpos = 0;				/* Where cursor is on top line */
-static mpos: usize = 0;
+pub static mpos: usize = 0;
 //int no_food = 0;			/* Number of levels without food */
-static no_food: usize = 0;
+pub static no_food: usize = 0;
 //int a_class[MAXARMORS] = {		/* Armor class for each armor type */
 //	8,	/* LEATHER */
 //	7,	/* RING_MAIL */
@@ -123,13 +123,13 @@ static no_food: usize = 0;
 //	4,	/* BANDED_MAIL */
 //	3,	/* PLATE_MAIL */
 //};
-static a_class: [usize; MAXARMORS] = [8, 7, 7, 6, 5, 4, 4, 3];
+pub static a_class: [usize; MAXARMORS] = [8, 7, 7, 6, 5, 4, 4, 3];
 
 //int count = 0;				/* Number of times to repeat command */
-static count: usize = 0;
+pub static repeat_command_count: usize = 0;
 //FILE *scoreboard = NULL;	/* File descriptor for score file */
 //int food_left;				/* Amount of food in hero's stomach */
-static food_left: usize = 0;
+pub static food_left: usize = 0;
 //int lastscore = -1;			/* Score before this turn */
 static lastscore: isize = -1;
 //int no_command = 0;			/* Number of turns asleep */
@@ -184,21 +184,21 @@ static stairs: Coord = Coord { y: 0, x: 0 };
 static places: Vec<Place> = Vec::new();
 
 //THING *cur_armor;			/* What he is wearing */
-static cur_armor: Option<Thing> = None;
+pub static cur_armor: Option<Thing> = None;
 //THING *cur_ring[2];			/* Which rings are being worn */
-static cur_ring: [Option<Thing>; 2] = [None, None];
+pub static cur_ring: [Option<Thing>; 2] = [None, None];
 //THING *cur_weapon;			/* Which weapon he is weilding */
-static cur_weapon: Option<Thing> = None;
+pub static cur_weapon: Option<Thing> = None;
 //THING *l_last_pick = NULL;		/* Last last_pick */
-static l_last_pick: Option<Thing> = None;
+pub static l_last_pick: Option<Thing> = None;
 //THING *last_pick = NULL;		/* Last object picked in get_item() */
-static last_pick: Option<Thing> = None;
+pub static last_pick: Option<Thing> = None;
 //THING *lvl_obj = NULL;			/* List of objects on this level */
-static lvl_obj: Option<Thing> = None;
+pub static lvl_obj: Option<Thing> = None;
 //THING *mlist = NULL;			/* List of monsters on the level */
-static mlist: Option<Thing> = None;
+pub static mlist: Option<Thing> = None;
 //THING player;				/* His stats */
-static player: Option<Thing> = None;
+pub static player: Option<Thing> = None;
 
 //WINDOW *hw = NULL;			/* used as a scratch window */
 
@@ -234,7 +234,7 @@ static passages: Vec<Room> = Vec::new();
 
 pub const NUMBER_OF_MONSTERS: usize = 26;
 lazy_static! {
-    static ref monsters: [Monster; NUMBER_OF_MONSTERS] = [
+    pub static ref monsters: [Monster; NUMBER_OF_MONSTERS] = [
         Monster { name: String::from("aquator"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 20, lvl: 5, arm: 2, hpt: 1, dmg: String::from("0x0/0x0"), max_hp: 0 } },
         Monster { name: String::from("bat"), carry: 0, flags: ISFLY, stats: Stats { str: 10, exp: 1, lvl: 1, arm: 3, hpt: 1, dmg: String::from("1x2"), max_hp: 0 } },
         Monster { name: String::from("centaur"), carry: 15, flags: 0, stats: Stats { str: 10, exp: 17, lvl: 4, arm: 4, hpt: 1, dmg: String::from("1x2/1x5/1x5"), max_hp: 0 } },

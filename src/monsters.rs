@@ -70,7 +70,7 @@ pub fn new_monster(tp: Box<Thing>, m_type: char, cp: Option<Coord>) {
     let mut mp: Monster;
     let mut tp: Thing;
     let mut cp: Coord;
-    let mut mlist: Vec<Thing>;
+    // let mut mlist: Vec<Thing>;
 
     let lev_add = cmp::max(0, level - AMULETLEVEL);
 
@@ -104,27 +104,15 @@ pub fn new_monster(tp: Box<Thing>, m_type: char, cp: Option<Coord>) {
 }
 
 // Experience to add for this monster's level/hit points
-/*int exp_add(THING *tp) {
-    int mod;
-
-    if (tp->t_stats.s_lvl == 1)
-	mod = tp->t_stats.s_maxhp / 8;
-    else
-	mod = tp->t_stats.s_maxhp / 6;
-    if (tp->t_stats.s_lvl > 9)
-	mod *= 20;
-    else if (tp->t_stats.s_lvl > 6)
-	mod *= 4;
-    return mod;
-}*/
-pub fn exp_add(tp: &Thing) -> usize {
+//int exp_add(THING *tp)
+pub fn exp_add(monster: &Thing) -> usize {
     let mut xp: usize;
-    match tp {
+    match monster {
         Thing::Creature { next: _, prev: _, pos: _, turn: _, r#type: _, disguise: _, oldch: _, dest: _, flags: _, stats, room: _, pack: _ } => {
             xp = stats.max_hp / if stats.lvl == 1 { 8 } else { 6 };
             xp *= if stats.lvl > 9 { 20 } else if stats.lvl > 6 { 4 } else { 1 };
         },
-        _ => panic!("exp_add: tp not a creature"),
+        _ => panic!("exp_add: monster is not a creature"),
     }
     xp
 }
@@ -215,46 +203,67 @@ wake_monster(int y, int x)
     }
     return tp;
 }
+*/
 
-/*
- * give_pack:
- *	Give a pack to a monster if it deserves one
- */
-
-void
-give_pack(THING *tp)
-{
+// Give a pack to a monster if it deserves one
+/*void give_pack(THING *tp) {
     if (level >= max_level && rnd(100) < monsters[tp->t_type-'A'].m_carry)
 	attach(tp->t_pack, new_thing());
 }
-
-/*
- * save_throw:
- *	See if a creature save against something
- */
-int
-save_throw(int which, THING *tp)
-{
-    int need;
-
-    need = 14 + which - tp->t_stats.s_lvl / 2;
-    return (roll(1, 20) >= need);
-}
-
-/*
- * save:
- *	See if he saves against various nasty things
- */
-int
-save(int which)
-{
-    if (which == VS_MAGIC)
-    {
-	if (ISRING(LEFT, R_PROTECT))
-	    which -= cur_ring[LEFT]->o_arm;
-	if (ISRING(RIGHT, R_PROTECT))
-	    which -= cur_ring[RIGHT]->o_arm;
-    }
-    return save_throw(which, &player);
-}
 */
+pub fn give_pack(creature: Thing) {
+    if level >= max_level {
+        match creature {
+            Thing::Creature { next, prev, pos, turn, r#type, disguise, oldch, dest, flags, stats, room, pack } => {
+                //if rnd(100) < monsters[r#type - 'A'].carry {
+                    // todo - attach(pack, new_thing());
+                //}
+            },
+            _ => ()
+        }
+    }
+}
+
+// See if a creature save against something
+//int save_throw(int which, THING *tp)
+pub fn save_throw(which: usize, creature: &Thing) -> bool {
+    match creature {
+        Thing::Creature { next: _, prev: _, pos: _, turn: _, r#type: _, disguise: _, oldch: _, dest: _, flags: _, stats, room: _, pack: _ } => {
+            let need: usize = 14 + which - stats.lvl / 2;
+            roll(1, 20) >= need
+        },
+        _ => panic!("save_throw: not a creature"),
+    }
+}
+
+// See if he saves against various nasty things
+//int save(int which)
+pub fn save(mut which: usize) -> bool {
+    if which == VS_MAGIC {
+        which -= adjust_saving_throw(which, LEFT);
+        which -= adjust_saving_throw(which, RIGHT)
+    }
+    //let new_player = &player;
+    match &player {
+        Some(new_player) => {
+            save_throw(which, new_player)
+        },
+        None => panic!("save: player is None"),
+    }
+}
+
+fn adjust_saving_throw(which: usize, side: usize) -> usize {
+    if is_ring(side, R_PROTECT) {
+        match &cur_ring[side] {
+            Some(ring) => {
+                match ring {
+                    Thing::Object { arm, .. } => *arm as usize,
+                    _ => 0,
+                }
+            },
+            None => 0,
+        }
+    } else {
+        0
+    }
+}
