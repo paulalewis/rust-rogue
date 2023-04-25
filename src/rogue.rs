@@ -126,7 +126,7 @@ pub static no_food: usize = 0;
 pub static a_class: [usize; MAXARMORS] = [8, 7, 7, 6, 5, 4, 4, 3];
 
 //int count = 0;				/* Number of times to repeat command */
-pub static repeat_command_count: usize = 0;
+pub static mut repeat_command_count: usize = 0;
 //FILE *scoreboard = NULL;	/* File descriptor for score file */
 //int food_left;				/* Amount of food in hero's stomach */
 pub static food_left: usize = 0;

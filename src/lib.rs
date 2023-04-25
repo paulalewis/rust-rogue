@@ -7,6 +7,7 @@ pub mod command;
 pub mod daemon;
 pub mod fight;
 pub mod init;
+pub mod io;
 pub mod monsters;
 pub mod movement;
 pub mod new_level;

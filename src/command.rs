@@ -1,9 +1,7 @@
 use crate::rogue::*;
 
 // Process the user commands
-/*void
-command()
-{
+/*void command() {
     register char ch;
     register int ntimes = 1;			/* Number of player moves */
     char *fp;
@@ -328,15 +326,19 @@ pub fn command() -> bool {
 	return false;
 }
 
-/*
 //What to do with an illegal command
-void
-illcom(int ch)
-{
+/*void illcom(int ch) {
     count = 0;
     msg("illegal command '%s'", unctrl(ch));
+}*/
+fn illcom(ch: usize) {
+	unsafe {
+		repeat_command_count = 0;
+	}
+	// todo - msg("illegal command '%s'", unctrl(ch));
 }
 
+/*
 /*
  * search:
  *	player gropes about him to find hidden things.
