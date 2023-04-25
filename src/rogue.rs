@@ -70,8 +70,8 @@ lazy_static! {
     pub static ref s_names: Vec<String> = init_names();
 }
 //char take;				/* Thing she is taking */
-//char whoami[MAXSTR];			/* Name of player */
-pub static mut whoami: Option<String> = None;
+//char whoami[MAXSTR]
+pub const ADVENTURER_NAME: &str = "Rustacean";
 //char *ws_made[MAXSTICKS];		/* What sticks are made of */
 //char *ws_type[MAXSTICKS];		/* Is it a wand or a staff */
 //int  orig_dsusp;			/* Original dsusp char */

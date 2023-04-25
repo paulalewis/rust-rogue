@@ -1879,7 +1879,6 @@ rs_save_file(FILE *savef)
     rs_write_char(savef, runch);
     rs_write_scrolls(savef);
     rs_write_char(savef, take);
-    rs_write_chars(savef, whoami, MAXSTR);
     rs_write_sticks(savef);
     rs_write_int(savef,orig_dsusp);
     rs_write_chars(savef, home, MAXSTR);
@@ -1984,7 +1983,6 @@ rs_restore_file(FILE *inf)
     rs_read_char(inf, &runch);
     rs_read_scrolls(inf);
     rs_read_char(inf, &take);
-    rs_read_chars(inf, whoami, MAXSTR);
     rs_read_sticks(inf);
     rs_read_int(inf,&orig_dsusp);
     rs_read_chars(inf, home, MAXSTR);

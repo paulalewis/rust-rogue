@@ -107,7 +107,7 @@ score(int amount, int flags, char monst, bool noscore)
 		sc2--;
 	    }
 	    scp->sc_score = amount;
-	    strncpy(scp->sc_name, whoami, MAXSTR);
+	    strncpy(scp->sc_name, ADVENTURER_NAME, MAXSTR);
 	    scp->sc_flags = flags;
 	    if (flags == 2)
 		scp->sc_level = max_level;
@@ -187,7 +187,7 @@ death(char monst)
 	    mvaddch(16, 32, ' ');
 	else
 	    mvaddstr(16, 33, vowelstr(killer));
-	mvaddstr(14, center(whoami), whoami);
+	mvaddstr(14, center(ADVENTURER_NAME), ADVENTURER_NAME);
 	sprintf(prbuf, "%d Au", purse);
 	move(15, center(prbuf));
 	addstr(prbuf);
@@ -353,24 +353,5 @@ killname(char monst, bool doart)
 	prbuf[0] = '\0';
     strcat(prbuf, sp);
     return prbuf;
-}
-
-/*
- * death_monst:
- *	Return a monster appropriate for a random death.
- */
-char
-death_monst()
-{
-    static char poss[] =
-    {
-	'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
-	'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-	'Y', 'Z', 'a', 'b', 'h', 'd', 's',
-	' '	/* This is provided to generate the "Wally the Wonder Badger"
-		   message for killer */
-    };
-
-    return poss[rnd(sizeof poss / sizeof (char))];
 }
 */

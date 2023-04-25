@@ -20,22 +20,13 @@ fn main() {
     strcpy(file_name, home);
     strcat(file_name, "rogue.save");
 
-    if ((env = getenv("ROGUEOPTS")) != NULL)
-	parse_opts(env);
-    lowtime = (int) time(NULL);
 	dnum = lowtime + md_getpid();
     seed = dnum;
-
-    open_score();
 */
     match args.get(1) {
         Some(arg) => {
-            if arg == "-s" {
-                show_scores();
-            } else if arg == "-r" {
+            if arg == "-r" {
                 dbg!("restore");
-            } else if arg == "-n" {
-                set_player_name(&args);
             }
         },
         None => {},
@@ -81,20 +72,6 @@ fn main() {
     start_daemon(stomach, 0, AFTER);
     */
     playit();
-    process::exit(0);
-}
-
-fn show_scores() {
-    dbg!("show_scores()");
-    // score(0, -1, 0, true);
-    process::exit(0);
-}
-
-fn set_player_name(args: &Vec<String>) {
-    dbg!("set_player_name({})", args);
-    unsafe {
-        whoami = Some(if args.len() > 2 { args[2].to_owned() } else { String::from("Rustacean") });
-    }
 }
 
 fn playit() {
@@ -108,7 +85,6 @@ fn playit() {
     // oldrp = roomin(&hero);
     // while (playing)
 	// command(); /* Command execution */
-    process::exit(0);
 }
 
 /*
