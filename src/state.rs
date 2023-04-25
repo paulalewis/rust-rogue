@@ -1873,7 +1873,6 @@ rs_save_file(FILE *savef)
     rs_write_potions(savef);
     rs_write_chars(savef,prbuf,2*MAXSTR);
     rs_write_rings(savef);
-    rs_write_string(savef,release);
     rs_write_char(savef, runch);
     rs_write_scrolls(savef);
     rs_write_char(savef, take);
@@ -1975,7 +1974,6 @@ rs_restore_file(FILE *inf)
     rs_read_potions(inf);
     rs_read_chars(inf, prbuf, 2*MAXSTR);
     rs_read_rings(inf);
-    rs_read_new_string(inf,&release);
     rs_read_char(inf, &runch);
     rs_read_scrolls(inf);
     rs_read_char(inf, &take);

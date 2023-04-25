@@ -248,7 +248,7 @@ over:
 		when 'D': after = FALSE; discovered();
 		when 'v':
 		    after = FALSE;
-		    msg("version %s", release);
+		    msg("version %s", RELEASE);
 		when 'S': 
 		    after = FALSE;
 		    save_game();

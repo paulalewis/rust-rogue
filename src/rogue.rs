@@ -1,5 +1,7 @@
 use crate::{utils::ctrl, init::{init_stones, init_names}};
 
+pub const RELEASE: &str = "5.4.4";
+
 // This file contains most all of the glabol constants and statics
 
 //#define MAXSTR		1024	/* maximum length of strings */
