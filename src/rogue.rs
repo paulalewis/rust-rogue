@@ -1,4 +1,4 @@
-use crate::{utils::ctrl, init::{init_stones, init_names}};
+use crate::init::{init_stones, init_names};
 
 pub const RELEASE: &str = "5.4.4";
 
@@ -14,7 +14,7 @@ pub const MAXCOLS: usize = 80;
 //#define RN		(((seed = seed*11109+13849) >> 16) & 0xffff)
 
 //bool after;				/* True if we want after daemons */
-static after: bool = false;
+pub static mut after: bool = false;
 //bool again;				/* Repeating the last command */
 static again: bool = false;
 //bool seenstairs;			/* Have seen the stairs (for lsd) */
@@ -39,8 +39,6 @@ static lower_msg: bool = false;
 static move_on: bool = false;
 //bool msg_esc = FALSE;			/* Check for ESC from msg's --More-- */
 static msg_esc: bool = false;
-//bool q_comm = FALSE;			/* Are we executing a 'Q' command? */
-static q_comm: bool = false;
 //bool running = FALSE;			/* True if player is running */
 static running: bool = false;
 //bool stat_msg = FALSE;			/* Should status() print as a msg() */
@@ -396,66 +394,56 @@ lazy_static! {
 
 //struct h_list helpstr[]
 lazy_static! {
-    static ref helpstr: [HList; 59] = [
-        HList { ch: '?', desc: String::from("prints help"), print: true },
-        HList { ch: '/', desc: String::from("identify object"), print: true },
-        HList { ch: 'h', desc: String::from("left"), print: true },
-        HList { ch: 'j', desc: String::from("down"), print: true },
-        HList { ch: 'k', desc: String::from("up"), print: true },
-        HList { ch: 'l', desc: String::from("right"), print: true },
-        HList { ch: 'y', desc: String::from("up & left"), print: true },
-        HList { ch: 'u', desc: String::from("up & right"), print: true },
-        HList { ch: 'b', desc: String::from("down & left"), print: true },
-        HList { ch: 'n', desc: String::from("down & right"), print: true },
-        HList { ch: 'H', desc: String::from("run left"), print: false },
-        HList { ch: 'J', desc: String::from("run down"), print: false },
-        HList { ch: 'K', desc: String::from("run up"), print: false },
-        HList { ch: 'L', desc: String::from("run right"), print: false },
-        HList { ch: 'Y', desc: String::from("run up & left"), print: false },
-        HList { ch: 'U', desc: String::from("run up & right"), print: false },
-        HList { ch: 'B', desc: String::from("run down & left"), print: false },
-        HList { ch: 'N', desc: String::from("run down & right"), print: false },
-        HList { ch: ctrl('H'), desc: String::from("run left until adjacent"), print: false },
-        HList { ch: ctrl('J'), desc: String::from("run down until adjacent"), print: false },
-        HList { ch: ctrl('K'), desc: String::from("run up until adjacent"), print: false },
-        HList { ch: ctrl('L'), desc: String::from("run right until adjacent"), print: false },
-        HList { ch: ctrl('Y'), desc: String::from("run up & left until adjacent"), print: false },
-        HList { ch: ctrl('U'), desc: String::from("run up & right until adjacent"), print: false },
-        HList { ch: ctrl('B'), desc: String::from("run down & left until adjacent"), print: false },
-        HList { ch: ctrl('N'), desc: String::from("run down & right until adjacent"), print: false },
-        HList { ch: '\0', desc: String::from("<SHIFT><dir>: run that way"), print: true },
-        HList { ch: '\0', desc: String::from("<CTRL><dir>: run till adjacent"), print: true },
-        HList { ch: 'f', desc: String::from("<dir> fight till death or near death"), print: true },
-        HList { ch: 't', desc: String::from("<dir> throw something"), print: true },
-        HList { ch: 'm', desc: String::from("<dir> move onto without picking up"), print: true },
-        HList { ch: 'z', desc: String::from("<dir> zap a wand in a direction"), print: true },
-        HList { ch: '^', desc: String::from("<dir> identify trap type"), print: true },
-        HList { ch: 's', desc: String::from("search for trap/secret door"), print: true },
-        HList { ch: '>', desc: String::from("go down a staircase"), print: true },
-        HList { ch: '<', desc: String::from("go up a staircase"), print: true },
-        HList { ch: '.', desc: String::from("rest for a turn"), print: true },
-        HList { ch: ',', desc: String::from("pick something up"), print: true },
-        HList { ch: 'i', desc: String::from("inventory"), print: true },
-        HList { ch: 'q', desc: String::from("quaff potion"), print: true },
-        HList { ch: 'r', desc: String::from("read scroll"), print: true },
-        HList { ch: 'e', desc: String::from("eat food"), print: true },
-        HList { ch: 'w', desc: String::from("wield a weapon"), print: true },
-        HList { ch: 'W', desc: String::from("wear armor"), print: true },
-        HList { ch: 'T', desc: String::from("take armor off"), print: true },
-        HList { ch: 'P', desc: String::from("put on ring"), print: true },
-        HList { ch: 'R', desc: String::from("remove ring"), print: true },
-        HList { ch: 'd', desc: String::from("drop object"), print: true },
-        HList { ch: 'c', desc: String::from("call object"), print: true },
-        HList { ch: 'a', desc: String::from("repeat last command"), print: true },
-        HList { ch: ')', desc: String::from("print current weapon"), print: true },
-        HList { ch: ']', desc: String::from("print current armor"), print: true },
-        HList { ch: '=', desc: String::from("print current rings"), print: true },
-        HList { ch: 'D', desc: String::from("recall what's been discovered"), print: true },
-        HList { ch: ESCAPE, desc: String::from("cancel command"), print: true },
-        HList { ch: 'S', desc: String::from("save game"), print: true },
-        HList { ch: 'Q', desc: String::from("quit"), print: true },
-        HList { ch: 'F', desc: String::from("<dir> fight till either of you dies"), print: true },
-        HList { ch: 'v', desc: String::from("print version"), print: true },
+    static ref helpstr: [HList; 49] = [
+        HList { ch: '?', desc: String::from("prints help") },
+        HList { ch: '/', desc: String::from("identify object") },
+        HList { ch: 'h', desc: String::from("left") },
+        HList { ch: 'j', desc: String::from("down") },
+        HList { ch: 'k', desc: String::from("up") },
+        HList { ch: 'l', desc: String::from("right") },
+        HList { ch: 'y', desc: String::from("up & left") },
+        HList { ch: 'u', desc: String::from("up & right") },
+        HList { ch: 'b', desc: String::from("down & left") },
+        HList { ch: 'n', desc: String::from("down & right") },
+        HList { ch: 'H', desc: String::from("run left") },
+        HList { ch: 'J', desc: String::from("run down") },
+        HList { ch: 'K', desc: String::from("run up") },
+        HList { ch: 'L', desc: String::from("run right") },
+        HList { ch: 'Y', desc: String::from("run up & left") },
+        HList { ch: 'U', desc: String::from("run up & right") },
+        HList { ch: 'B', desc: String::from("run down & left") },
+        HList { ch: 'N', desc: String::from("run down & right") },
+        HList { ch: 'f', desc: String::from("<dir> fight till death or near death") },
+        HList { ch: 't', desc: String::from("<dir> throw something") },
+        HList { ch: 'm', desc: String::from("<dir> move onto without picking up") },
+        HList { ch: 'z', desc: String::from("<dir> zap a wand in a direction") },
+        HList { ch: '^', desc: String::from("<dir> identify trap type") },
+        HList { ch: 's', desc: String::from("search for trap/secret door") },
+        HList { ch: '>', desc: String::from("go down a staircase") },
+        HList { ch: '<', desc: String::from("go up a staircase") },
+        HList { ch: '.', desc: String::from("rest for a turn") },
+        HList { ch: ',', desc: String::from("pick something up") },
+        HList { ch: 'i', desc: String::from("inventory") },
+        HList { ch: 'q', desc: String::from("quaff potion") },
+        HList { ch: 'r', desc: String::from("read scroll") },
+        HList { ch: 'e', desc: String::from("eat food") },
+        HList { ch: 'w', desc: String::from("wield a weapon") },
+        HList { ch: 'W', desc: String::from("wear armor") },
+        HList { ch: 'T', desc: String::from("take armor off") },
+        HList { ch: 'P', desc: String::from("put on ring") },
+        HList { ch: 'R', desc: String::from("remove ring") },
+        HList { ch: 'd', desc: String::from("drop object") },
+        HList { ch: 'c', desc: String::from("call object") },
+        HList { ch: 'a', desc: String::from("repeat last command") },
+        HList { ch: ')', desc: String::from("print current weapon") },
+        HList { ch: ']', desc: String::from("print current armor") },
+        HList { ch: '=', desc: String::from("print current rings") },
+        HList { ch: 'D', desc: String::from("recall what's been discovered") },
+        HList { ch: ESCAPE, desc: String::from("cancel command") },
+        HList { ch: 'S', desc: String::from("save game") },
+        HList { ch: 'Q', desc: String::from("quit") },
+        HList { ch: 'F', desc: String::from("<dir> fight till either of you dies") },
+        HList { ch: 'v', desc: String::from("print version") },
     ];
 }
 
@@ -933,12 +921,10 @@ pub const MAXSTICKS: usize = 14;
 /*struct h_list {
     char h_ch;
     char *h_desc;
-    bool h_print;
 };*/
 pub struct HList {
     pub ch: char,
     pub desc: String,
-    pub print: bool,
 }
 
 /*

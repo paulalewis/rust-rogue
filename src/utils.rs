@@ -17,13 +17,6 @@ pub fn roll(number: usize, sides: usize) -> usize {
     return total;
 }
 
-// *** Was in extern.c ***
-
-//#define CTRL(c)		(c & 037)
-pub fn ctrl(c: char) -> char {
-    (c as u8 & 0x1f) as char
-}
-
 // *** Was in misc.c ***
 
 /*

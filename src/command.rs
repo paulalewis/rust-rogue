@@ -90,9 +90,6 @@ use crate::{rogue::*, io::{msg, readchar}};
 		 */
 		switch (ch)
 		{
-		    case CTRL('B'): case CTRL('H'): case CTRL('J'):
-		    case CTRL('K'): case CTRL('L'): case CTRL('N'):
-		    case CTRL('U'): case CTRL('Y'):
 		    case '.': case 'a': case 'b': case 'h': case 'j':
 		    case 'k': case 'l': case 'm': case 'n': case 'q':
 		    case 'r': case 's': case 't': case 'u': case 'y':
@@ -160,23 +157,6 @@ over:
 		when 'U': do_run('u');
 		when 'B': do_run('b');
 		when 'N': do_run('n');
-		when CTRL('H'): case CTRL('J'): case CTRL('K'): case CTRL('L'):
-		case CTRL('Y'): case CTRL('U'): case CTRL('B'): case CTRL('N'):
-		{
-		    if (!on(player, ISBLIND))
-		    {
-			door_stop = TRUE;
-			firstmove = TRUE;
-		    }
-		    if (count && !newcount)
-			ch = direction;
-		    else
-		    {
-			ch += ('A' - CTRL('A'));
-			direction = ch;
-		    }
-		    goto over;
-		}
 		when 'F':
 		    kamikaze = TRUE;
 		    /* FALLTHROUGH */
@@ -292,7 +272,7 @@ over:
 		    current(cur_ring[RIGHT], "wearing", "on right hand");
 		otherwise:
 		    after = FALSE;
-			illcom(ch);
+			illegal_command(ch);
 	    }
 	    /*
 	     * turn off flags if no longer needed
@@ -324,29 +304,29 @@ over:
 */
 pub fn command() -> bool {
 	let command_char = readchar().unwrap();
-	match command_char {
+	match dbg!(command_char) {
+		'Q' => {
+			unsafe { after = false; }
+			quit()
+		}
+		'?' => {
+			unsafe { after = false; }
+			help()
+		}
 		_ => {
-			illegal_command(command_char);
+			illegal_command(command_char)
 		}
 	}
-	return false;
 }
 
-//What to do with an illegal command
-//void illcom(int ch)
-fn illegal_command(ch: char) {
-	unsafe {
-		repeat_command_count = 0;
-	}
-	let message = format!("illegal command '{}'", ch);
-	msg(&message);
+fn illegal_command(ch: char) -> bool {
+	unsafe { repeat_command_count = 0; }
+	msg(&format!("illegal command '{}'", ch));
+	true
 }
 
 /*
-/*
- * search:
- *	player gropes about him to find hidden things.
- */
+// player gropes about him to find hidden things.
 void
 search()
 {
@@ -405,38 +385,15 @@ foundone:
     if (found)
 	look(FALSE);
 }
+*/
 
-/*
- * help:
- *	Give single character help, or the whole mess if he wants it
- */
-void
+// Give single character help, or the whole mess if he wants it
+/*void
 help()
 {
     register struct h_list *strp;
-    register char helpch;
     register int numprint, cnt;
-    msg("character you want help for (* for all): ");
-    helpch = readchar();
     mpos = 0;
-    /*
-     * If its not a *, print the right help string
-     * or an error if he typed a funny character.
-     */
-    if (helpch != '*')
-    {
-	move(0, 0);
-	for (strp = helpstr; strp->h_desc != NULL; strp++)
-	    if (strp->h_ch == helpch)
-	    {
-		lower_msg = TRUE;
-		msg("%s%s", unctrl(strp->h_ch), strp->h_desc);
-		lower_msg = FALSE;
-		return;
-	    }
-	msg("unknown character '%s'", unctrl(helpch));
-	return;
-    }
     /*
      * Here we print help for everything.
      * Then wait before we return to command mode
@@ -474,12 +431,13 @@ help()
     msg("");
     touchwin(stdscr);
     wrefresh(stdscr);
+}*/
+fn help() -> bool {
+	true
 }
 
 /*
- * identify:
- *	Tell the player what a certain thing is.
- */
+// Tell the player what a certain thing is.
 void
 identify()
 {
@@ -660,13 +618,8 @@ norm:
     }
 }
 
-/*
- * current:
- *	Print the current weapon/armor
- */
-void
-current(THING *cur, char *how, char *where)
-{
+// Print the current weapon/armor
+void current(THING *cur, char *how, char *where) {
     after = FALSE;
     if (cur != NULL)
     {
@@ -687,3 +640,27 @@ current(THING *cur, char *how, char *where)
     }
 }
 */
+
+fn quit() -> bool {
+    //int oy, ox;
+    // getyx(curscr, oy, ox);
+    msg("really quit?");
+    if readchar().unwrap() == 'y' {
+		// clear();
+		// mvprintw(LINES - 2, 0, "You quit with %d gold pieces", purse);
+		// move(LINES - 1, 0);
+		// refresh();
+		// score(purse, 1, 0);
+		false	
+    } else {
+		// move(0, 0);
+		// clrtoeol();
+		// status();
+		// move(oy, ox);
+		// refresh();
+		// mpos = 0;
+		// count = 0;
+		// to_death = FALSE;
+		true
+    }
+}

@@ -75,39 +75,3 @@ fn init_rogue() {
 fn play_rogue() {
     while command() {};
 }
-
-/*
-// Have player make certain, then exit.
-void quit(int sig) {
-    int oy, ox;
-
-    /*
-     * Reset the signal in case we got here via an interrupt
-     */
-    if (!q_comm)
-	mpos = 0;
-    getyx(curscr, oy, ox);
-    msg("really quit?");
-    if (readchar() == 'y')
-    {
-	signal(SIGINT, leave);
-	clear();
-	mvprintw(LINES - 2, 0, "You quit with %d gold pieces", purse);
-	move(LINES - 1, 0);
-	refresh();
-	score(purse, 1, 0);
-	exit(0);
-    }
-    else
-    {
-	move(0, 0);
-	clrtoeol();
-	status();
-	move(oy, ox);
-	refresh();
-	mpos = 0;
-	count = 0;
-	to_death = FALSE;
-    }
-}
-*/
