@@ -323,11 +323,13 @@ over:
     else if (ISRING(RIGHT, R_TELEPORT) && rnd(50) == 0)
 	teleport();
 }
+*/
+pub fn command() -> bool {
+	return false;
+}
 
 /*
- * illcom:
- *	What to do with an illegal command
- */
+//What to do with an illegal command
 void
 illcom(int ch)
 {

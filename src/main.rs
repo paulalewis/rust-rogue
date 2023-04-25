@@ -1,12 +1,19 @@
-use std::env;
-use std::process;
+extern crate term_size;
 
+use std::env;
+
+use rust_rogue::command::command;
 use rust_rogue::rogue::*;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    dbg!(&args);
+    handle_args(&env::args().collect());
+    check_terminal_size();
+    init_rogue();
+    play_rogue();
+}
 
+fn handle_args(args: &Vec<String>) {
+    dbg!(&args);
     if args.len() == 3 {
         match args.get(1) {
             Some(arg) => {
@@ -18,43 +25,6 @@ fn main() {
             None => (),
         }
     }
-    
-/*
-    initscr();				/* Start up cursor package */
-    init_probs();			/* Set up prob tables for objects */
-    init_player();			/* Set up initial player stats */
-    // init_names();			/* Set up names of scrolls */
-    init_colors();			/* Set up colors of potions */
-    init_stones();			/* Set up stone settings of rings */
-    init_materials();			/* Set up materials of wands */
-    setup();
-
-    /*
-     * The screen must be at least NUMLINES x NUMCOLS
-     */
-    if (LINES < NUMLINES || COLS < NUMCOLS)
-    {
-	printf("\nSorry, the screen must be at least %dx%d\n", NUMLINES, NUMCOLS);
-	endwin();
-	my_exit(1);
-    }
-
-    /*
-     * Set up windows
-     */
-    hw = newwin(LINES, COLS, 0, 0);
-    idlok(stdscr, TRUE);
-    idlok(hw, TRUE);
-    new_level();			/* Draw current level */
-    /*
-     * Start up daemons and fuses
-     */
-    start_daemon(runners, 0, AFTER);
-    start_daemon(doctor, 0, AFTER);
-    fuse(swander, 0, WANDERTIME, AFTER);
-    start_daemon(stomach, 0, AFTER);
-    */
-    playit();
 }
 
 fn restore_game_from_file(filepath: &str) {
@@ -63,17 +33,47 @@ fn restore_game_from_file(filepath: &str) {
     //    my_exit(1);
 }
 
-fn playit() {
-    // char *opts;
+fn check_terminal_size() {
+    if let Some((width, height)) = term_size::dimensions() {
+        dbg!(width, height, NUMCOLS, NUMLINES);
+        if width < NUMCOLS || height < NUMLINES {
+            panic!("Sorry, the screen must be at least {}x{}", NUMCOLS, NUMLINES);
+        }
+    } else {
+        panic!("Unable to get term size");
+    }
+}
 
-    // parse environment declaration of options
-    // if ((opts = getenv("ROGUEOPTS")) != NULL)
-	// parse_opts(opts);
+fn init_rogue() {
+/*
+    initscr();				/* Start up cursor package */
+    init_player();			/* Set up initial player stats */
+    // init_names();			/* Set up names of scrolls */
+    init_colors();			/* Set up colors of potions */
+    init_stones();			/* Set up stone settings of rings */
+    init_materials();			/* Set up materials of wands */
+    setup();
 
+    /*
+     * Set up windows
+     */
+    hw = newwin(LINES, COLS, 0, 0);
+    idlok(stdscr, TRUE);
+    idlok(hw, TRUE);
+    new_level();			/* Draw current level */
+    */
+    // Start up daemons and fuses
+    //start_daemon(runners, 0, AFTER);
+    //start_daemon(doctor, 0, AFTER);
+    //fuse(swander, 0, WANDERTIME, AFTER);
+    //start_daemon(stomach, 0, AFTER);
     // oldpos = hero;
     // oldrp = roomin(&hero);
-    // while (playing)
-	// command(); /* Command execution */
+}
+
+//playit
+fn play_rogue() {
+    while command() {};
 }
 
 /*
