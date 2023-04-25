@@ -23,6 +23,5 @@ pub mod state;
 pub mod sticks;
 pub mod things;
 pub mod utils;
-pub mod vers;
 pub mod weapons;
 pub mod wizard;

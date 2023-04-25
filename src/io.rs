@@ -1,3 +1,5 @@
+use std::io::{Read, Error};
+
 use crate::rogue::*;
 
 // Display a message at the top of the screen.
@@ -29,6 +31,9 @@ msg(char *fmt, ...)
     va_end(args);
     return endmsg();
 }*/
+pub fn msg(msg: &str) {
+    println!("{}", msg);
+}
 
 // Add things to the current message
 /*void
@@ -115,21 +120,12 @@ step_ok(int ch)
 }*/
 
 // Reads and returns a character, checking for gross input errors
-/*char
-readchar()
-{
-    char ch;
-
-    ch = (char) md_readchar();
-
-    if (ch == 3)
-    {
-	quit(0);
-        return(27);
-    }
-
-    return(ch);
-}*/
+pub fn readchar() -> Result<char, Error> {
+    let mut std_in = std::io::stdin();
+    let mut buf = [0u8; 1];
+    std_in.read_exact(&mut buf)?;
+    return Ok(buf[0] as char);
+}
 
 // Display the important stats line.  Keep the cursor where it was.
 /*void

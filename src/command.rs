@@ -1,4 +1,4 @@
-use crate::rogue::*;
+use crate::{rogue::*, io::{msg, readchar}};
 
 // Process the user commands
 /*void command() {
@@ -323,19 +323,23 @@ over:
 }
 */
 pub fn command() -> bool {
+	let command_char = readchar().unwrap();
+	match command_char {
+		_ => {
+			illegal_command(command_char);
+		}
+	}
 	return false;
 }
 
 //What to do with an illegal command
-/*void illcom(int ch) {
-    count = 0;
-    msg("illegal command '%s'", unctrl(ch));
-}*/
-fn illcom(ch: usize) {
+//void illcom(int ch)
+fn illegal_command(ch: char) {
 	unsafe {
 		repeat_command_count = 0;
 	}
-	// todo - msg("illegal command '%s'", unctrl(ch));
+	let message = format!("illegal command '{}'", ch);
+	msg(&message);
 }
 
 /*
