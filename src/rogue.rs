@@ -1,5 +1,3 @@
-use crate::init::{init_stones, init_names};
-
 pub const RELEASE: &str = "5.4.4";
 
 // This file contains most all of the glabol constants and statics
@@ -58,12 +56,10 @@ static dir_ch: char = '\0';
 pub static mut p_colors: [&str; MAXPOTIONS] = [""; MAXPOTIONS];
 //char prbuf[2*MAXSTR];			/* buffer for sprintfs */
 //char runch;				/* Direction player is running */
-lazy_static! {
-    //char *r_stones[MAXRINGS];		/* Stone settings of the rings */
-    pub static ref r_stones: Vec<String> = init_stones();
-    //char *s_names[MAXSCROLLS];		/* Names of the scrolls */
-    pub static ref s_names: Vec<String> = init_names();
-}
+//char *r_stones[MAXRINGS];		/* Stone settings of the rings */
+pub static mut r_stones: Option<Vec<String>> = None;
+//char *s_names[MAXSCROLLS];		/* Names of the scrolls */
+pub static mut s_names: Option<Vec<String>> = None;
 //char take;				/* Thing she is taking */
 //char whoami[MAXSTR]
 pub const ADVENTURER_NAME: &str = "Rustacean";

@@ -3,7 +3,8 @@ extern crate term_size;
 use std::env;
 
 use rust_rogue::command::command;
-use rust_rogue::rogue::*;
+use rust_rogue::init::{init_player, init_scroll_names, init_potion_colors, init_ring_stones};
+use rust_rogue::rogue::{NUMCOLS, NUMLINES, s_names, r_stones};
 
 fn main() {
     handle_args(&env::args().collect());
@@ -45,33 +46,25 @@ fn check_terminal_size() {
 }
 
 fn init_rogue() {
-/*
-    initscr();				/* Start up cursor package */
-    init_player();			/* Set up initial player stats */
-    // init_names();			/* Set up names of scrolls */
-    init_colors();			/* Set up colors of potions */
-    init_stones();			/* Set up stone settings of rings */
-    init_materials();			/* Set up materials of wands */
-    setup();
-
-    /*
-     * Set up windows
-     */
-    hw = newwin(LINES, COLS, 0, 0);
-    idlok(stdscr, TRUE);
-    idlok(hw, TRUE);
-    new_level();			/* Draw current level */
-    */
-    // Start up daemons and fuses
+    init_player();
+    unsafe {
+        s_names = Some(init_scroll_names());
+    }
+    init_potion_colors();
+    unsafe {
+        r_stones = Some(init_ring_stones());
+    }
+    //init_materials();			/* Set up materials of wands */
+    //new_level();			/* Draw current level */
+    //Start up daemons and fuses
     //start_daemon(runners, 0, AFTER);
     //start_daemon(doctor, 0, AFTER);
     //fuse(swander, 0, WANDERTIME, AFTER);
     //start_daemon(stomach, 0, AFTER);
-    // oldpos = hero;
-    // oldrp = roomin(&hero);
+    //oldpos = hero;
+    //oldrp = roomin(&hero);
 }
 
-//playit
 fn play_rogue() {
     while command() {};
 }

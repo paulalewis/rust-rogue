@@ -54,6 +54,9 @@ init_player()
     obj->o_flags |= ISKNOW;
     add_pack(obj, TRUE);
 }*/
+pub fn init_player() {
+    
+}
 
 /*
  * Contains defintions and functions for dealing with things like
@@ -208,9 +211,7 @@ pub static metal: [&str; NMETAL] = [
     "zinc",
 ];
 
-// Initialize the potion color scheme
-// void init_colors()
-pub fn init_colors() {
+pub fn init_potion_colors() {
     let mut used = [false; NCOLORS];
     for i in 0..NCOLORS {
         let mut j;
@@ -228,9 +229,7 @@ pub fn init_colors() {
 }
 
 const MAX_NAME_LENGTH: usize = 40;
-// Generate the names of the various scrolls
-// void init_names()
-pub fn init_names() -> Vec<String> {
+pub fn init_scroll_names() -> Vec<String> {
     let mut scroll_names = Vec::<String>::with_capacity(MAXSCROLLS);
     for _ in 0..MAXSCROLLS {
         scroll_names.push(generate_scroll_name());
@@ -255,9 +254,7 @@ fn generate_scroll_name() -> String {
     scroll_name
 }
 
-// Initialize the ring stone setting scheme for this time
-/*void init_stones()*/
-pub fn init_stones() -> Vec<String> {
+pub fn init_ring_stones() -> Vec<String> {
     let mut used = [false; NSTONES];
     let mut ring_stones: Vec<String> = Vec::new();
     for i in 0..MAXRINGS {
