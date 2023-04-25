@@ -2,7 +2,6 @@ use std::env;
 use std::process;
 
 use rust_rogue::rogue::*;
-use rust_rogue::r#extern::*;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
