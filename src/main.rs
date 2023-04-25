@@ -7,36 +7,19 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     dbg!(&args);
 
-    let home_path = env::home_dir().unwrap();
-
-    let save_path = home_path.as_path().join(DEFAULT_SAVE_FILE_NAME);
-/*
-    char *env;
-    int lowtime;
-
-    //get home and options from environment
-    strncpy(home, md_gethomedir(), MAXSTR);
-
-    strcpy(file_name, home);
-    strcat(file_name, "rogue.save");
-
-	dnum = lowtime + md_getpid();
-    seed = dnum;
-*/
-    match args.get(1) {
-        Some(arg) => {
-            if arg == "-r" {
-                dbg!("restore");
-            }
-        },
-        None => {},
+    if args.len() == 3 {
+        match args.get(1) {
+            Some(arg) => {
+                if arg == "-r" {
+                    let filepath = args.get(2).expect("No file path provided");
+                    restore_game_from_file(filepath);
+                }
+            },
+            None => (),
+        }
     }
     
 /*
-    if (argc == 2)
-	if (!restore(argv[1], envp))	/* Note: restore will never return */
-	    my_exit(1);
-
     initscr();				/* Start up cursor package */
     init_probs();			/* Set up prob tables for objects */
     init_player();			/* Set up initial player stats */
@@ -72,6 +55,12 @@ fn main() {
     start_daemon(stomach, 0, AFTER);
     */
     playit();
+}
+
+fn restore_game_from_file(filepath: &str) {
+    dbg!(filepath);
+    //if (!restore(argv[1], envp))	/* Note: restore will never return */
+    //    my_exit(1);
 }
 
 fn playit() {

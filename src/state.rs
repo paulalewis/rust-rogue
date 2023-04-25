@@ -1871,7 +1871,6 @@ rs_save_file(FILE *savef)
     rs_write_boolean(savef, to_death);              /* 26 */
     rs_write_booleans(savef, pack_used, 26);        /* 29 */
     rs_write_char(savef, dir_ch);
-    rs_write_chars(savef, file_name, MAXSTR);
     rs_write_potions(savef);
     rs_write_chars(savef,prbuf,2*MAXSTR);
     rs_write_rings(savef);
@@ -1975,7 +1974,6 @@ rs_restore_file(FILE *inf)
     rs_read_boolean(inf, &to_death);            /* 26 */
     rs_read_booleans(inf, pack_used, 26);       /* 29 */
     rs_read_char(inf, &dir_ch);
-    rs_read_chars(inf, file_name, MAXSTR);
     rs_read_potions(inf);
     rs_read_chars(inf, prbuf, 2*MAXSTR);
     rs_read_rings(inf);

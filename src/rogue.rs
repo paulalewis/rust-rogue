@@ -56,9 +56,6 @@ static pack_used: [bool; 26] = [false; 26];
 
 //char dir_ch;				/* Direction from last get_dir() call */
 static dir_ch: char = '\0';
-//char file_name[MAXSTR];			/* Save file name */
-pub const DEFAULT_SAVE_FILE_NAME: &str = "rogue.save";
-pub static mut file_name: &str = DEFAULT_SAVE_FILE_NAME;
 //char *p_colors[MAXPOTIONS];		/* Colors of the potions */
 pub static mut p_colors: [&str; MAXPOTIONS] = [""; MAXPOTIONS];
 //char prbuf[2*MAXSTR];			/* buffer for sprintfs */
