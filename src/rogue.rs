@@ -392,60 +392,50 @@ lazy_static! {
     ];
 }
 
-//struct h_list helpstr[]
-lazy_static! {
-    static ref helpstr: [HList; 49] = [
-        HList { ch: '?', desc: String::from("prints help") },
-        HList { ch: '/', desc: String::from("identify object") },
-        HList { ch: 'h', desc: String::from("left") },
-        HList { ch: 'j', desc: String::from("down") },
-        HList { ch: 'k', desc: String::from("up") },
-        HList { ch: 'l', desc: String::from("right") },
-        HList { ch: 'y', desc: String::from("up & left") },
-        HList { ch: 'u', desc: String::from("up & right") },
-        HList { ch: 'b', desc: String::from("down & left") },
-        HList { ch: 'n', desc: String::from("down & right") },
-        HList { ch: 'H', desc: String::from("run left") },
-        HList { ch: 'J', desc: String::from("run down") },
-        HList { ch: 'K', desc: String::from("run up") },
-        HList { ch: 'L', desc: String::from("run right") },
-        HList { ch: 'Y', desc: String::from("run up & left") },
-        HList { ch: 'U', desc: String::from("run up & right") },
-        HList { ch: 'B', desc: String::from("run down & left") },
-        HList { ch: 'N', desc: String::from("run down & right") },
-        HList { ch: 'f', desc: String::from("<dir> fight till death or near death") },
-        HList { ch: 't', desc: String::from("<dir> throw something") },
-        HList { ch: 'm', desc: String::from("<dir> move onto without picking up") },
-        HList { ch: 'z', desc: String::from("<dir> zap a wand in a direction") },
-        HList { ch: '^', desc: String::from("<dir> identify trap type") },
-        HList { ch: 's', desc: String::from("search for trap/secret door") },
-        HList { ch: '>', desc: String::from("go down a staircase") },
-        HList { ch: '<', desc: String::from("go up a staircase") },
-        HList { ch: '.', desc: String::from("rest for a turn") },
-        HList { ch: ',', desc: String::from("pick something up") },
-        HList { ch: 'i', desc: String::from("inventory") },
-        HList { ch: 'q', desc: String::from("quaff potion") },
-        HList { ch: 'r', desc: String::from("read scroll") },
-        HList { ch: 'e', desc: String::from("eat food") },
-        HList { ch: 'w', desc: String::from("wield a weapon") },
-        HList { ch: 'W', desc: String::from("wear armor") },
-        HList { ch: 'T', desc: String::from("take armor off") },
-        HList { ch: 'P', desc: String::from("put on ring") },
-        HList { ch: 'R', desc: String::from("remove ring") },
-        HList { ch: 'd', desc: String::from("drop object") },
-        HList { ch: 'c', desc: String::from("call object") },
-        HList { ch: 'a', desc: String::from("repeat last command") },
-        HList { ch: ')', desc: String::from("print current weapon") },
-        HList { ch: ']', desc: String::from("print current armor") },
-        HList { ch: '=', desc: String::from("print current rings") },
-        HList { ch: 'D', desc: String::from("recall what's been discovered") },
-        HList { ch: ESCAPE, desc: String::from("cancel command") },
-        HList { ch: 'S', desc: String::from("save game") },
-        HList { ch: 'Q', desc: String::from("quit") },
-        HList { ch: 'F', desc: String::from("<dir> fight till either of you dies") },
-        HList { ch: 'v', desc: String::from("print version") },
-    ];
-}
+pub static HELP_ITEMS: [&str; 42] = [
+    "?            prints help",
+    "/            identify object",
+    "h            left",
+    "j            down",
+    "k            up",
+    "l            right",
+    "y            up & left",
+    "u            up & right",
+    "b            down & left",
+    "n            down & right",
+    "<shift><dir> run that way",
+    "f<dir>       fight till death or near death",
+    "t<dir>       throw something",
+    "m<dir>       move onto without picking up",
+    "z<dir>       zap a wand in a direction",
+    "^<dir>       identify trap type",
+    "s            search for trap/secret door",
+    ">            go down a staircase",
+    "<            go up a staircase",
+    ".            rest for a turn",
+    ",            pick something up",
+    "i            inventory",
+    "q            quaff potion",
+    "r            read scroll",
+    "e            eat food",
+    "w            wield a weapon",
+    "W            wear armor",
+    "T            take armor off",
+    "P            put on ring",
+    "R            remove ring",
+    "d            drop object",
+    "c            call object",
+    "a            repeat last command",
+    ")            print current weapon",
+    "]            print current armor",
+    "=            print current rings",
+    "D            recall what's been discovered",
+    "S            save game",
+    "Q            quit",
+    "F<dir>       fight till either of you dies",
+    "v            print version",
+    "ESC          cancel command",
+];
 
 //#define CCHAR(x) ( (char) (x & A_CHARTEXT) )
 
@@ -592,7 +582,7 @@ pub const STOMACHSIZE: usize = 2000;
 //#define STARVETIME	850
 pub const STARVETIME: usize = 850;
 //#define ESCAPE		27
-pub const ESCAPE: char = '\x1b';
+pub const ESCAPE: char = '\u{001b}';
 //#define LEFT		0
 pub const LEFT: usize = 0;
 //#define RIGHT		1
@@ -913,21 +903,6 @@ pub const WS_CANCEL: usize = 13;
 pub const MAXSTICKS: usize = 14;
 
 /*
- * Now we define the structures and types
- */
-/*
- * Help list
- */
-/*struct h_list {
-    char h_ch;
-    char *h_desc;
-};*/
-pub struct HList {
-    pub ch: char,
-    pub desc: String,
-}
-
-/*
  * Coordinate data type
  */
 /*typedef struct {
@@ -1232,3 +1207,5 @@ pub struct Stone<'a> {
     pub name: &'a str,
     pub value: i32,
 }
+
+pub const PRESS_SPACE_TO_CONTINUE: &str = "--Press space to continue--";

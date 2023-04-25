@@ -1,4 +1,4 @@
-use crate::{rogue::*, io::{msg, readchar}};
+use crate::{rogue::*, io::{msg, readchar, wait_for}};
 
 // Process the user commands
 /*void command() {
@@ -399,7 +399,7 @@ help()
      * Then wait before we return to command mode
      */
     numprint = 0;
-    for (strp = helpstr; strp->h_desc != NULL; strp++)
+    for (strp = help_items; strp->h_desc != NULL; strp++)
 	if (strp->h_print)
 	    numprint++;
     if (numprint & 01)		/* round odd numbers up */
@@ -410,7 +410,7 @@ help()
 
     wclear(hw);
     cnt = 0;
-    for (strp = helpstr; strp->h_desc != NULL; strp++)
+    for (strp = help_items; strp->h_desc != NULL; strp++)
 	if (strp->h_print)
 	{
 	    wmove(hw, cnt % numprint, cnt >= numprint ? COLS / 2 : 0);
@@ -433,6 +433,12 @@ help()
     wrefresh(stdscr);
 }*/
 fn help() -> bool {
+	for help_item in &HELP_ITEMS {
+		println!("{}", help_item);
+	}
+	println!("{}", PRESS_SPACE_TO_CONTINUE);
+	wait_for(' ');
+	//refresh();
 	true
 }
 

@@ -122,8 +122,10 @@ step_ok(int ch)
 // Reads and returns a character, checking for gross input errors
 pub fn readchar() -> Result<char, Error> {
     let mut std_in = std::io::stdin();
-    let mut buf = [0u8; 1];
-    std_in.read_exact(&mut buf)?;
+    let mut buf = ['\n' as u8; 1];
+    while buf[0] == '\n' as u8 || buf[0] == '\r' as u8 {
+        std_in.read_exact(&mut buf)?;
+    }
     return Ok(buf[0] as char);
 }
 
@@ -200,19 +202,10 @@ status()
     move(oy, ox);
 }*/
 
-// Sit around until the guy types the right key
-/*void
-wait_for(int ch)
-{
-    register char c;
-
-    if (ch == '\n')
-        while ((c = readchar()) != '\n' && c != '\r')
-	    continue;
-    else
-        while (readchar() != ch)
-	    continue;
-}*/
+// Wait for the user to type a character
+pub fn wait_for(character: char) {
+    while readchar().unwrap() != character {}
+}
 
 // Function used to display a window and wait before returning
 /*void
