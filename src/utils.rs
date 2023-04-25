@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-// *** Was in main.c ***
+use crate::rogue::{cur_ring, Thing, POTION, SCROLL, FOOD};
 
 // Pick a random number.
 pub fn rnd(range: usize) -> usize {
@@ -17,7 +17,60 @@ pub fn roll(number: usize, sides: usize) -> usize {
     return total;
 }
 
-// *** Was in misc.c ***
+//#define winat(y,x)	(moat(y,x) != NULL ? moat(y,x)->t_disguise : chat(y,x))
+//#define ce(a,b)		((a).x == (b).x && (a).y == (b).y)
+//#define hero		player.t_pos
+//#define pstats		player.t_stats
+//#define pack		player.t_pack
+//#define proom		player.t_room
+//#define max_hp		player.t_stats.s_maxhp
+
+//#define on(thing,flag)
+pub fn on(thing: &Thing, flag: usize) -> bool {
+	match thing {
+        Thing::Creature { flags, .. } => flags & flag != 0,
+        Thing::Object { flags, .. } => flags & flag != 0,
+	}
+}
+
+//#define GOLDCALC
+fn goldcalc(level: usize) -> usize {
+	rnd(50 + 10 * level) + 2
+}
+
+//#define ISRING(h,r)
+pub fn is_ring(h: usize, r: usize) -> bool {
+    match cur_ring[h] {
+        Some(ref ring) => {
+            match ring {
+                Thing::Object { next, prev, r#type, pos, text, launch, packch, damage, hurldmg, count, which, hplus, dplus, arm, flags, group, label } => {
+                    *which == r
+                },
+                _ => false
+            }
+        },
+        None => false
+    }
+}
+
+//#define ISWEARING(r)
+fn is_wearing(r: usize) -> bool {
+	is_ring(0, r) || is_ring(1, r)
+}
+
+//#define ISMULT(type)
+fn is_mult(item_type: char) -> bool {
+	match item_type {
+		POTION | SCROLL | FOOD => true,
+		_ => false
+	}
+}
+
+//#define INDEX(y,x)	(&places[((x) << 5) + (y)])
+//#define chat(y,x)	(places[((x) << 5) + (y)].p_ch)
+//#define flat(y,x)	(places[((x) << 5) + (y)].p_flags)
+//#define moat(y,x)	(places[((x) << 5) + (y)].p_monst)
+//#define unc(cp)		(cp).y, (cp).x
 
 /*
 // A quick glance all around the player

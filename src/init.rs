@@ -314,14 +314,10 @@ init_materials()
     }
 }*/
 
-/*
-/*
- *	If he is halucinating, pick a random color name and return it,
- *	otherwise return the given color.
- */
-char *
-pick_color(char *col)
-{
-    return (on(player, ISHALU) ? rainbow[rnd(NCOLORS)] : col);
+// If he is halucinating, pick a random color name and return it,
+// otherwise return the given color.
+pub fn pick_color(color: &str ) -> &str {
+    unsafe {
+        return if on(&player.as_ref().unwrap(), ISHALU) { rainbow[rnd(NCOLORS)] } else { color };
+    }
 }
-*/

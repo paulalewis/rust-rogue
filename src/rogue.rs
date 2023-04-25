@@ -194,7 +194,7 @@ pub static lvl_obj: Option<Thing> = None;
 //THING *mlist = NULL;			/* List of monsters on the level */
 pub static mlist: Option<Thing> = None;
 //THING player;				/* His stats */
-pub static player: Option<Thing> = None;
+pub static mut player: Option<Thing> = None;
 
 //WINDOW *hw = NULL;			/* used as a scratch window */
 
@@ -471,88 +471,44 @@ const QUIT: usize = 1;
 const MINUS: usize = 2;
 
 /*
- * All the fun defines
- */
-//#define when		break;case
-//#define otherwise	break;default
-//#define until(expr)	while(!(expr))
-//#define next(ptr)	(*ptr).l_next
-//#define prev(ptr)	(*ptr).l_prev
-//#define winat(y,x)	(moat(y,x) != NULL ? moat(y,x)->t_disguise : chat(y,x))
-//#define ce(a,b)		((a).x == (b).x && (a).y == (b).y)
-//#define hero		player.t_pos
-//#define pstats		player.t_stats
-//#define pack		player.t_pack
-//#define proom		player.t_room
-//#define max_hp		player.t_stats.s_maxhp
-//#define attach(a,b)	_attach(&a,b)
-//#define detach(a,b)	_detach(&a,b)
-//#define free_list(a)	_free_list(&a)
-//#undef max
-//#define max(a,b)	((a) > (b) ? (a) : (b))
-//#define on(thing,flag)	((bool)(((thing).t_flags & (flag)) != 0))
-//#define GOLDCALC	(rnd(50 + 10 * level) + 2)
-//#define ISRING(h,r)	(cur_ring[h] != NULL && cur_ring[h]->o_which == r)
-pub fn is_ring(h: usize, r: usize) -> bool {
-    match cur_ring[h] {
-        Some(ref ring) => {
-            match ring {
-                Thing::Object { next, prev, r#type, pos, text, launch, packch, damage, hurldmg, count, which, hplus, dplus, arm, flags, group, label } => {
-                    *which == r
-                },
-                _ => false
-            }
-        },
-        None => false
-    }
-}
-//#define ISWEARING(r)	(ISRING(LEFT, r) || ISRING(RIGHT, r))
-//#define ISMULT(type) 	(type == POTION || type == SCROLL || type == FOOD)
-//#define INDEX(y,x)	(&places[((x) << 5) + (y)])
-//#define chat(y,x)	(places[((x) << 5) + (y)].p_ch)
-//#define flat(y,x)	(places[((x) << 5) + (y)].p_flags)
-//#define moat(y,x)	(places[((x) << 5) + (y)].p_monst)
-//#define unc(cp)		(cp).y, (cp).x
-
-/*
  * things that appear on the screens
  */
 //#define PASSAGE		'#'
-const PASSAGE: char = '#';
+pub const PASSAGE: char = '#';
 //#define DOOR		'+'
-const DOOR: char = '+';
+pub const DOOR: char = '+';
 //#define FLOOR		'.'
-const FLOOR: char = '.';
+pub const FLOOR: char = '.';
 //#define PLAYER		'@'
-const PLAYER: char = '@';
+pub const PLAYER: char = '@';
 //#define TRAP		'^'
-const TRAP: char = '^';
+pub const TRAP: char = '^';
 //#define STAIRS		'%'
-const STAIRS: char = '%';
+pub const STAIRS: char = '%';
 //#define GOLD		'*'
-const GOLD: char = '*';
+pub const GOLD: char = '*';
 //#define POTION		'!'
-const POTION: char = '!';
+pub const POTION: char = '!';
 //#define SCROLL		'?'
-const SCROLL: char = '?';
+pub const SCROLL: char = '?';
 //#define MAGIC		'$'
-const MAGIC: char = '$';
+pub const MAGIC: char = '$';
 //#define FOOD		':'
-const FOOD: char = ':';
+pub const FOOD: char = ':';
 //#define WEAPON		')'
-const WEAPON: char = ')';
+pub const WEAPON: char = ')';
 //#define ARMOR		']'
-const ARMOR: char = ']';
+pub const ARMOR: char = ']';
 //#define AMULET		','
-const AMULET: char = ',';
+pub const AMULET: char = ',';
 //#define RING		'='
-const RING: char = '=';
+pub const RING: char = '=';
 //#define STICK		'/'
-const STICK: char = '/';
+pub const STICK: char = '/';
 //#define CALLABLE	-1
-const CALLABLE: isize = -1;
+pub const CALLABLE: isize = -1;
 //#define R_OR_S		-2
-const R_OR_S: isize = -2;
+pub const R_OR_S: isize = -2;
 
 /*
  * Various constants
