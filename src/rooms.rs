@@ -1,4 +1,4 @@
-use crate::rouge::*;
+use crate::rogue::*;
 
 /*
 typedef struct spot {		/* position matrix for maze positions */
