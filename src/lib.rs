@@ -20,7 +20,7 @@ pub mod rip;
 pub mod rogue;
 pub mod rooms;
 pub mod scrolls;
-pub mod state;
+pub mod rogue_state;
 pub mod sticks;
 pub mod things;
 pub mod utils;
