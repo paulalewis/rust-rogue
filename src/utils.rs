@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-use crate::rogue::{cur_ring, Thing, POTION, SCROLL, FOOD};
+use crate::{rogue::{cur_ring, Thing, POTION, SCROLL, FOOD, cur_armor, cur_weapon, ISHALU, player, STICK, RING, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL, level}, io::msg};
 
 // Pick a random number.
 pub fn rnd(range: usize) -> usize {
@@ -34,8 +34,8 @@ pub fn on(thing: &Thing, flag: usize) -> bool {
 }
 
 //#define GOLDCALC
-fn goldcalc(level: usize) -> usize {
-	rnd(50 + 10 * level) + 2
+pub fn goldcalc(lvl: usize) -> usize {
+	rnd(50 + 10 * lvl) + 2
 }
 
 //#define ISRING(h,r)
@@ -219,11 +219,8 @@ look(bool wakeup)
 	mvaddch(hero.y, hero.x, PLAYER);
 }
 
-/*
- * trip_ch:
- *	Return the character appropriate for this space, taking into
- *	account whether or not the player is tripping.
- */
+// Return the character appropriate for this space, taking into
+// account whether or not the player is tripping.
 int
 trip_ch(int y, int x, int ch)
 {
@@ -246,11 +243,7 @@ trip_ch(int y, int x, int ch)
     return ch;
 }
 
-/*
- * erase_lamp:
- *	Erase the area shown by a lamp in a dark room.
- */
-
+// Erase the area shown by a lamp in a dark room.
 void
 erase_lamp(coord *pos, struct room *rp)
 {
@@ -273,10 +266,7 @@ erase_lamp(coord *pos, struct room *rp)
 	}
 }
 
-/*
- * find_obj:
- *	Find the unclaimed object at y, x
- */
+// Find the unclaimed object at y, x
 THING *
 find_obj(int y, int x)
 {
@@ -290,11 +280,6 @@ find_obj(int y, int x)
     /* NOTREACHED */
     return NULL;
 }
-
-/*
- * eat:
- *	She wants to eat something, so let her try
- */
 
 void
 eat()
@@ -329,11 +314,7 @@ eat()
     leave_pack(obj, FALSE, FALSE);
 }
 
-/*
- * check_level:
- *	Check to see if the guy has gone up a level.
- */
-
+// Check to see if the guy has gone up a level.
 void
 check_level()
 {
@@ -354,12 +335,8 @@ check_level()
     }
 }
 
-/*
- * chg_str:
- *	used to modify the playes strength.  It keeps track of the
- *	highest it has been, just in case
- */
-
+// used to modify the playes strength.  It keeps track of the
+// highest it has been, just in case
 void
 chg_str(int amt)
 {
@@ -377,10 +354,7 @@ chg_str(int amt)
 	max_stats.s_str = comp;
 }
 
-/*
- * add_str:
- *	Perform the actual add, checking upper and lower bound limits
- */
+// Perform the actual add, checking upper and lower bound limits
 void
 add_str(str_t *sp, int amt)
 {
@@ -390,10 +364,7 @@ add_str(str_t *sp, int amt)
 	*sp = 31;
 }
 
-/*
- * add_haste:
- *	Add a haste to the player
- */
+// Add a haste to the player
 bool
 add_haste(bool potion)
 {
@@ -414,11 +385,7 @@ add_haste(bool potion)
     }
 }
 
-/*
- * aggravate:
- *	Aggravate all the monsters on this level
- */
-
+// Aggravate all the monsters on this level
 void
 aggravate()
 {
@@ -427,51 +394,29 @@ aggravate()
     for (mp = mlist; mp != NULL; mp = next(mp))
 	runto(&mp->t_pos);
 }
+*/
 
-/*
- * vowelstr:
- *      For printfs: if string starts with a vowel, return "n" for an
- *	"an".
- */
-char *
-vowelstr(char *str)
-{
-    switch (*str)
-    {
-	case 'a': case 'A':
-	case 'e': case 'E':
-	case 'i': case 'I':
-	case 'o': case 'O':
-	case 'u': case 'U':
-	    return "n";
-	default:
-	    return "";
-    }
+// For printfs: if string starts with a vowel, return "n" for an "an".
+fn vowelstr(str: &str) -> &str {
+	match str.chars().next().unwrap() {
+		'a' | 'A' | 'e' | 'E' | 'i' | 'I' | 'o' | 'O' | 'u' | 'U' => "n",
+		_ => "",
+	}
 }
 
-/* 
- * is_current:
- *	See if the object is one of the currently used items
- */
-bool
-is_current(THING *obj)
-{
-    if (obj == NULL)
-	return FALSE;
-    if (obj == cur_armor || obj == cur_weapon || obj == cur_ring[LEFT]
-	|| obj == cur_ring[RIGHT])
-    {
-	msg("That's already in use");
-	return TRUE;
-    }
-    return FALSE;
+// See if the object is one of the currently used items
+//bool is_current(THING *obj)
+pub fn is_current(object: &Thing) -> bool {
+	if object == cur_armor.as_ref().unwrap() || object == cur_weapon.as_ref().unwrap() || object == cur_ring[0].as_ref().unwrap() || object == cur_ring[1].as_ref().unwrap() {
+		msg("That's already in use");
+		true
+	} else {
+		false
+	}
 }
 
 /*
- * get_dir:
- *      Set up the direction co_ordinate for use in varios "prefix"
- *	commands
- */
+// Set up the direction co_ordinate for use in varios "prefix" commands
 bool
 get_dir()
 {
@@ -523,35 +468,21 @@ get_dir()
     mpos = 0;
     return TRUE;
 }
+*/
 
-/*
- * sign:
- *	Return the sign of the number
- */
-int
-sign(int nm)
-{
-    if (nm < 0)
-	return -1;
-    else
-	return (nm > 0);
+// Return the sign of the number
+// int sign(int nm)
+pub fn sign(value: i32) -> i32 {
+	if value < 0 { -1 } else if value > 0{ 1 } else { 0 }
+}
+
+// Give a spread around a given number (+/- 20%)
+pub fn spread(value: usize) -> usize {
+	value - value / 20 + rnd(value / 10)
 }
 
 /*
- * spread:
- *	Give a spread around a given number (+/- 20%)
- */
-int
-spread(int nm)
-{
-    return nm - nm / 20 + rnd(nm / 10);
-}
-
-/*
- * call_it:
- *	Call an object something after use.
- */
-
+// Call an object something after use.
 void
 call_it(struct obj_info *info)
 {
@@ -575,14 +506,10 @@ call_it(struct obj_info *info)
 	}
     }
 }
+*/
 
-/*
- * rnd_thing:
- *	Pick a random thing appropriate for this level
- */
-char
-rnd_thing()
-{
+// Pick a random thing appropriate for this level
+/*char rnd_thing() {
     int i;
     static char thing_list[] = {
 	POTION, SCROLL, RING, STICK, FOOD, WEAPON, ARMOR, STAIRS, GOLD, AMULET
@@ -594,15 +521,21 @@ rnd_thing()
         i = rnd(sizeof thing_list / sizeof (char) - 1);
     return thing_list[i];
 }
-
-/*
- str str:
- *	Choose the first or second string depending on whether it the
- *	player is tripping
- */
-char *
-choose_str(char *ts, char *ns)
-{
-	return (on(player, ISHALU) ? ts : ns);
-}
 */
+pub fn rnd_thing() -> char {
+	let thing_list = [POTION, SCROLL, RING, STICK, FOOD, WEAPON, ARMOR, STAIRS, GOLD, AMULET];
+	let i = if level >= AMULETLEVEL {
+		rnd(thing_list.len())
+	} else {
+		rnd(thing_list.len() - 1)
+	};
+	thing_list[i]
+}
+
+// Choose the first or second string depending on whether it the player is tripping
+//char * choose_str(char *ts, char *ns)
+pub fn choose_str<'a>(ts: &'a str, ns: &'a str) -> &'a str {
+	unsafe {
+		if on(&player.as_ref().unwrap(), ISHALU) { ts } else { ns }
+	}
+}

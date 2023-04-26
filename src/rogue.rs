@@ -861,7 +861,7 @@ pub const MAXSTICKS: usize = 14;
     int x;
     int y;
 } coord;*/
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq)]
 pub struct Coord {
     pub x: i32,
     pub y: i32,
@@ -900,7 +900,7 @@ pub struct ObjInfo {
     int r_nexits;			/* Number of exits */
     coord r_exit[12];			/* Where the exits are */
 };*/
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq)]
 pub struct Room {
     pub pos: Coord,
     pub max: Coord,
@@ -937,7 +937,7 @@ impl Room {
     char s_dmg[13];			/* String describing damage done */
     int  s_maxhp;			/* Max hit points */
 };*/
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub struct Stats {
     pub str: str_t,
     pub exp: i32,
@@ -999,7 +999,7 @@ impl Stats {
 	char *_o_label;			/* Label for object */
     } _o;
 };*/
-#[derive(Clone)]
+#[derive(Clone, PartialEq)]
 pub enum Thing {
     Creature {
         next: Box<Option<Thing>>,

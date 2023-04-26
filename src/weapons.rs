@@ -21,11 +21,7 @@ static struct init_weaps {
     { "2x3",	"1x6",	NO_WEAPON,	ISMISL,		},	/* Spear */
 };
 
-/*
- * missile:
- *	Fire a missile in a given direction
- */
-
+// Fire a missile in a given direction
 void
 missile(int ydelta, int xdelta)
 {
