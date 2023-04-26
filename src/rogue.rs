@@ -3,10 +3,8 @@ use crate::{utils::spread, rogue_state::RogueState, constants::{NUMTHINGS, ISMEA
 // This file contains global values for the game
 
 lazy_static! {
-    pub static ref state: RogueState = RogueState::new();
+    pub static ref state: RogueState = RogueState::new(0);
 }
-
-//#define RN		(((seed = seed*11109+13849) >> 16) & 0xffff)
 
 //bool after;				/* True if we want after daemons */
 pub static mut after: bool = false;
@@ -112,10 +110,6 @@ pub static quiet: usize = 0;
 //int vf_hit = 0;				/* Number of time flytrap has hit */
 pub static vf_hit: usize = 0;
 
-//int dnum;				/* Dungeon number */
-pub static dnum: usize = 0;
-//int seed;				/* Random number seed */
-pub static seed: usize = 0;
 //int e_levels[]
 pub static e_levels: [usize; 21] = [
     10,

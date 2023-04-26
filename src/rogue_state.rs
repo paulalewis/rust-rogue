@@ -11,15 +11,18 @@ pub struct RogueState {
     pub player: Player,
     // s_names names of the scrolls
     pub scroll_names: Vec<String>,
+    //seed random number seed
+    pub seed: u64,
 }
 
 impl RogueState {
-    pub fn new() -> RogueState {
+    pub fn new(seed: u64) -> RogueState {
         RogueState {
             amulet: false,
             level: 1,
             player: Player::new(),
             scroll_names: init_scroll_names(),
+            seed,
         }
     }
 }
