@@ -18,7 +18,7 @@ pub fn randmonster(wander: bool) -> char {
     let mut selected_monster: usize;
     let mons: [char; NUMBER_OF_MONSTERS] = if wander { wand_mons } else { lvl_mons };
     loop {
-        selected_monster = level + (rnd(10) - 6);
+        selected_monster = state.level + (rnd(10) - 6);
         if selected_monster < 0 {
             selected_monster = rnd(5);
         }
@@ -72,7 +72,7 @@ pub fn new_monster(tp: Box<Thing>, m_type: char, cp: Option<Coord>) {
     let mut cp: Coord;
     // let mut mlist: Vec<Thing>;
 
-    let lev_add = cmp::max(0, level as isize - AMULETLEVEL as isize);
+    let lev_add = cmp::max(0, state.level as isize - AMULETLEVEL as isize);
 
     /*attach(mlist, tp);
     tp.t_type = m_type;
@@ -208,7 +208,7 @@ wake_monster(int y, int x)
 // Give a pack to a monster if it deserves one
 // void give_pack(THING *tp)
 pub fn give_pack(creature: Thing) {
-    if level >= max_level {
+    if state.level >= max_level {
         match creature {
             Thing::Creature { pack, r#type, .. } => {
                 let index = (r#type as u8 - b'A') as usize;

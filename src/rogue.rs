@@ -92,8 +92,6 @@ pub static hungry_state: usize = 0;
 pub static inpack: usize = 0;
 //int inv_type = 0;			/* Type of inventory to use */
 pub static inv_type: usize = 0;
-//int level = 1;				/* What level she is on */
-pub static level: usize = 1;
 //int max_hit;				/* Max damage done to her in to_death */
 pub static max_hit: usize = 0;
 //int max_level;				/* Deepest player has gone */

@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-use crate::{rogue::{Thing, ISHALU, level, state}, io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL}};
+use crate::{rogue::{Thing, ISHALU, state}, io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL}};
 
 // Pick a random number.
 pub fn rnd(range: usize) -> usize {
@@ -528,7 +528,7 @@ call_it(struct obj_info *info)
 */
 pub fn rnd_thing() -> char {
 	let thing_list = [POTION, SCROLL, RING, STICK, FOOD, WEAPON, ARMOR, STAIRS, GOLD, AMULET];
-	let i = if level >= AMULETLEVEL {
+	let i = if state.level >= AMULETLEVEL {
 		rnd(thing_list.len())
 	} else {
 		rnd(thing_list.len() - 1)

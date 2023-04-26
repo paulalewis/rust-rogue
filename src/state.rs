@@ -10,6 +10,8 @@ pub struct RogueState {
     pub cur_ring: [Option<Thing>; 2],
     //THING *cur_weapon;			/* Which weapon he is weilding */
     pub cur_weapon: Option<Thing>,
+    //level what level the player is on
+    pub level: usize,
     //THING player;				/* His stats */
     pub player: Option<Thing>,
 }
@@ -20,6 +22,7 @@ impl RogueState {
             cur_armor: None,
             cur_ring: [None, None],
             cur_weapon: None,
+            level: 1,
             player: None,
         }
     }
