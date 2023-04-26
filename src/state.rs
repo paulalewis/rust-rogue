@@ -4,21 +4,24 @@ use crate::rogue::*;
 // It can be used to save and restore a game.
 #[derive(Debug, Clone, PartialEq)]
 pub struct RogueState {
-    //THING *cur_armor;			/* What he is wearing */
+    // amulet player found the amulet
+    pub amulet: bool,
+    // cur_armor what player is wearing
     pub cur_armor: Option<Thing>,
-    //THING *cur_ring[2];			/* Which rings are being worn */
+    // cur_ring which rings are being worn
     pub cur_ring: [Option<Thing>; 2],
-    //THING *cur_weapon;			/* Which weapon he is weilding */
+    // cur_weapon which weapon he is weilding
     pub cur_weapon: Option<Thing>,
-    //level what level the player is on
+    // level what level the player is on
     pub level: usize,
-    //THING player;				/* His stats */
+    // player the player stats
     pub player: Option<Thing>,
 }
 
 impl RogueState {
     pub fn new() -> RogueState {
         RogueState {
+            amulet: false,
             cur_armor: None,
             cur_ring: [None, None],
             cur_weapon: None,

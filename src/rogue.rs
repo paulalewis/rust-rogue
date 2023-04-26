@@ -14,8 +14,6 @@ pub static mut after: bool = false;
 pub static again: bool = false;
 //bool seenstairs;			/* Have seen the stairs (for lsd) */
 pub static seenstairs: bool = false;
-//bool amulet = FALSE;			/* He found the amulet */
-pub static amulet: bool = false;
 //bool door_stop = FALSE;			/* Stop running when we pass a door */
 pub static door_stop: bool = false;
 //bool firstmove = FALSE;			/* First move after setting door_stop */
@@ -36,8 +34,6 @@ pub static move_on: bool = false;
 pub static msg_esc: bool = false;
 //bool running = FALSE;			/* True if player is running */
 pub static running: bool = false;
-//bool stat_msg = FALSE;			/* Should status() print as a msg() */
-pub static stat_msg: bool = false;
 //bool to_death = FALSE;			/* Fighting is to the death! */
 pub static to_death: bool = false;
 //bool pack_used[26] = {			/* Is the character used in the pack? */
