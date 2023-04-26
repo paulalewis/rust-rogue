@@ -1,4 +1,8 @@
-use crate::utils::spread;
+use crate::{utils::spread, state::RogueState, constants::NUMTHINGS};
+
+// This file contains global values for the game
+
+pub static mut state: RogueState = RogueState {};
 
 //#define RN		(((seed = seed*11109+13849) >> 16) & 0xffff)
 
@@ -52,13 +56,9 @@ pub static mut r_stones: Option<Vec<String>> = None;
 //char *s_names[MAXSCROLLS];		/* Names of the scrolls */
 pub static mut s_names: Option<Vec<String>> = None;
 //char take;				/* Thing she is taking */
-//char whoami[MAXSTR]
-pub const ADVENTURER_NAME: &str = "Rustacean";
 //char *ws_made[MAXSTICKS];		/* What sticks are made of */
 //char *ws_type[MAXSTICKS];		/* Is it a wand or a staff */
 //int  orig_dsusp;			/* Original dsusp char */
-//char fruit[MAXSTR]
-pub const FRUIT: &str = "slime-mold";
 //char home[MAXSTR] = { '\0' };		/* User's home directory */
 //char *inv_t_name[] = {
 //	"Overwrite",
@@ -186,8 +186,6 @@ pub static lvl_obj: Option<Thing> = None;
 pub static mlist: Option<Thing> = None;
 //THING player;				/* His stats */
 pub static mut player: Option<Thing> = None;
-
-//WINDOW *hw = NULL;			/* used as a scratch window */
 
 //#define INIT_STATS { 16, 0, 1, 10, 12, "1x4", 12 }
 //struct stats max_stats = INIT_STATS;	/* The maximum for the player */
@@ -425,68 +423,6 @@ pub static HELP_ITEMS: [&str; 42] = [
 ];
 
 //#define CCHAR(x) ( (char) (x & A_CHARTEXT) )
-
-//#define MAXROOMS
-pub const MAXROOMS: usize = 9;
-//#define MAXTHINGS
-pub const MAXTHINGS: usize = 9;
-//#define MAXOBJ
-pub const MAXOBJ: usize = 9;
-//#define MAXPACK
-pub const MAXPACK: usize = 23;
-//#define MAXTRAPS 10
-pub const MAXTRAPS: usize = 10;
-//#define AMULETLEVEL 26
-pub const AMULETLEVEL: usize = 26;
-//#define NUMTHINGS /* number of types of things */
-pub const NUMTHINGS: usize = 7;
-//#define MAXPASS /* upper limit on number of passages */
-pub const MAXPASS: usize = 13;
-//#define NUMLINES
-pub const NUMLINES: usize = 24;
-//#define NUMCOLS
-pub const NUMCOLS: usize = 80;
-//#define STATLINE
-pub const STATLINE: usize = NUMLINES - 1;
-//#define BORE_LEVEL
-pub const BORE_LEVEL: usize = 50;
-
-//#define PASSAGE		'#'
-pub const PASSAGE: char = '#';
-//#define DOOR		'+'
-pub const DOOR: char = '+';
-//#define FLOOR		'.'
-pub const FLOOR: char = '.';
-//#define PLAYER		'@'
-pub const PLAYER: char = '@';
-//#define TRAP		'^'
-pub const TRAP: char = '^';
-//#define STAIRS		'%'
-pub const STAIRS: char = '%';
-//#define GOLD		'*'
-pub const GOLD: char = '*';
-//#define POTION		'!'
-pub const POTION: char = '!';
-//#define SCROLL		'?'
-pub const SCROLL: char = '?';
-//#define MAGIC		'$'
-pub const MAGIC: char = '$';
-//#define FOOD		':'
-pub const FOOD: char = ':';
-//#define WEAPON		')'
-pub const WEAPON: char = ')';
-//#define ARMOR		']'
-pub const ARMOR: char = ']';
-//#define AMULET		','
-pub const AMULET: char = ',';
-//#define RING		'='
-pub const RING: char = '=';
-//#define STICK		'/'
-pub const STICK: char = '/';
-//#define CALLABLE	-1
-pub const CALLABLE: isize = -1;
-//#define R_OR_S		-2
-pub const R_OR_S: isize = -2;
 
 //#define BEARTIME	spread(3)
 pub const BEARTIME: usize = 3;

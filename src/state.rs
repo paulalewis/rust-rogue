@@ -1,5 +1,10 @@
 use crate::rogue::*;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct RogueState {
+    
+}
+
 /*
 /************************************************************************/
 /* Save State Code                                                      */

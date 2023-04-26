@@ -1,4 +1,4 @@
-use crate::{rogue::*, utils::*};
+use crate::{rogue::*, utils::*, constants::AMULETLEVEL};
 
 use std::cmp;
 

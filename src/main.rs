@@ -3,8 +3,9 @@ extern crate term_size;
 use std::env;
 
 use rust_rogue::command::command;
+use rust_rogue::constants::{NUMCOLS, NUMLINES};
 use rust_rogue::init::{init_player, init_scroll_names, init_potion_colors, init_ring_stones};
-use rust_rogue::rogue::{NUMCOLS, NUMLINES, s_names, r_stones};
+use rust_rogue::rogue::{s_names, r_stones};
 
 fn main() {
     handle_args(&env::args().collect());
