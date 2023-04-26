@@ -1,4 +1,4 @@
-use crate::rogue::*;
+use crate::{rogue::*, init::init_scroll_names, constants::MAXSCROLLS};
 
 // This represents the state of the game.
 // It can be used to save and restore a game.
@@ -16,6 +16,8 @@ pub struct RogueState {
     pub level: usize,
     // player the player stats
     pub player: Option<Thing>,
+    // s_names names of the scrolls
+    pub scroll_names: Vec<String>,
 }
 
 impl RogueState {
@@ -27,6 +29,7 @@ impl RogueState {
             cur_weapon: None,
             level: 1,
             player: None,
+            scroll_names: init_scroll_names(),
         }
     }
 }

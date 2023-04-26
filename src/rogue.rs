@@ -51,8 +51,6 @@ pub static mut p_colors: [&str; MAXPOTIONS] = [""; MAXPOTIONS];
 //char runch;				/* Direction player is running */
 //char *r_stones[MAXRINGS];		/* Stone settings of the rings */
 pub static mut r_stones: Option<Vec<String>> = None;
-//char *s_names[MAXSCROLLS];		/* Names of the scrolls */
-pub static mut s_names: Option<Vec<String>> = None;
 //char take;				/* Thing she is taking */
 //char *ws_made[MAXSTICKS];		/* What sticks are made of */
 //char *ws_type[MAXSTICKS];		/* Is it a wand or a staff */

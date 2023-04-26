@@ -233,11 +233,7 @@ pub fn init_potion_colors() {
 
 const MAX_NAME_LENGTH: usize = 40;
 pub fn init_scroll_names() -> Vec<String> {
-    let mut scroll_names = Vec::<String>::with_capacity(MAXSCROLLS);
-    for _ in 0..MAXSCROLLS {
-        scroll_names.push(generate_scroll_name());
-    }
-    scroll_names
+    (0..MAXSCROLLS).map(|_| generate_scroll_name()).collect()
 }
 
 fn generate_scroll_name() -> String {
