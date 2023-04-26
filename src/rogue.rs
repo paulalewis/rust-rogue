@@ -1,57 +1,48 @@
-pub const RELEASE: &str = "5.4.4";
-
-// This file contains most all of the glabol constants and statics
-
-//#define MAXSTR		1024	/* maximum length of strings */
-pub const MAXSTR: usize = 1024;
-//#define MAXLINES	32	/* maximum number of screen lines used */
-pub const MAXLINES: usize = 32;
-//#define MAXCOLS		80	/* maximum number of screen columns used */
-pub const MAXCOLS: usize = 80;
+use crate::utils::spread;
 
 //#define RN		(((seed = seed*11109+13849) >> 16) & 0xffff)
 
 //bool after;				/* True if we want after daemons */
 pub static mut after: bool = false;
 //bool again;				/* Repeating the last command */
-static again: bool = false;
+pub static again: bool = false;
 //bool seenstairs;			/* Have seen the stairs (for lsd) */
-static seenstairs: bool = false;
+pub static seenstairs: bool = false;
 //bool amulet = FALSE;			/* He found the amulet */
-static amulet: bool = false;
+pub static amulet: bool = false;
 //bool door_stop = FALSE;			/* Stop running when we pass a door */
-static door_stop: bool = false;
+pub static door_stop: bool = false;
 //bool firstmove = FALSE;			/* First move after setting door_stop */
-static firstmove: bool = false;
+pub static firstmove: bool = false;
 //bool got_ltc = FALSE;			/* We have gotten the local tty chars */
-static got_ltc: bool = false;
+pub static got_ltc: bool = false;
 //bool has_hit = FALSE;			/* Has a "hit" message pending in msg */
-static has_hit: bool = false;
+pub static has_hit: bool = false;
 //bool inv_describe = TRUE;		/* Say which way items are being used */
-static inv_describe: bool = true;
+pub static inv_describe: bool = true;
 //bool kamikaze = FALSE;			/* to_death really to DEATH */
-static kamikaze: bool = false;
+pub static kamikaze: bool = false;
 //bool lower_msg = FALSE;			/* Messages should start w/lower case */
-static lower_msg: bool = false;
+pub static lower_msg: bool = false;
 //bool move_on = FALSE;			/* Next move shouldn't pick up items */
-static move_on: bool = false;
+pub static move_on: bool = false;
 //bool msg_esc = FALSE;			/* Check for ESC from msg's --More-- */
-static msg_esc: bool = false;
+pub static msg_esc: bool = false;
 //bool running = FALSE;			/* True if player is running */
-static running: bool = false;
+pub static running: bool = false;
 //bool stat_msg = FALSE;			/* Should status() print as a msg() */
-static stat_msg: bool = false;
+pub static stat_msg: bool = false;
 //bool to_death = FALSE;			/* Fighting is to the death! */
-static to_death: bool = false;
+pub static to_death: bool = false;
 //bool pack_used[26] = {			/* Is the character used in the pack? */
 //    FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
 //    FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
 //    FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE
 //};
-static pack_used: [bool; 26] = [false; 26];
+pub static pack_used: [bool; 26] = [false; 26];
 
 //char dir_ch;				/* Direction from last get_dir() call */
-static dir_ch: char = '\0';
+pub static dir_ch: char = '\0';
 //char *p_colors[MAXPOTIONS];		/* Colors of the potions */
 pub static mut p_colors: [&str; MAXPOTIONS] = [""; MAXPOTIONS];
 //char prbuf[2*MAXSTR];			/* buffer for sprintfs */
@@ -127,24 +118,24 @@ pub static mut repeat_command_count: usize = 0;
 //int food_left;				/* Amount of food in hero's stomach */
 pub static food_left: usize = 0;
 //int lastscore = -1;			/* Score before this turn */
-static lastscore: isize = -1;
+pub static lastscore: isize = -1;
 //int no_command = 0;			/* Number of turns asleep */
-static no_command: usize = 0;
+pub static no_command: usize = 0;
 //int no_move = 0;			/* Number of turns held in place */
-static no_move: usize = 0;
+pub static no_move: usize = 0;
 //int purse = 0;				/* How much gold he has */
-static purse: usize = 0;
+pub static purse: usize = 0;
 //int quiet = 0;				/* Number of quiet turns */
-static quiet: usize = 0;
+pub static quiet: usize = 0;
 //int vf_hit = 0;				/* Number of time flytrap has hit */
-static vf_hit: usize = 0;
+pub static vf_hit: usize = 0;
 
 //int dnum;				/* Dungeon number */
-static dnum: usize = 0;
+pub static dnum: usize = 0;
 //int seed;				/* Random number seed */
-static seed: usize = 0;
+pub static seed: usize = 0;
 //int e_levels[]
-static e_levels: [usize; 21] = [
+pub static e_levels: [usize; 21] = [
     10,
     20,
     40,
@@ -169,15 +160,15 @@ static e_levels: [usize; 21] = [
 ];
 
 //coord delta;				/* Change indicated to get_dir() */
-static delta: Coord = Coord { y: 0, x: 0 };
+pub static delta: Coord = Coord { y: 0, x: 0 };
 //coord oldpos;				/* Position before last look() call */
-static oldpos: Coord = Coord { y: 0, x: 0 };
+pub static oldpos: Coord = Coord { y: 0, x: 0 };
 //coord stairs;				/* Location of staircase */
-static stairs: Coord = Coord { y: 0, x: 0 };
+pub static stairs: Coord = Coord { y: 0, x: 0 };
 
 //PLACE places[MAXLINES*MAXCOLS];		/* level map */
 //static places: [Option<Place>; MAXLINES * MAXCOLS] = [None; MAXLINES * MAXCOLS];
-static places: Vec<Place> = Vec::new();
+pub static places: Vec<Place> = Vec::new();
 
 //THING *cur_armor;			/* What he is wearing */
 pub static cur_armor: Option<Thing> = None;
@@ -201,14 +192,14 @@ pub static mut player: Option<Thing> = None;
 //#define INIT_STATS { 16, 0, 1, 10, 12, "1x4", 12 }
 //struct stats max_stats = INIT_STATS;	/* The maximum for the player */
 const MAX_INITIAL_STR: usize = 16;
-static max_str: usize = MAX_INITIAL_STR;
+pub static max_str: usize = MAX_INITIAL_STR;
 
 //struct room *oldrp;			/* Roomin(&oldpos) */
-static oldrp: Option<Room> = None;
+pub static oldrp: Option<Room> = None;
 
 //struct room rooms[MAXROOMS];		/* One for each room -- A level */
 //static rooms: [Room; MAXROOMS] = [Room::new(); MAXROOMS];
-static rooms: Vec<Room> = Vec::new();
+pub static rooms: Vec<Room> = Vec::new();
 
 //struct room passages[MAXPASS] =		/* One for each passage */
 //{
@@ -226,7 +217,7 @@ static rooms: Vec<Room> = Vec::new();
 //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} }
 //};
 //static passages: [Room; MAXPASS] = [Room::new(); MAXPASS];
-static passages: Vec<Room> = Vec::new();
+pub static passages: Vec<Room> = Vec::new();
 
 pub const NUMBER_OF_MONSTERS: usize = 26;
 lazy_static! {
@@ -263,7 +254,7 @@ lazy_static! {
 }
 
 //struct obj_info things[NUMTHINGS]
-static things: [ObjInfo; NUMTHINGS] = [
+pub static things: [ObjInfo; NUMTHINGS] = [
     ObjInfo { name: String::new(), prob: 26, worth: 0, guess: String::new(), know: false },/* potion */
     ObjInfo { name: String::new(), prob: 62, worth: 0, guess: String::new(), know: false },/* scroll */
     ObjInfo { name: String::new(), prob: 78, worth: 0, guess: String::new(), know: false },/* food */
@@ -275,7 +266,7 @@ static things: [ObjInfo; NUMTHINGS] = [
 
 //struct obj_info arm_info[MAXARMORS]
 lazy_static! {
-    static ref arm_info: [ObjInfo; MAXARMORS] = [
+    pub static ref arm_info: [ObjInfo; MAXARMORS] = [
         ObjInfo { name: String::from("leather armor"), prob: 20, worth: 20, guess: String::new(), know: false },
         ObjInfo { name: String::from("ring mail"), prob: 35, worth: 25, guess: String::new(), know: false },
         ObjInfo { name: String::from("studded leather armor"), prob: 50, worth: 20, guess: String::new(), know: false },
@@ -289,7 +280,7 @@ lazy_static! {
 
 //struct obj_info pot_info[MAXPOTIONS]
 lazy_static! {
-    static ref pot_info: [ObjInfo; MAXPOTIONS] = [
+    pub static ref pot_info: [ObjInfo; MAXPOTIONS] = [
         ObjInfo { name: String::from("confusion"), prob: 7, worth: 5, guess: String::new(), know: false },
         ObjInfo { name: String::from("hallucination"), prob: 15, worth: 5, guess: String::new(), know: false },
         ObjInfo { name: String::from("poison"), prob: 23, worth: 5, guess: String::new(), know: false },
@@ -329,7 +320,7 @@ lazy_static! {
 
 //struct obj_info scr_info[MAXSCROLLS]
 lazy_static! {
-    static ref scr_info: [ObjInfo; MAXSCROLLS] = [
+    pub static ref scr_info: [ObjInfo; MAXSCROLLS] = [
         ObjInfo { name: String::from("monster confusion"), prob: 7, worth: 140, guess: String::new(), know: false },
         ObjInfo { name: String::from("magic mapping"), prob: 11, worth: 150, guess: String::new(), know: false },
         ObjInfo { name: String::from("hold monster"), prob: 13, worth: 180, guess: String::new(), know: false },
@@ -353,7 +344,7 @@ lazy_static! {
 
 //struct obj_info weap_info[MAXWEAPONS + 1]
 lazy_static! {
-    static ref weap_info: [ObjInfo; MAXWEAPONS + 1] = [
+    pub static ref weap_info: [ObjInfo; MAXWEAPONS + 1] = [
         ObjInfo { name: String::from("mace"), prob: 11, worth: 8, guess: String::new(), know: false },
         ObjInfo { name: String::from("long sword"), prob: 22, worth: 15, guess: String::new(), know: false },
         ObjInfo { name: String::from("short bow"), prob: 34, worth: 15, guess: String::new(), know: false },
@@ -370,7 +361,7 @@ lazy_static! {
 
 //struct obj_info ws_info[MAXSTICKS]
 lazy_static! {
-    static ref ws_info: [ObjInfo; MAXSTICKS] = [
+    pub static ref ws_info: [ObjInfo; MAXSTICKS] = [
         ObjInfo { name: String::from("light"), prob: 12, worth: 250, guess: String::new(), know: false },
         ObjInfo { name: String::from("invisibility"), prob: 18, worth: 5, guess: String::new(), know: false },
         ObjInfo { name: String::from("lightning"), prob: 21, worth: 330, guess: String::new(), know: false },
@@ -460,19 +451,6 @@ pub const STATLINE: usize = NUMLINES - 1;
 //#define BORE_LEVEL
 pub const BORE_LEVEL: usize = 50;
 
-/*
- * return values for get functions
- */
-//#define	NORM	0	/* normal exit */
-const NORM: usize = 0;
-//#define	QUIT	1	/* quit option setting */
-const QUIT: usize = 1;
-//#define	MINUS	2	/* back up one option */
-const MINUS: usize = 2;
-
-/*
- * things that appear on the screens
- */
 //#define PASSAGE		'#'
 pub const PASSAGE: char = '#';
 //#define DOOR		'+'
@@ -510,15 +488,18 @@ pub const CALLABLE: isize = -1;
 //#define R_OR_S		-2
 pub const R_OR_S: isize = -2;
 
-/*
- * Various constants
- */
 //#define BEARTIME	spread(3)
+pub const BEARTIME: usize = 3;
 //#define SLEEPTIME	spread(5)
+pub const SLEEPTIME: usize = 5;
 //#define HOLDTIME	spread(2)
+pub const HOLDTIME: usize = 2;
 //#define WANDERTIME	spread(70)
+pub fn wander_time() -> usize { spread(70) }
 //#define BEFORE		spread(1)
+pub const BEFORE: usize = 1;
 //#define AFTER		spread(2)
+pub const AFTER: usize = 2;
 //#define HEALTIME	30
 pub const HEALTIME: usize = 30;
 //#define HUHDURATION	20
@@ -1055,44 +1036,10 @@ impl Thing {
     }
 }
 
-
 //typedef union thing THING;
 pub type THING = Thing;
 
-//#define l_next		_t._l_next
-//#define l_prev		_t._l_prev
-//#define t_pos		_t._t_pos
-//#define t_turn		_t._t_turn
-//#define t_type		_t._t_type
-//#define t_disguise	_t._t_disguise
-//#define t_oldch		_t._t_oldch
-//#define t_dest		_t._t_dest
-//#define t_flags		_t._t_flags
-//#define t_stats		_t._t_stats
-//#define t_pack		_t._t_pack
-//#define t_room		_t._t_room
-//#define t_reserved  _t._t_reserved
-//#define o_type		_o._o_type
-//#define o_pos		_o._o_pos
-//#define o_text		_o._o_text
-//#define o_launch	_o._o_launch
-//#define o_packch	_o._o_packch
-//#define o_damage	_o._o_damage
-//#define o_hurldmg	_o._o_hurldmg
-//#define o_count		_o._o_count
-//#define o_which		_o._o_which
-//#define o_hplus		_o._o_hplus
-//#define o_dplus		_o._o_dplus
-//#define o_arm		_o._o_arm
-//#define o_charges	o_arm
-//#define o_goldval	o_arm
-//#define o_flags		_o._o_flags
-//#define o_group		_o._o_group
-//#define o_label		_o._o_label
-
-/*
- * describe a place on the level map
- */
+// describe a place on the level map
 /*typedef struct {
     char p_ch;
     char p_flags;
@@ -1133,9 +1080,6 @@ pub struct Monster {
 
 //struct room	*roomin(coord *cp);
 
-//#define MAXDAEMONS 20
-const MAXDAEMONS: usize = 20;
-
 /*extern struct delayed_action {
     int d_type;
     void (*d_func)();
@@ -1159,5 +1103,3 @@ pub struct Stone<'a> {
     pub name: &'a str,
     pub value: i32,
 }
-
-pub const PRESS_SPACE_TO_CONTINUE: &str = "--Press space to continue--";

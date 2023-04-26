@@ -1,4 +1,4 @@
-use crate::rogue::*;
+use crate::{rogue::*, daemon::{do_fuses, do_daemons}};
 
 /*
 // The player wants to wear something, so let him/her put it on.
@@ -29,9 +29,7 @@ wear()
     msg("you are now wearing %s", sp);
 }
 
-/*
- *	Get the armor off of the players back
- */
+// Get the armor off of the players back
 void
 take_off()
 {
@@ -48,17 +46,12 @@ take_off()
     cur_armor = NULL;
     msg("you used to be wearing %c) %s", obj->o_packch, inv_name(obj, TRUE));
 }
-
-/*
- * waste_time:
- *	Do nothing but let other things happen
- */
-void
-waste_time()
-{
+*/
+// Do nothing but let other things happen
+// void waste_time()
+pub fn waste_time() {
     do_daemons(BEFORE);
     do_fuses(BEFORE);
     do_daemons(AFTER);
     do_fuses(AFTER);
 }
-*/

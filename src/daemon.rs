@@ -1,15 +1,9 @@
-/*
- * Contains functions for dealing with things that happen in the
- * future.
- */
-
 use crate::rogue::*;
 
-/*
-#define EMPTY 0
-#define DAEMON -1
-#define MAXDAEMONS 20
+const EMPTY: usize = 0;
+const DAEMON: isize = -1;
 
+/*
 #define _X_ { EMPTY }
 
 struct delayed_action d_list[MAXDAEMONS] = {
@@ -17,13 +11,8 @@ struct delayed_action d_list[MAXDAEMONS] = {
     _X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_, _X_, 
 };
 
-/*
- * d_slot:
- *	Find an empty slot in the daemon/fuse list
- */
-struct delayed_action *
-d_slot()
-{
+// Find an empty slot in the daemon/fuse list
+struct delayed_action * d_slot() {
     register struct delayed_action *dev;
 
     for (dev = d_list; dev <= &d_list[MAXDAEMONS-1]; dev++)
@@ -32,13 +21,8 @@ d_slot()
     return NULL;
 }
 
-/*
- * find_slot:
- *	Find a particular slot in the table
- */
-struct delayed_action *
-find_slot(void (*func)())
-{
+// Find a particular slot in the table
+struct delayed_action * find_slot(void (*func)()) {
     register struct delayed_action *dev;
 
     for (dev = d_list; dev <= &d_list[MAXDAEMONS-1]; dev++)
@@ -47,13 +31,8 @@ find_slot(void (*func)())
     return NULL;
 }
 
-/*
- * start_daemon:
- *	Start a daemon, takes a function.
- */
-void
-start_daemon(void (*func)(), int arg, int type)
-{
+// Start a daemon, takes a function.
+void start_daemon(void (*func)(), int arg, int type) {
     register struct delayed_action *dev;
 
     dev = d_slot();
@@ -63,13 +42,8 @@ start_daemon(void (*func)(), int arg, int type)
     dev->d_time = DAEMON;
 }
 
-/*
- * kill_daemon:
- *	Remove a daemon from the list
- */
-void
-kill_daemon(void (*func)())
-{
+// Remove a daemon from the list
+void kill_daemon(void (*func)()) {
     register struct delayed_action *dev;
 
     if ((dev = find_slot(func)) == NULL)
@@ -80,14 +54,9 @@ kill_daemon(void (*func)())
     dev->d_type = EMPTY;
 }
 
-/*
- * do_daemons:
- *	Run all the daemons that are active with the current flag,
- *	passing the argument to the function.
- */
-void
-do_daemons(int flag)
-{
+// Run all the daemons that are active with the current flag,
+// passing the argument to the function.
+void do_daemons(int flag) {
     register struct delayed_action *dev;
 
     /*
@@ -100,14 +69,13 @@ do_daemons(int flag)
 	if (dev->d_type == flag && dev->d_time == DAEMON)
 	    (*dev->d_func)(dev->d_arg);
 }
+*/
+pub fn do_daemons(flag: usize) {
+}
 
 /*
- * fuse:
- *	Start a fuse to go off in a certain number of turns
- */
-void
-fuse(void (*func)(), int arg, int time, int type)
-{
+// Start a fuse to go off in a certain number of turns
+void fuse(void (*func)(), int arg, int time, int type) {
     register struct delayed_action *wire;
 
     wire = d_slot();
@@ -117,13 +85,8 @@ fuse(void (*func)(), int arg, int time, int type)
     wire->d_time = time;
 }
 
-/*
- * lengthen:
- *	Increase the time until a fuse goes off
- */
-void
-lengthen(void (*func)(), int xtime)
-{
+// Increase the time until a fuse goes off
+void lengthen(void (*func)(), int xtime) {
     register struct delayed_action *wire;
 
     if ((wire = find_slot(func)) == NULL)
@@ -131,13 +94,8 @@ lengthen(void (*func)(), int xtime)
     wire->d_time += xtime;
 }
 
-/*
- * extinguish:
- *	Put out a fuse
- */
-void
-extinguish(void (*func)())
-{
+// Put out a fuse
+void extinguish(void (*func)()) {
     register struct delayed_action *wire;
 
     if ((wire = find_slot(func)) == NULL)
@@ -145,13 +103,8 @@ extinguish(void (*func)())
     wire->d_type = EMPTY;
 }
 
-/*
- * do_fuses:
- *	Decrement counters and start needed fuses
- */
-void
-do_fuses(int flag)
-{
+// Decrement counters and start needed fuses
+void do_fuses(int flag) {
     register struct delayed_action *wire;
 
     /*
@@ -169,3 +122,5 @@ do_fuses(int flag)
 	}
 }
 */
+pub fn do_fuses(flag: usize) {
+}

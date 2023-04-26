@@ -4,6 +4,7 @@ extern crate lazy_static;
 pub mod armor;
 pub mod chase;
 pub mod command;
+pub mod constants;
 pub mod daemon;
 pub mod fight;
 pub mod init;
