@@ -14,10 +14,6 @@ pub static mut after: bool = false;
 pub static again: bool = false;
 //bool seenstairs;			/* Have seen the stairs (for lsd) */
 pub static seenstairs: bool = false;
-//bool door_stop = FALSE;			/* Stop running when we pass a door */
-pub static door_stop: bool = false;
-//bool got_ltc = FALSE;			/* We have gotten the local tty chars */
-pub static got_ltc: bool = false;
 //bool has_hit = FALSE;			/* Has a "hit" message pending in msg */
 pub static has_hit: bool = false;
 //bool inv_describe = TRUE;		/* Say which way items are being used */

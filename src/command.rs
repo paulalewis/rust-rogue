@@ -31,8 +31,6 @@ use crate::{rogue::*, io::{msg, readchar, wait_for}, constants::PRESS_SPACE_TO_C
 	    exit(1);
 
 	look(TRUE);
-	if (!running)
-	    door_stop = FALSE;
 	status();
 	lastscore = purse;
 	move(hero.y, hero.x);
@@ -251,7 +249,6 @@ over:
 			}
 		    }
 		when ESCAPE:	/* Escape */
-		    door_stop = FALSE;
 		    count = 0;
 		    after = FALSE;
 		    again = FALSE;
@@ -274,19 +271,12 @@ over:
 		    after = FALSE;
 			illegal_command(ch);
 	    }
-	    /*
-	     * turn off flags if no longer needed
-	     */
-	    if (!running)
-		door_stop = FALSE;
 	}
 	/*
 	 * If he ran into something to take, let him pick it up.
 	 */
 	if (take != 0)
 	    pick_up(take);
-	if (!running)
-	    door_stop = FALSE;
 	if (!after)
 	    ntimes++;
     }

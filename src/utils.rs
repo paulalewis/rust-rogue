@@ -99,11 +99,6 @@ look(bool wakeup)
     ex = hero.x + 1;
     sx = hero.x - 1;
     sy = hero.y - 1;
-    if (door_stop && running)
-    {
-	sumhero = hero.y + hero.x;
-	diffhero = hero.y - hero.x;
-    }
     pp = INDEX(hero.y, hero.x);
     pch = pp->p_ch;
     pfl = pp->p_flags;
@@ -140,8 +135,6 @@ look(bool wakeup)
 	    else
 		if (on(player, SEEMONST) && on(*tp, ISINVIS))
 		{
-		    if (door_stop)
-			running = FALSE;
 		    continue;
 		}
 		else
@@ -163,59 +156,7 @@ look(bool wakeup)
 
 	    if (tp != NULL || ch != CCHAR( inch() ))
 		addch(ch);
-
-	    if (door_stop && running)
-	    {
-		switch (runch)
-		{
-		    case 'h':
-			if (x == ex)
-			    continue;
-		    when 'j':
-			if (y == sy)
-			    continue;
-		    when 'k':
-			if (y == ey)
-			    continue;
-		    when 'l':
-			if (x == sx)
-			    continue;
-		    when 'y':
-			if ((y + x) - sumhero >= 1)
-			    continue;
-		    when 'u':
-			if ((y - x) - diffhero >= 1)
-			    continue;
-		    when 'n':
-			if ((y + x) - sumhero <= -1)
-			    continue;
-		    when 'b':
-			if ((y - x) - diffhero <= -1)
-			    continue;
-		}
-		switch (ch)
-		{
-		    case DOOR:
-			if (x == hero.x || y == hero.y)
-			    running = FALSE;
-			break;
-		    case PASSAGE:
-			if (x == hero.x || y == hero.y)
-			    passcount++;
-			break;
-		    case FLOOR:
-		    case '|':
-		    case '-':
-		    case ' ':
-			break;
-		    default:
-			running = FALSE;
-			break;
-		}
-	    }
 	}
-    if (door_stop && passcount > 1)
-	running = FALSE;
     if (!running)
 	mvaddch(hero.y, hero.x, PLAYER);
 }
