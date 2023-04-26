@@ -240,16 +240,16 @@ pub fn save(mut which: usize) -> bool {
         which -= adjust_saving_throw(LEFT);
         which -= adjust_saving_throw(RIGHT);
     }
-    match &state.player {
-        Some(new_player) => {
-            save_throw(which, new_player)
+    match &state.player.player_stats {
+        Some(player_stats) => {
+            save_throw(which, player_stats)
         },
         None => panic!("save: player is None"),
     }
 }
 
 fn adjust_saving_throw(side: usize) -> usize {
-    let cur_ring = state.cur_ring.as_ref();
+    let cur_ring = state.player.cur_ring.as_ref();
     if is_ring(side, R_PROTECT) {
         match &cur_ring[side] {
             Some(ring) => {

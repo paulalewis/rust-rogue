@@ -14,6 +14,7 @@ pub mod movement;
 pub mod new_level;
 pub mod pack;
 pub mod passages;
+pub mod player;
 pub mod potions;
 pub mod rings;
 pub mod rip;
