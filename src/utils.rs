@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-use crate::{rogue::{Thing, ISHALU, player, level, state}, io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL}};
+use crate::{rogue::{Thing, ISHALU, level, state}, io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL}};
 
 // Pick a random number.
 pub fn rnd(range: usize) -> usize {
@@ -539,7 +539,5 @@ pub fn rnd_thing() -> char {
 // Choose the first or second string depending on whether it the player is tripping
 //char * choose_str(char *ts, char *ns)
 pub fn choose_str<'a>(ts: &'a str, ns: &'a str) -> &'a str {
-	unsafe {
-		if on(&player.as_ref().unwrap(), ISHALU) { ts } else { ns }
-	}
+	if on(&state.player.as_ref().unwrap(), ISHALU) { ts } else { ns }
 }

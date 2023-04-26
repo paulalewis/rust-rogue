@@ -180,8 +180,6 @@ pub static last_pick: Option<Thing> = None;
 pub static lvl_obj: Option<Thing> = None;
 //THING *mlist = NULL;			/* List of monsters on the level */
 pub static mlist: Option<Thing> = None;
-//THING player;				/* His stats */
-pub static mut player: Option<Thing> = None;
 
 //#define INIT_STATS { 16, 0, 1, 10, 12, "1x4", 12 }
 //struct stats max_stats = INIT_STATS;	/* The maximum for the player */

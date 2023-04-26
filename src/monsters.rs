@@ -240,13 +240,11 @@ pub fn save(mut which: usize) -> bool {
         which -= adjust_saving_throw(LEFT);
         which -= adjust_saving_throw(RIGHT);
     }
-    unsafe {
-        match &player {
-            Some(new_player) => {
-                save_throw(which, new_player)
-            },
-            None => panic!("save: player is None"),
-        }
+    match &state.player {
+        Some(new_player) => {
+            save_throw(which, new_player)
+        },
+        None => panic!("save: player is None"),
     }
 }
 
