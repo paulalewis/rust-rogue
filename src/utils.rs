@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-use crate::{rogue::{Thing, ISHALU, state}, io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL}};
+use crate::{rogue::{Thing, state}, io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL, ISHALU}};
 
 // Pick a random number.
 pub fn rnd(range: usize) -> usize {

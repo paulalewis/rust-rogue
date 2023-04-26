@@ -1,3 +1,6 @@
+use crate::constants::ISHALU;
+use crate::constants::MAXRINGS;
+use crate::constants::MAXSCROLLS;
 use crate::rogue::*;
 use crate::utils::*;
 use std::cmp;
