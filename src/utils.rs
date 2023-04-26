@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-use crate::{rogue::{cur_ring, Thing, cur_armor, cur_weapon, ISHALU, player, level}, io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL}};
+use crate::{rogue::{Thing, ISHALU, player, level, state}, io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL}};
 
 // Pick a random number.
 pub fn rnd(range: usize) -> usize {
@@ -40,6 +40,7 @@ pub fn goldcalc(lvl: usize) -> usize {
 
 //#define ISRING(h,r)
 pub fn is_ring(h: usize, r: usize) -> bool {
+	let cur_ring = state.cur_ring.as_ref();
     match cur_ring[h] {
         Some(ref ring) => {
             match ring {
@@ -407,7 +408,10 @@ fn vowelstr(str: &str) -> &str {
 // See if the object is one of the currently used items
 //bool is_current(THING *obj)
 pub fn is_current(object: &Thing) -> bool {
-	if object == cur_armor.as_ref().unwrap() || object == cur_weapon.as_ref().unwrap() || object == cur_ring[0].as_ref().unwrap() || object == cur_ring[1].as_ref().unwrap() {
+	let cur_armor = state.cur_armor.as_ref().unwrap();
+	let cur_ring = state.cur_ring.as_ref();
+	let cur_weapon = state.cur_weapon.as_ref().unwrap();
+	if object == cur_armor || object == cur_weapon || object == cur_ring[0].as_ref().unwrap() || object == cur_ring[1].as_ref().unwrap() {
 		msg("That's already in use");
 		true
 	} else {

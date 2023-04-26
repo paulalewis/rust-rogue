@@ -2,7 +2,9 @@ use crate::{utils::spread, state::RogueState, constants::NUMTHINGS};
 
 // This file contains global values for the game
 
-pub static mut state: RogueState = RogueState {};
+lazy_static! {
+    pub static ref state: RogueState = RogueState::new();
+}
 
 //#define RN		(((seed = seed*11109+13849) >> 16) & 0xffff)
 
@@ -170,12 +172,6 @@ pub static stairs: Coord = Coord { y: 0, x: 0 };
 //static places: [Option<Place>; MAXLINES * MAXCOLS] = [None; MAXLINES * MAXCOLS];
 pub static places: Vec<Place> = Vec::new();
 
-//THING *cur_armor;			/* What he is wearing */
-pub static cur_armor: Option<Thing> = None;
-//THING *cur_ring[2];			/* Which rings are being worn */
-pub static cur_ring: [Option<Thing>; 2] = [None, None];
-//THING *cur_weapon;			/* Which weapon he is weilding */
-pub static cur_weapon: Option<Thing> = None;
 //THING *l_last_pick = NULL;		/* Last last_pick */
 pub static l_last_pick: Option<Thing> = None;
 //THING *last_pick = NULL;		/* Last object picked in get_item() */
@@ -778,7 +774,7 @@ pub const MAXSTICKS: usize = 14;
     int x;
     int y;
 } coord;*/
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Coord {
     pub x: i32,
     pub y: i32,
@@ -817,7 +813,7 @@ pub struct ObjInfo {
     int r_nexits;			/* Number of exits */
     coord r_exit[12];			/* Where the exits are */
 };*/
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Room {
     pub pos: Coord,
     pub max: Coord,
@@ -854,7 +850,7 @@ impl Room {
     char s_dmg[13];			/* String describing damage done */
     int  s_maxhp;			/* Max hit points */
 };*/
-#[derive(Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct Stats {
     pub str: str_t,
     pub exp: i32,
@@ -916,7 +912,7 @@ impl Stats {
 	char *_o_label;			/* Label for object */
     } _o;
 };*/
-#[derive(Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum Thing {
     Creature {
         next: Box<Option<Thing>>,

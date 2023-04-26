@@ -251,6 +251,7 @@ pub fn save(mut which: usize) -> bool {
 }
 
 fn adjust_saving_throw(side: usize) -> usize {
+    let cur_ring = state.cur_ring.as_ref();
     if is_ring(side, R_PROTECT) {
         match &cur_ring[side] {
             Some(ring) => {
