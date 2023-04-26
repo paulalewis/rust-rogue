@@ -16,8 +16,6 @@ pub static again: bool = false;
 pub static seenstairs: bool = false;
 //bool door_stop = FALSE;			/* Stop running when we pass a door */
 pub static door_stop: bool = false;
-//bool firstmove = FALSE;			/* First move after setting door_stop */
-pub static firstmove: bool = false;
 //bool got_ltc = FALSE;			/* We have gotten the local tty chars */
 pub static got_ltc: bool = false;
 //bool has_hit = FALSE;			/* Has a "hit" message pending in msg */
@@ -36,12 +34,6 @@ pub static msg_esc: bool = false;
 pub static running: bool = false;
 //bool to_death = FALSE;			/* Fighting is to the death! */
 pub static to_death: bool = false;
-//bool pack_used[26] = {			/* Is the character used in the pack? */
-//    FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
-//    FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
-//    FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE
-//};
-pub static pack_used: [bool; 26] = [false; 26];
 
 //char dir_ch;				/* Direction from last get_dir() call */
 pub static dir_ch: char = '\0';

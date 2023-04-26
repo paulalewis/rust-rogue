@@ -99,7 +99,7 @@ look(bool wakeup)
     ex = hero.x + 1;
     sx = hero.x - 1;
     sy = hero.y - 1;
-    if (door_stop && !firstmove && running)
+    if (door_stop && running)
     {
 	sumhero = hero.y + hero.x;
 	diffhero = hero.y - hero.x;
@@ -140,7 +140,7 @@ look(bool wakeup)
 	    else
 		if (on(player, SEEMONST) && on(*tp, ISINVIS))
 		{
-		    if (door_stop && !firstmove)
+		    if (door_stop)
 			running = FALSE;
 		    continue;
 		}
@@ -164,7 +164,7 @@ look(bool wakeup)
 	    if (tp != NULL || ch != CCHAR( inch() ))
 		addch(ch);
 
-	    if (door_stop && !firstmove && running)
+	    if (door_stop && running)
 	    {
 		switch (runch)
 		{
@@ -214,7 +214,7 @@ look(bool wakeup)
 		}
 	    }
 	}
-    if (door_stop && !firstmove && passcount > 1)
+    if (door_stop && passcount > 1)
 	running = FALSE;
     if (!running)
 	mvaddch(hero.y, hero.x, PLAYER);

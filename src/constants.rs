@@ -1,6 +1,8 @@
 
 pub const ADVENTURER_NAME: &str = "Rustacean"; //whoami
+pub const LETTERS_IN_ALPHABET: usize = 26;
 pub const FRUIT: &str = "slime-mold";
+pub const MAX_PACK_SIZE: usize = LETTERS_IN_ALPHABET;
 pub const PRESS_SPACE_TO_CONTINUE: &str = "--Press space to continue--";
 pub const RELEASE: &str = "5.4.4";
 

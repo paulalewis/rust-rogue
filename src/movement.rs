@@ -31,7 +31,6 @@ do_move(int dy, int dx)
 {
     char ch, fl;
 
-    firstmove = FALSE;
     if (no_move)
     {
 	no_move--;
