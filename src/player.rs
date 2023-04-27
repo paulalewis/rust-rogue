@@ -1,6 +1,6 @@
 use std::char::MAX;
 
-use crate::{rogue::Thing, constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME}, utils::{on, rnd}, init::{rainbow, NCOLORS}, io::msg, monsters::save_throw};
+use crate::{rogue::{Thing, rainbow, NCOLORS}, constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME}, utils::{on, rnd}, io::msg, monsters::save_throw};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Player {

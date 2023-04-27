@@ -47,7 +47,7 @@ fn handle_args(args: &Vec<String>) -> InitGame {
     }
 }
 
-fn restore_game_from_file(filepath: &str) -> RogueState {
+fn restore_game_from_file<'a, 'b>(filepath: &'a str) -> RogueState<'b> {
     dbg!(filepath);
     todo!("Restore not implemented");
 }
@@ -63,7 +63,7 @@ fn check_terminal_size() {
     }
 }
 
-fn init_rogue(seed: u64) -> RogueState {
+fn init_rogue<'a>(seed: u64) -> RogueState<'a> {
     let rogue_state = RogueState::new(seed);
     //init_materials();			/* Set up materials of wands */
     //new_level();			/* Draw current level */

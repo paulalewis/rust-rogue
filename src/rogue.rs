@@ -28,8 +28,6 @@ pub static dir_ch: char = '\0';
 //char prbuf[2*MAXSTR];			/* buffer for sprintfs */
 //char runch;				/* Direction player is running */
 //char take;				/* Thing she is taking */
-//char *ws_made[MAXSTICKS];		/* What sticks are made of */
-//char *ws_type[MAXSTICKS];		/* Is it a wand or a staff */
 //int  orig_dsusp;			/* Original dsusp char */
 //char l_last_comm = '\0';		/* Last last_comm */
 //char l_last_dir = '\0';			/* Last last_dir */
@@ -620,3 +618,156 @@ pub struct Stone<'a> {
     pub name: &'a str,
     pub value: isize,
 }
+
+pub const NUMBER_OF_SYLLABLES: usize = 147;
+//static char *sylls[] = {
+pub static sylls: [&str; NUMBER_OF_SYLLABLES] = [
+    "a", "ab", "ag", "aks", "ala", "an", "app", "arg", "arze", "ash",
+    "bek", "bie", "bit", "bjor", "blu", "bot", "bu", "byt", "comp",
+    "con", "cos", "cre", "dalf", "dan", "den", "do", "e", "eep", "el",
+    "eng", "er", "ere", "erk", "esh", "evs", "fa", "fid", "fri", "fu",
+    "gan", "gar", "glen", "gop", "gre", "ha", "hyd", "i", "ing", "ip",
+    "ish", "it", "ite", "iv", "jo", "kho", "kli", "klis", "la", "lech",
+    "mar", "me", "mi", "mic", "mik", "mon", "mung", "mur", "nej",
+    "nelg", "nep", "ner", "nes", "nes", "nih", "nin", "o", "od", "ood",
+    "org", "orn", "ox", "oxy", "pay", "ple", "plu", "po", "pot",
+    "prok", "re", "rea", "rhov", "ri", "ro", "rog", "rok", "rol", "sa",
+    "san", "sat", "sef", "seh", "shu", "ski", "sna", "sne", "snik",
+    "sno", "so", "sol", "sri", "sta", "sun", "ta", "tab", "tem",
+    "ther", "ti", "tox", "trol", "tue", "turs", "u", "ulk", "um", "un",
+    "uni", "ur", "val", "viv", "vly", "vom", "wah", "wed", "werg",
+    "wex", "whon", "wun", "xo", "y", "yot", "yu", "zant", "zeb", "zim",
+    "zok", "zon", "zum",
+];
+
+pub const NSTONES: usize = 26;
+//STONE stones[] = {
+pub static stones: [Stone; NSTONES] = [
+    Stone { name: "agate", value: 25 },
+    Stone { name: "alexandrite", value: 40 },
+    Stone { name: "amethyst", value: 50 },
+    Stone { name: "carnelian", value: 40 },
+    Stone { name: "diamond", value: 300 },
+    Stone { name: "emerald", value: 300 },
+    Stone { name: "germanium", value: 225 },
+    Stone { name: "granite", value: 5 },
+    Stone { name: "garnet", value: 50 },
+    Stone { name: "jade", value: 150 },
+    Stone { name: "kryptonite", value: 300 },
+    Stone { name: "lapis lazuli", value: 50 },
+    Stone { name: "moonstone", value: 50 },
+    Stone { name: "obsidian", value: 15 },
+    Stone { name: "onyx", value: 60 },
+    Stone { name: "opal", value: 200 },
+    Stone { name: "pearl", value: 220 },
+    Stone { name: "peridot", value: 63 },
+    Stone { name: "ruby", value: 350 },
+    Stone { name: "sapphire", value: 285 },
+    Stone { name: "stibotantalite", value: 200 },
+    Stone { name: "tiger eye", value: 50 },
+    Stone { name: "topaz", value: 60 },
+    Stone { name: "turquoise", value: 70 },
+    Stone { name: "taaffeite", value: 300 },
+    Stone { name: "zircon", value: 80 },
+];
+
+/*
+ * Contains defintions and functions for dealing with things like
+ * potions and scrolls
+ */
+pub const NCOLORS: usize = 27;
+/*char *rainbow[] = {};*/
+pub static rainbow: [&str; NCOLORS] = [
+    "amber",
+    "aquamarine",
+    "black",
+    "blue",
+    "brown",
+    "clear",
+    "crimson",
+    "cyan",
+    "ecru",
+    "gold",
+    "green",
+    "grey",
+    "magenta",
+    "orange",
+    "pink",
+    "plaid",
+    "purple",
+    "red",
+    "silver",
+    "tan",
+    "tangerine",
+    "topaz",
+    "turquoise",
+    "vermilion",
+    "violet",
+    "white",
+    "yellow",
+];
+
+pub const NWOOD: usize = 33;
+//char *wood[] = {
+pub static wood: [&str; NWOOD] = [
+    "avocado wood",
+    "balsa",
+    "bamboo",
+    "banyan",
+    "birch",
+    "cedar",
+    "cherry",
+    "cinnibar",
+    "cypress",
+    "dogwood",
+    "driftwood",
+    "ebony",
+    "elm",
+    "eucalyptus",
+    "fall",
+    "hemlock",
+    "holly",
+    "ironwood",
+    "kukui wood",
+    "mahogany",
+    "manzanita",
+    "maple",
+    "oaken",
+    "persimmon wood",
+    "pecan",
+    "pine",
+    "poplar",
+    "redwood",
+    "rosewood",
+    "spruce",
+    "teak",
+    "walnut",
+    "zebrawood",
+];
+
+pub const NMETAL: usize = 22;
+//char *metal[] = {
+pub static metal: [&str; NMETAL] = [
+    "aluminum",
+    "beryllium",
+    "bone",
+    "brass",
+    "bronze",
+    "copper",
+    "electrum",
+    "gold",
+    "iron",
+    "lead",
+    "magnesium",
+    "mercury",
+    "nickel",
+    "pewter",
+    "platinum",
+    "steel",
+    "silver",
+    "silicon",
+    "tin",
+    "titanium",
+    "tungsten",
+    "zinc",
+];
