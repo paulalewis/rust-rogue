@@ -318,7 +318,7 @@ aggravate()
 */
 
 // For printfs: if string starts with a vowel, return "n" for an "an".
-fn vowelstr(str: &str) -> &str {
+pub fn vowelstr(str: &str) -> &str {
 	match str.chars().next().unwrap() {
 		'a' | 'A' | 'e' | 'E' | 'i' | 'I' | 'o' | 'O' | 'u' | 'U' => "n",
 		_ => "",

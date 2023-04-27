@@ -388,8 +388,8 @@ pub struct Coord {
 };*/
 pub struct ObjInfo {
     pub name: String,
-    pub prob: i32,
-    pub worth: i32,
+    pub prob: usize,
+    pub worth: usize,
     pub guess: String,
     pub know: bool,
 }

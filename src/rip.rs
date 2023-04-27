@@ -1,4 +1,4 @@
-use crate::rogue::*;
+use crate::{rogue::*, player::Player, utils::vowelstr};
 
 /*
 
@@ -19,11 +19,7 @@ static char *rip[] = {
     0
 };
 
-/*
- * score:
- *	Figure score and post it.
- */
-/* VARARGS2 */
+// Figure score and post it.
 void
 score(int amount, int flags, char monst, bool noscore)
 {
@@ -158,11 +154,7 @@ score(int amount, int flags, char monst, bool noscore)
     }
 }
 
-/*
- * death:
- *	Do something really fun when he dies
- */
-
+// Do something really fun when he dies
 void
 death(char monst)
 {
@@ -171,9 +163,7 @@ death(char monst)
     static time_t date;
     struct tm *localtime();
 
-    signal(SIGINT, SIG_IGN);
     purse -= purse / 10;
-    signal(SIGINT, leave);
     clear();
     killer = killname(monst, FALSE);
 	time(&date);
@@ -199,22 +189,20 @@ death(char monst)
     printf("[Press return to continue]");
     fflush(stdout);
     (void) fgets(prbuf,10,stdin);
-    my_exit(0);
+}
+*/
+pub fn death(player: &mut Player, monster: char) {
+	player.purse -= player.purse / 10;
+
+}
+
+// Return the index to center the given string
+fn center(str: &str) -> usize {
+	28 - ((str.len() + 1) / 2)
 }
 
 /*
- * center:
- *	Return the index to center the given string
- */
-int
-center(char *str)
-{
-    return 28 - (((int)strlen(str) + 1) / 2);
-}
-
-/*
- *	Code for a winner
- */
+// Code for a winner
 void
 total_winner()
 {
@@ -225,15 +213,6 @@ total_winner()
 
     clear();
     standout();
-    addstr("                                                               \n");
-    addstr("  @   @               @   @           @          @@@  @     @  \n");
-    addstr("  @   @               @@ @@           @           @   @     @  \n");
-    addstr("  @   @  @@@  @   @   @ @ @  @@@   @@@@  @@@      @  @@@    @  \n");
-    addstr("   @@@@ @   @ @   @   @   @     @ @   @ @   @     @   @     @  \n");
-    addstr("      @ @   @ @   @   @   @  @@@@ @   @ @@@@@     @   @     @  \n");
-    addstr("  @   @ @   @ @  @@   @   @ @   @ @   @ @         @   @  @     \n");
-    addstr("   @@@   @@@   @@ @   @   @  @@@@  @@@@  @@@     @@@   @@   @  \n");
-    addstr("                                                               \n");
     addstr("     Congratulations, you have made it to the light of day!    \n");
     standend();
     addstr("\nYou have joined the elite ranks of those who have escaped the\n");
@@ -308,50 +287,39 @@ total_winner()
     printw("   %5d  Gold Pieces          ", oldpurse);
     refresh();
     score(purse, 2, ' ');
-    my_exit(0);
-}
-
-/*
- * killname:
- *	Convert a code to a monster name
- */
-char *
-killname(char monst, bool doart)
-{
-    struct h_list *hp;
-    char *sp;
-    bool article;
-    static struct h_list nlist[] = {
-	{'a',	"arrow",		TRUE},
-	{'b',	"bolt",			TRUE},
-	{'d',	"dart",			TRUE},
-	{'h',	"hypothermia",		FALSE},
-	{'s',	"starvation",		FALSE},
-	{'\0'}
-    };
-
-    if (isupper(monst))
-    {
-	sp = monsters[monst-'A'].m_name;
-	article = TRUE;
-    }
-    else
-    {
-	sp = "Wally the Wonder Badger";
-	article = FALSE;
-	for (hp = nlist; hp->h_ch; hp++)
-	    if (hp->h_ch == monst)
-	    {
-		sp = hp->h_desc;
-		article = hp->h_print;
-		break;
-	    }
-    }
-    if (doart && article)
-	sprintf(prbuf, "a%s ", vowelstr(sp));
-    else
-	prbuf[0] = '\0';
-    strcat(prbuf, sp);
-    return prbuf;
 }
 */
+
+const UNKOWN_KILLER_NAME: &str = "Wally the Wonder Badger";
+// Convert a code to a monster name
+// killname
+fn killer_name(monster: char, doart: bool) -> String {
+	let death_causes = [
+		('a', "arrow", true),
+		('b', "bolt", true),
+		('d', "dart", true),
+		('h', "hypothermia", false),
+		('s', "starvation", false),
+	];
+	
+	let (killer_name, article) = if monster.is_ascii_uppercase() {
+		(String::from(monsters[monster as usize - 'A' as usize].name.as_str()), true)
+	} else {
+		let mut sp = String::from(UNKOWN_KILLER_NAME);
+		let mut article = false;
+		for hp in death_causes.iter() {
+			if hp.0 == monster {
+				sp = String::from(hp.1);
+				article = hp.2;
+				break;
+			}
+		}
+		(sp, article)
+	};
+
+	if doart && article {
+		format!("a{} {}", vowelstr(&killer_name), killer_name)
+	} else {
+		killer_name
+	}
+}
