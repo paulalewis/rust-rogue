@@ -27,8 +27,6 @@ pub static to_death: bool = false;
 pub static dir_ch: char = '\0';
 //char prbuf[2*MAXSTR];			/* buffer for sprintfs */
 //char runch;				/* Direction player is running */
-//char *r_stones[MAXRINGS];		/* Stone settings of the rings */
-pub static mut r_stones: Option<Vec<String>> = None;
 //char take;				/* Thing she is taking */
 //char *ws_made[MAXSTICKS];		/* What sticks are made of */
 //char *ws_type[MAXSTICKS];		/* Is it a wand or a staff */

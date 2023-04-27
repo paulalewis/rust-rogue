@@ -1,4 +1,4 @@
-use crate::{init::{init_scroll_names, init_potion_colors}, player::Player};
+use crate::{init::{init_scroll_names, init_potion_colors, init_ring_stones}, player::Player};
 
 // This represents the state of the game.
 // It can be used to save and restore a game.
@@ -19,6 +19,8 @@ pub struct RogueState {
     pub potion_colors: Vec<String>,
     // quiet number of quiet turns 
     pub quiet: usize,
+    // r_stones stone settings of the rings 
+    pub ring_stones: Vec<String>,
     // s_names names of the scrolls
     pub scroll_names: Vec<String>,
     //seed random number seed
@@ -36,6 +38,7 @@ impl RogueState {
             player: Player::new(),
             potion_colors: init_potion_colors(),
             quiet: 0,
+            ring_stones: init_ring_stones(),
             scroll_names: init_scroll_names(),
             seed,
         }

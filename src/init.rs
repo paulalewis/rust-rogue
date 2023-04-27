@@ -6,61 +6,6 @@ use crate::rogue::*;
 use crate::utils::*;
 use std::cmp;
 
-/*void
-init_player()
-{
-    register THING *obj;
-
-    pstats = max_stats;
-    food_left = HUNGERTIME;
-    /*
-     * Give him some food
-     */
-    obj = new_item();
-    obj->o_type = FOOD;
-    obj->o_count = 1;
-    add_pack(obj, TRUE);
-    /*
-     * And his suit of armor
-     */
-    obj = new_item();
-    obj->o_type = ARMOR;
-    obj->o_which = RING_MAIL;
-    obj->o_arm = a_class[RING_MAIL] - 1;
-    obj->o_flags |= ISKNOW;
-    obj->o_count = 1;
-    cur_armor = obj;
-    add_pack(obj, TRUE);
-    /*
-     * Give him his weaponry.  First a mace.
-     */
-    obj = new_item();
-    init_weapon(obj, MACE);
-    obj->o_hplus = 1;
-    obj->o_dplus = 1;
-    obj->o_flags |= ISKNOW;
-    add_pack(obj, TRUE);
-    cur_weapon = obj;
-    /*
-     * Now a +1 bow
-     */
-    obj = new_item();
-    init_weapon(obj, BOW);
-    obj->o_hplus = 1;
-    obj->o_flags |= ISKNOW;
-    add_pack(obj, TRUE);
-    /*
-     * Now some arrows
-     */
-    obj = new_item();
-    init_weapon(obj, ARROW);
-    obj->o_count = rnd(15) + 25;
-    obj->o_flags |= ISKNOW;
-    add_pack(obj, TRUE);
-}*/
-pub fn init_player() {
-    
-}
 
 /*
  * Contains defintions and functions for dealing with things like
@@ -265,6 +210,7 @@ pub fn init_ring_stones() -> Vec<String> {
         }
         used[j] = true;
         unsafe {
+            todo!("implement");
             // ring_info[i].worth += stones[j].value;
         }
         ring_stones.push(String::from(stones[j].name));
