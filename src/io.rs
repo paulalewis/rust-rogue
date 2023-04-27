@@ -1,10 +1,5 @@
 use std::io::{Read, Error};
 
-use crate::rogue::*;
-
-// Display a message at the top of the screen.
-//#define MAXMSG	(NUMCOLS - sizeof "--More--")
-
 //static char msgbuf[2*MAXMSG+1];
 //static int newpos = 0;
 

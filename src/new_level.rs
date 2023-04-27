@@ -20,7 +20,7 @@ new_level()
     /*
      * Clean things off from last level
      */
-    for (pp = places; pp < &places[MAXCOLS*MAXLINES]; pp++)
+    for (pp = places; pp < &places[SCREEN_WIDTH*SCREEN_HEIGHT]; pp++)
     {
 	pp->p_ch = ' ';
 	pp->p_flags = F_REAL;

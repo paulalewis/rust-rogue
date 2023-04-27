@@ -7,8 +7,6 @@ pub const PRESS_SPACE_TO_CONTINUE: &str = "--Press space to continue--";
 pub const RELEASE: &str = "5.4.4";
 
 pub const MAXSTR: usize = 1024; // maximum length of strings
-pub const MAXLINES: usize = 32; // maximum number of screen lines used 
-pub const MAXCOLS: usize = 80; // maximum number of screen columns used
 pub const MAXDAEMONS: usize = 20;
 pub const MAXROOMS: usize = 9;
 pub const MAXTHINGS: usize = 9;

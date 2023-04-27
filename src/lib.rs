@@ -20,6 +20,7 @@ pub mod rings;
 pub mod rip;
 pub mod rogue;
 pub mod rooms;
+pub mod screen;
 pub mod scrolls;
 pub mod rogue_state;
 pub mod sticks;

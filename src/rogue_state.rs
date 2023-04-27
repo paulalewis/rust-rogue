@@ -1,4 +1,4 @@
-use crate::{init::{init_scroll_names, init_potion_colors, init_ring_stones}, player::Player};
+use crate::{init::{init_scroll_names, init_potion_colors, init_ring_stones}, player::Player, screen::ConsoleScreen};
 
 // This represents the state of the game.
 // It can be used to save and restore a game.
