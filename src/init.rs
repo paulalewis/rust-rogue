@@ -1,4 +1,5 @@
 use crate::constants::ISHALU;
+use crate::constants::MAXPOTIONS;
 use crate::constants::MAXRINGS;
 use crate::constants::MAXSCROLLS;
 use crate::rogue::*;
@@ -214,7 +215,8 @@ pub static metal: [&str; NMETAL] = [
     "zinc",
 ];
 
-pub fn init_potion_colors() {
+pub fn init_potion_colors() -> Vec<String> {
+    let mut potion_colors = Vec::with_capacity(MAXPOTIONS);
     let mut used = [false; NCOLORS];
     for i in 0..NCOLORS {
         let mut j;
@@ -225,10 +227,9 @@ pub fn init_potion_colors() {
             }
         }
         used[j] = true;
-        unsafe {
-            p_colors[i] = rainbow[i];
-        }
+        potion_colors.push(String::from(rainbow[i]));
     }
+    potion_colors
 }
 
 const MAX_NAME_LENGTH: usize = 40;

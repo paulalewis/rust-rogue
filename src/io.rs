@@ -77,7 +77,7 @@ endmsg()
      * All messages should start with uppercase, except ones that
      * start with a pack addressing character
      */
-    if (islower(msgbuf[0]) && !lower_msg && msgbuf[1] != ')')
+    if (islower(msgbuf[0]) && msgbuf[1] != ')')
 	msgbuf[0] = (char) toupper(msgbuf[0]);
     mvaddstr(0, 0, msgbuf);
     clrtoeol();
@@ -140,7 +140,7 @@ status()
     static int s_pur = -1;
     static int s_hp = 0;
     static int s_arm = 0;
-    static str_t s_str = 0;
+    static uint s_str = 0;
     static int s_exp = 0;
     static char *state_name[] =
     {

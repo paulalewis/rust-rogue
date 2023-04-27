@@ -1,4 +1,4 @@
-use crate::{rogue::*, utils::*, constants::{AMULETLEVEL, VS_MAGIC, R_PROTECT}};
+use crate::{rogue::*, utils::*, constants::{AMULETLEVEL, VS_MAGIC, R_PROTECT, LEFT, RIGHT}};
 
 use std::cmp;
 
@@ -208,7 +208,7 @@ wake_monster(int y, int x)
 // Give a pack to a monster if it deserves one
 // void give_pack(THING *tp)
 pub fn give_pack(creature: Thing) {
-    if state.level >= max_level {
+    if state.level >= state.max_level {
         match creature {
             Thing::Creature { pack, r#type, .. } => {
                 let index = (r#type as u8 - b'A') as usize;

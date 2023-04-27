@@ -282,7 +282,7 @@ check_level()
 void
 chg_str(int amt)
 {
-    auto str_t comp;
+    auto uint comp;
 
     if (amt == 0)
 	return;
@@ -298,7 +298,7 @@ chg_str(int amt)
 
 // Perform the actual add, checking upper and lower bound limits
 void
-add_str(str_t *sp, int amt)
+add_str(uint *sp, int amt)
 {
     if ((*sp += amt) < 3)
 	*sp = 3;

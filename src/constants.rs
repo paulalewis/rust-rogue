@@ -22,6 +22,19 @@ pub const NUMLINES: usize = 24;
 pub const NUMCOLS: usize = 80;
 pub const STATLINE: usize = NUMLINES - 1;
 pub const BORE_LEVEL: usize = 50;
+pub const HEALTIME: usize = 30;
+pub const HUHDURATION: usize = 20;
+pub const SEEDURATION: usize = 850;
+pub const HUNGERTIME: usize = 1300;
+pub const MORETIME: usize = 150;
+pub const STOMACHSIZE: usize = 2000;
+pub const STARVETIME: usize = 850;
+//#define ESCAPE		27
+pub const ESCAPE: char = '\u{001b}';
+pub const LEFT: usize = 0;
+pub const RIGHT: usize = 1;
+pub const BOLT_LENGTH: usize = 6;
+pub const LAMPDIST: usize = 3;
 
 // *** flags for rooms ***
 

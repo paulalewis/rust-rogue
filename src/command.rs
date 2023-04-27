@@ -1,4 +1,4 @@
-use crate::{rogue::*, io::{msg, readchar, wait_for}, constants::PRESS_SPACE_TO_CONTINUE};
+use crate::{rogue::*, io::{msg, readchar, wait_for}, constants::PRESS_SPACE_TO_CONTINUE, rogue_state::{self, RogueState}};
 
 // Process the user commands
 /*void command() {
@@ -292,7 +292,7 @@ over:
 	teleport();
 }
 */
-pub fn command() -> bool {
+pub fn command(rogue_state: &RogueState) -> bool {
 	let command_char = readchar().unwrap();
 	match dbg!(command_char) {
 		'Q' => {

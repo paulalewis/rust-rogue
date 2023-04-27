@@ -18,8 +18,6 @@ pub static has_hit: bool = false;
 pub static inv_describe: bool = true;
 //bool kamikaze = FALSE;			/* to_death really to DEATH */
 pub static kamikaze: bool = false;
-//bool lower_msg = FALSE;			/* Messages should start w/lower case */
-pub static lower_msg: bool = false;
 //bool move_on = FALSE;			/* Next move shouldn't pick up items */
 pub static move_on: bool = false;
 //bool msg_esc = FALSE;			/* Check for ESC from msg's --More-- */
@@ -31,8 +29,6 @@ pub static to_death: bool = false;
 
 //char dir_ch;				/* Direction from last get_dir() call */
 pub static dir_ch: char = '\0';
-//char *p_colors[MAXPOTIONS];		/* Colors of the potions */
-pub static mut p_colors: [&str; MAXPOTIONS] = [""; MAXPOTIONS];
 //char prbuf[2*MAXSTR];			/* buffer for sprintfs */
 //char runch;				/* Direction player is running */
 //char *r_stones[MAXRINGS];		/* Stone settings of the rings */
@@ -41,46 +37,30 @@ pub static mut r_stones: Option<Vec<String>> = None;
 //char *ws_made[MAXSTICKS];		/* What sticks are made of */
 //char *ws_type[MAXSTICKS];		/* Is it a wand or a staff */
 //int  orig_dsusp;			/* Original dsusp char */
-//char home[MAXSTR] = { '\0' };		/* User's home directory */
-//char *inv_t_name[] = {
-//	"Overwrite",
-//	"Slow",
-//	"Clear"
-//};
 //char l_last_comm = '\0';		/* Last last_comm */
 //char l_last_dir = '\0';			/* Last last_dir */
 //char last_comm = '\0';			/* Last command typed */
 //char last_dir = '\0';			/* Last direction given */
-//char *tr_name[] = {			/* Names of the traps */
-//	"a trapdoor",
-//	"an arrow trap",
-//	"a sleeping gas trap",
-//	"a beartrap",
-//	"a teleport trap",
-//	"a poison dart trap",
-//	"a rust trap",
-//  "a mysterious trap"
-//};
+
+//tr_name
+pub static TRAP_NAMES: [&str; 8] = [
+    "a trapdoor",
+    "an arrow trap",
+    "a sleeping gas trap",
+    "a beartrap",
+    "a teleport trap",
+    "a poison dart trap",
+    "a rust trap",
+    "a mysterious trap"
+];
 
 //int n_objs;				/* # items listed in inventory() call */
 pub static n_objs: usize = 0;
-//int ntraps;				/* Number of traps on this level */
-pub static ntraps: usize = 0;
-//int hungry_state = 0;			/* How hungry is he */
-pub static hungry_state: usize = 0;
-//int inpack = 0;				/* Number of things in pack */
-pub static inpack: usize = 0;
-//int inv_type = 0;			/* Type of inventory to use */
-pub static inv_type: usize = 0;
 //int max_hit;				/* Max damage done to her in to_death */
 pub static max_hit: usize = 0;
-//int max_level;				/* Deepest player has gone */
-pub static max_level: usize = 0;
 //int mpos = 0;				/* Where cursor is on top line */
 pub static mpos: usize = 0;
-//int no_food = 0;			/* Number of levels without food */
-pub static no_food: usize = 0;
-//int a_class[MAXARMORS] = {		/* Armor class for each armor type */
+//int a_class[MAXARMORS] = {
 //	8,	/* LEATHER */
 //	7,	/* RING_MAIL */
 //	7,	/* STUDDED_LEATHER */
@@ -90,28 +70,19 @@ pub static no_food: usize = 0;
 //	4,	/* BANDED_MAIL */
 //	3,	/* PLATE_MAIL */
 //};
-pub static a_class: [usize; MAXARMORS] = [8, 7, 7, 6, 5, 4, 4, 3];
+pub static ARMOR_CLASS: [usize; MAXARMORS] = [8, 7, 7, 6, 5, 4, 4, 3];
 
 //int count = 0;				/* Number of times to repeat command */
 pub static mut repeat_command_count: usize = 0;
-//FILE *scoreboard = NULL;	/* File descriptor for score file */
-//int food_left;				/* Amount of food in hero's stomach */
-pub static food_left: usize = 0;
-//int lastscore = -1;			/* Score before this turn */
-pub static lastscore: isize = -1;
 //int no_command = 0;			/* Number of turns asleep */
 pub static no_command: usize = 0;
 //int no_move = 0;			/* Number of turns held in place */
 pub static no_move: usize = 0;
-//int purse = 0;				/* How much gold he has */
-pub static purse: usize = 0;
-//int quiet = 0;				/* Number of quiet turns */
-pub static quiet: usize = 0;
 //int vf_hit = 0;				/* Number of time flytrap has hit */
 pub static vf_hit: usize = 0;
 
-//int e_levels[]
-pub static e_levels: [usize; 21] = [
+// e_levels
+pub static XP_LEVELS: [usize; 21] = [
     10,
     20,
     40,
@@ -135,11 +106,11 @@ pub static e_levels: [usize; 21] = [
     0,
 ];
 
-//coord delta;				/* Change indicated to get_dir() */
+// coord delta;				/* Change indicated to get_dir() */
 pub static delta: Coord = Coord { y: 0, x: 0 };
-//coord oldpos;				/* Position before last look() call */
+// coord oldpos;				/* Position before last look() call */
 pub static oldpos: Coord = Coord { y: 0, x: 0 };
-//coord stairs;				/* Location of staircase */
+// coord stairs;				/* Location of staircase */
 pub static stairs: Coord = Coord { y: 0, x: 0 };
 
 //PLACE places[MAXLINES*MAXCOLS];		/* level map */
@@ -404,47 +375,14 @@ pub fn wander_time() -> usize { spread(70) }
 pub const BEFORE: usize = 1;
 //#define AFTER		spread(2)
 pub const AFTER: usize = 2;
-//#define HEALTIME	30
-pub const HEALTIME: usize = 30;
-//#define HUHDURATION	20
-pub const HUHDURATION: usize = 20;
-//#define SEEDURATION	850
-pub const SEEDURATION: usize = 850;
-//#define HUNGERTIME	1300
-pub const HUNGERTIME: usize = 1300;
-//#define MORETIME	150
-pub const MORETIME: usize = 150;
-//#define STOMACHSIZE	2000
-pub const STOMACHSIZE: usize = 2000;
-//#define STARVETIME	850
-pub const STARVETIME: usize = 850;
-//#define ESCAPE		27
-pub const ESCAPE: char = '\u{001b}';
-//#define LEFT		0
-pub const LEFT: usize = 0;
-//#define RIGHT		1
-pub const RIGHT: usize = 1;
-//#define BOLT_LENGTH	6
-pub const BOLT_LENGTH: usize = 6;
-//#define LAMPDIST	3
-pub const LAMPDIST: usize = 3;
 
 
-/*
- * Coordinate data type
- */
-/*typedef struct {
-    int x;
-    int y;
-} coord;*/
+// coord
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Coord {
     pub x: i32,
     pub y: i32,
 }
-
-//typedef unsigned int str_t;
-pub type str_t = u32;
 
 /*
  * Stuff about objects
@@ -501,11 +439,8 @@ impl Room {
     }
 }
 
-/*
- * Structure describing a fighting being
- */
 /*struct stats {
-    str_t s_str;			/* Strength */
+    uint s_str;			/* Strength */
     int s_exp;				/* Experience */
     int s_lvl;				/* level of mastery */
     int s_arm;				/* Armor class */
@@ -515,7 +450,7 @@ impl Room {
 };*/
 #[derive(Debug, Clone, PartialEq)]
 pub struct Stats {
-    pub str: str_t,
+    pub str: usize,
     pub exp: i32,
     pub lvl: usize,
     pub arm: i32,
@@ -538,9 +473,6 @@ impl Stats {
     }
 }
 
-/*
- * Structure for monsters and player
- */
 /*union thing {
     struct {
 	union thing *_l_next, *_l_prev;	/* Next pointer in link */
@@ -575,6 +507,7 @@ impl Stats {
 	char *_o_label;			/* Label for object */
     } _o;
 };*/
+//typedef union thing THING;
 #[derive(Debug, Clone, PartialEq)]
 pub enum Thing {
     Creature {
@@ -631,9 +564,6 @@ impl Thing {
     }
 }
 
-//typedef union thing THING;
-pub type THING = Thing;
-
 // describe a place on the level map
 /*typedef struct {
     char p_ch;
@@ -657,9 +587,7 @@ impl Place {
     }
 }
 
-/*
- * Array containing information on all the various types of monsters
- */
+// Array containing information on all the various types of monsters
 /*struct monster {
     char *m_name;			/* What to call the monster */
     int m_carry;			/* Probability of carrying something */
@@ -682,7 +610,7 @@ pub struct Monster {
     int d_time;
 } d_list[MAXDAEMONS];*/
 pub struct DelayedAction {
-    pub r#type: i32,
+    pub d_type: i32,
     pub func: fn(),
     pub arg: i32,
     pub time: i32,
@@ -696,5 +624,5 @@ pub struct DelayedAction {
 } STONE;*/
 pub struct Stone<'a> {
     pub name: &'a str,
-    pub value: i32,
+    pub value: isize,
 }
