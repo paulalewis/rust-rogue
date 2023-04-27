@@ -66,7 +66,7 @@ pub fn init_player() {
  * Contains defintions and functions for dealing with things like
  * potions and scrolls
  */
-const NCOLORS: usize = 27;
+pub const NCOLORS: usize = 27;
 /*char *rainbow[] = {};*/
 pub static rainbow: [&str; NCOLORS] = [
     "amber",
@@ -313,9 +313,3 @@ init_materials()
 	ws_made[i] = str;
     }
 }*/
-
-// If he is halucinating, pick a random color name and return it,
-// otherwise return the given color.
-pub fn pick_color(color: &str ) -> &str {
-    return if on(&state.player.player_stats.as_ref().unwrap(), ISHALU) { rainbow[rnd(NCOLORS)] } else { color };
-}

@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-use crate::{rogue::{Thing, state}, io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL, ISHALU}};
+use crate::{rogue::{Thing}, io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL, ISHALU}};
 
 // Pick a random number.
 pub fn rnd(range: usize) -> usize {
@@ -36,27 +36,6 @@ pub fn on(thing: &Thing, flag: usize) -> bool {
 //#define GOLDCALC
 pub fn goldcalc(lvl: usize) -> usize {
 	rnd(50 + 10 * lvl) + 2
-}
-
-//#define ISRING(h,r)
-pub fn is_ring(h: usize, r: usize) -> bool {
-	let cur_ring = state.player.cur_ring.as_ref();
-    match cur_ring[h] {
-        Some(ref ring) => {
-            match ring {
-                Thing::Object { next, prev, r#type, pos, text, launch, packch, damage, hurldmg, count, which, hplus, dplus, arm, flags, group, label } => {
-                    *which == r
-                },
-                _ => false
-            }
-        },
-        None => false
-    }
-}
-
-//#define ISWEARING(r)
-fn is_wearing(r: usize) -> bool {
-	is_ring(0, r) || is_ring(1, r)
 }
 
 //#define ISMULT(type)
@@ -346,20 +325,6 @@ fn vowelstr(str: &str) -> &str {
 	}
 }
 
-// See if the object is one of the currently used items
-//bool is_current(THING *obj)
-pub fn is_current(object: &Thing) -> bool {
-	let cur_armor = state.player.cur_armor.as_ref().unwrap();
-	let cur_ring = state.player.cur_ring.as_ref();
-	let cur_weapon = state.player.cur_weapon.as_ref().unwrap();
-	if object == cur_armor || object == cur_weapon || object == cur_ring[0].as_ref().unwrap() || object == cur_ring[1].as_ref().unwrap() {
-		msg("That's already in use");
-		true
-	} else {
-		false
-	}
-}
-
 /*
 // Set up the direction co_ordinate for use in varios "prefix" commands
 bool
@@ -454,31 +419,13 @@ call_it(struct obj_info *info)
 */
 
 // Pick a random thing appropriate for this level
-/*char rnd_thing() {
-    int i;
-    static char thing_list[] = {
-	POTION, SCROLL, RING, STICK, FOOD, WEAPON, ARMOR, STAIRS, GOLD, AMULET
-    };
-
-    if (level >= AMULETLEVEL)
-        i = rnd(sizeof thing_list / sizeof (char));
-    else
-        i = rnd(sizeof thing_list / sizeof (char) - 1);
-    return thing_list[i];
-}
-*/
-pub fn rnd_thing() -> char {
+// rnd_thing()
+pub fn rnd_thing(level: usize) -> char {
 	let thing_list = [POTION, SCROLL, RING, STICK, FOOD, WEAPON, ARMOR, STAIRS, GOLD, AMULET];
-	let i = if state.level >= AMULETLEVEL {
+	let i = if level >= AMULETLEVEL {
 		rnd(thing_list.len())
 	} else {
 		rnd(thing_list.len() - 1)
 	};
 	thing_list[i]
-}
-
-// Choose the first or second string depending on whether it the player is tripping
-//char * choose_str(char *ts, char *ns)
-pub fn choose_str<'a>(ts: &'a str, ns: &'a str) -> &'a str {
-	if on(&state.player.player_stats.as_ref().unwrap(), ISHALU) { ts } else { ns }
 }

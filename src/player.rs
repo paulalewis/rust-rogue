@@ -1,6 +1,6 @@
 use std::char::MAX;
 
-use crate::{rogue::Thing, constants::MAX_PACK_SIZE};
+use crate::{rogue::Thing, constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT}, utils::{on, rnd}, init::{rainbow, NCOLORS}, io::msg, monsters::save_throw};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Player {
@@ -36,6 +36,85 @@ impl Player {
             pack_used: [false; MAX_PACK_SIZE],
             player_stats: None,
             purse: 0,
+        }
+    }
+    
+    // If he is halucinating, pick a random color name and return it,
+    // otherwise return the given color.
+    pub fn pick_color<'a>(&self, color: &'a str) -> &'a str {
+        return if on(self.player_stats.as_ref().unwrap(), ISHALU) { rainbow[rnd(NCOLORS)] } else { color };
+    }
+
+    //#define ISRING(h,r)
+    pub fn is_ring(&self, h: usize, r: usize) -> bool {
+	    let cur_ring = self.cur_ring.as_ref();
+        match cur_ring[h] {
+            Some(ref ring) => {
+                match ring {
+                    Thing::Object { which, .. } => {
+                        *which == r
+                    },
+                    _ => false
+                }
+            },
+            None => false
+        }
+    }
+
+    //#define ISWEARING(r)
+    fn is_wearing(&self, r: usize) -> bool {
+	    self.is_ring(0, r) || self.is_ring(1, r)
+    }
+
+    // See if the object is one of the currently used items
+    // bool is_current(THING *obj)
+    pub fn is_current(&self, object: &Thing) -> bool {
+	    let cur_armor = self.cur_armor.as_ref().unwrap();
+	    let cur_ring = self.cur_ring.as_ref();
+	    let cur_weapon = self.cur_weapon.as_ref().unwrap();
+	    if object == cur_armor || object == cur_weapon || object == cur_ring[0].as_ref().unwrap() || object == cur_ring[1].as_ref().unwrap() {
+		    msg("That's already in use");
+		    true
+	    } else {
+		    false
+	    }
+    }
+
+    // Choose the first or second string depending on whether it the player is tripping
+    // choose_str
+    pub fn choose_str<'a>(&self, ts: &'a str, ns: &'a str) -> &'a str {
+	    if on(&self.player_stats.as_ref().unwrap(), ISHALU) { ts } else { ns }
+    }
+
+    // See if he saves against various nasty things
+    //int save(int which)
+    pub fn save(&self, mut which: usize) -> bool {
+        if which == VS_MAGIC {
+            which -= self.adjust_saving_throw(LEFT);
+            which -= self.adjust_saving_throw(RIGHT);
+        }
+        match &self.player_stats {
+            Some(player_stats) => {
+                save_throw(which, player_stats)
+            },
+            None => panic!("save: player is None"),
+        }
+    }
+
+    fn adjust_saving_throw(&self, side: usize) -> usize {
+        let cur_ring = self.cur_ring.as_ref();
+        if self.is_ring(side, R_PROTECT) {
+            match &cur_ring[side] {
+                Some(ring) => {
+                    match ring {
+                        Thing::Object { arm, .. } => *arm as usize,
+                        _ => 0,
+                    }
+                },
+                None => 0,
+            }
+        } else {
+            0
         }
     }
 }

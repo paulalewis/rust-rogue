@@ -2,10 +2,6 @@ use crate::{utils::spread, rogue_state::RogueState, constants::{NUMTHINGS, ISMEA
 
 // This file contains global values for the game
 
-lazy_static! {
-    pub static ref state: RogueState = RogueState::new(0);
-}
-
 //bool after;				/* True if we want after daemons */
 pub static mut after: bool = false;
 //bool again;				/* Repeating the last command */

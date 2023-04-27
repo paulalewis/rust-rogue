@@ -1,4 +1,4 @@
-use crate::{rogue::*, utils::*, constants::{AMULETLEVEL, VS_MAGIC, R_PROTECT, LEFT, RIGHT}};
+use crate::{rogue::*, utils::*, constants::{AMULETLEVEL, VS_MAGIC, R_PROTECT, LEFT, RIGHT}, rogue_state::RogueState};
 
 use std::cmp;
 
@@ -14,11 +14,11 @@ static wand_mons: [char; NUMBER_OF_MONSTERS] = [
 // Pick a monster to show up.  The lower the level,
 // the meaner the monster.
 //char randmonster(bool wander) {}
-pub fn randmonster(wander: bool) -> char {
+pub fn randmonster(level: usize, wander: bool) -> char {
     let mut selected_monster: usize;
     let mons: [char; NUMBER_OF_MONSTERS] = if wander { wand_mons } else { lvl_mons };
     loop {
-        selected_monster = state.level + (rnd(10) - 6);
+        selected_monster = level + (rnd(10) - 6);
         if selected_monster < 0 {
             selected_monster = rnd(5);
         }
@@ -66,7 +66,7 @@ new_monster(THING *tp, char type, coord *cp)
     if (type == 'X')
 	tp->t_disguise = rnd_thing();
 }*/
-pub fn new_monster(tp: Box<Thing>, m_type: char, cp: Option<Coord>) {
+pub fn new_monster(state: &RogueState, tp: Box<Thing>, m_type: char, cp: Option<Coord>) {
     let mut mp: Monster;
     let mut tp: Thing;
     let mut cp: Coord;
@@ -207,7 +207,7 @@ wake_monster(int y, int x)
 
 // Give a pack to a monster if it deserves one
 // void give_pack(THING *tp)
-pub fn give_pack(creature: Thing) {
+pub fn give_pack(state: &RogueState, creature: Thing) {
     if state.level >= state.max_level {
         match creature {
             Thing::Creature { pack, r#type, .. } => {
@@ -230,37 +230,5 @@ pub fn save_throw(which: usize, creature: &Thing) -> bool {
             roll(1, 20) >= need
         },
         _ => panic!("save_throw: not a creature"),
-    }
-}
-
-// See if he saves against various nasty things
-//int save(int which)
-pub fn save(mut which: usize) -> bool {
-    if which == VS_MAGIC {
-        which -= adjust_saving_throw(LEFT);
-        which -= adjust_saving_throw(RIGHT);
-    }
-    match &state.player.player_stats {
-        Some(player_stats) => {
-            save_throw(which, player_stats)
-        },
-        None => panic!("save: player is None"),
-    }
-}
-
-fn adjust_saving_throw(side: usize) -> usize {
-    let cur_ring = state.player.cur_ring.as_ref();
-    if is_ring(side, R_PROTECT) {
-        match &cur_ring[side] {
-            Some(ring) => {
-                match ring {
-                    Thing::Object { arm, .. } => *arm as usize,
-                    _ => 0,
-                }
-            },
-            None => 0,
-        }
-    } else {
-        0
     }
 }
