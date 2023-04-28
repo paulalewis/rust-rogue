@@ -27,3 +27,4 @@ pub mod things;
 pub mod utils;
 pub mod weapons;
 pub mod wizard;
+pub mod test_helpers;

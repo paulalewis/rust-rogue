@@ -95,7 +95,7 @@ fn init_ring_stones<'a>() -> [&'a str; MAXRINGS] {
 fn init_potion_colors<'a>() -> [&'a str; MAXPOTIONS] {
     let mut potion_colors = [""; MAXPOTIONS];
     let mut used = [false; NCOLORS];
-    for i in 0..NCOLORS {
+    for i in 0..MAXPOTIONS {
         let mut j;
         loop {
             j = rnd(NCOLORS);
@@ -119,7 +119,7 @@ fn init_wand_and_staff_materials<'a>() -> ([&'a str; MAXSTICKS], [bool; MAXSTICK
         let material: &'a str;
         loop {
             if rnd(2) == 0 {
-                j = rnd(NSTONES);
+                j = rnd(NMETAL);
                 if !metal_used[j] {
                     is_wand[i] = true;
                     material = metal[j];
@@ -127,7 +127,7 @@ fn init_wand_and_staff_materials<'a>() -> ([&'a str; MAXSTICKS], [bool; MAXSTICK
                     break;
                 }
             } else {
-                j = rnd(NSTONES);
+                j = rnd(NWOOD);
                 if !wood_used[j] {
                     is_wand[i] = false;
                     material = wood[j];

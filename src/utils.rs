@@ -429,3 +429,24 @@ pub fn rnd_thing(level: usize) -> char {
 	};
 	thing_list[i]
 }
+
+
+#[cfg(test)]
+mod tests {
+    use crate::utils::sign;
+
+    #[test]
+    fn sign_is_negative() {
+		assert_eq!(sign(-100), -1);
+    }
+
+    #[test]
+	fn sign_is_positive() {
+		assert_eq!(sign(100), 1);
+	}
+
+    #[test]
+	fn sign_is_zero() {
+		assert_eq!(sign(0), 0);
+	}
+}

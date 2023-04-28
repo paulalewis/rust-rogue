@@ -1,24 +1,22 @@
-use crate::{rogue::*, player::Player, utils::vowelstr};
+use crate::{rogue::*, player::Player, utils::vowelstr, screen::{Screen, SCREEN_HEIGHT}, io::wait_for, constants::PRESS_SPACE_TO_CONTINUE};
+
+const RIP: &str = "
+                       __________
+                      /          \\
+                     /            \\
+                    /  here lies   \\
+                   / one whose name \\
+                  / was writ in water\\
+                  |                  |
+                  |                  |
+                  |   killed by a    |
+                  |                  |
+                  |                  |
+                 *|     *  *  *      | *
+         ________)/\\\\_//(\\/(/\\)/\\//\\/|_)_______
+";
 
 /*
-
-static char *rip[] = {
-"                       __________\n",
-"                      /          \\\n",
-"                     /    REST    \\\n",
-"                    /      IN      \\\n",
-"                   /     PEACE      \\\n",
-"                  /                  \\\n",
-"                  |                  |\n",
-"                  |                  |\n",
-"                  |   killed by a    |\n",
-"                  |                  |\n",
-"                  |       1980       |\n",
-"                 *|     *  *  *      | *\n",
-"         ________)/\\\\_//(\\/(/\\)/\\//\\/|_)_______\n",
-    0
-};
-
 // Figure score and post it.
 void
 score(int amount, int flags, char monst, bool noscore)
@@ -153,48 +151,39 @@ score(int amount, int flags, char monst, bool noscore)
 	}
     }
 }
+*/
 
 // Do something really fun when he dies
-void
-death(char monst)
-{
-    char **dp, *killer;
-    struct tm *lt;
-    static time_t date;
-    struct tm *localtime();
-
-    purse -= purse / 10;
-    clear();
-    killer = killname(monst, FALSE);
-	time(&date);
-	lt = localtime(&date);
-	move(8, 0);
-	dp = rip;
-	while (*dp)
-	    addstr(*dp++);
-	mvaddstr(17, center(killer), killer);
-	if (monst == 's' || monst == 'h')
-	    mvaddch(16, 32, ' ');
-	else
-	    mvaddstr(16, 33, vowelstr(killer));
-	mvaddstr(14, center(ADVENTURER_NAME), ADVENTURER_NAME);
-	sprintf(prbuf, "%d Au", purse);
-	move(15, center(prbuf));
-	addstr(prbuf);
-	sprintf(prbuf, "%4d", 1900+lt->tm_year);
-	mvaddstr(18, 26, prbuf);
-    move(LINES - 1, 0);
-    refresh();
-    score(purse, amulet ? 3 : 0, monst);
-    printf("[Press return to continue]");
-    fflush(stdout);
-    (void) fgets(prbuf,10,stdin);
+// death 
+pub fn death(mut screen: Box<dyn Screen>, player: &Player, monster: char) {
+	let purse = player.purse - player.purse / 10;
+	// todo - score(purse, 0, monster, false);
+	draw_death_screen(screen, purse, monster);
+	wait_for(' ');
 }
-*/
-pub fn death(player: &mut Player, monster: char) {
-	player.purse -= player.purse / 10;
 
+fn draw_death_screen(mut screen: Box<dyn Screen>, purse: usize, monster: char) {
+	screen.clear();
+	screen.move_cursor(8, 0);
+	screen.write(RIP);
+	let gold_string = format!("{} Au", purse);
+	screen.move_cursor(16, center(&gold_string));
+	screen.write(&gold_string);
+	let killer_name = killer_name(monster, false);
+	screen.move_cursor(18, center(&killer_name));
+	screen.write(killer_name.as_str());
+	if monster == 's' || monster == 'h' {
+		screen.move_cursor(17, 32);
+		screen.writ_char(' ');
+	} else {
+		screen.move_cursor(17, 33);
+		screen.write(vowelstr(&killer_name));
+	}
+	screen.move_cursor(SCREEN_HEIGHT - 1, 0);
+	screen.write(PRESS_SPACE_TO_CONTINUE);
+	screen.draw();
 }
+
 
 // Return the index to center the given string
 fn center(str: &str) -> usize {
@@ -322,4 +311,25 @@ fn killer_name(monster: char, doart: bool) -> String {
 	} else {
 		killer_name
 	}
+}
+
+#[cfg(test)]
+mod tests {
+	use serial_test::serial;
+	use crate::test_helpers::tests::MockScreen;
+
+    use super::{draw_death_screen};
+
+    #[test]
+	#[serial]
+    fn death_by_arrow() {
+		draw_death_screen(Box::new(MockScreen::new()), 100, 'a');
+    }
+    
+	
+	#[test]
+	#[serial]
+    fn death_by_starvation() {
+		draw_death_screen(Box::new(MockScreen::new()), 0, 's');
+    }
 }

@@ -10,11 +10,25 @@ pub trait Screen {
     fn clear_msg(&mut self);
     fn msg(&mut self, msg: &str);
     fn status(&mut self, msg: &str);
+    fn move_cursor(&mut self, y: usize, x: usize);
+    fn writ_char(&mut self, c: char);
+    fn write(&mut self, msg: &str);
     fn draw(&self);
 }
 
+#[derive(Copy, Clone, Debug)]
 pub struct ConsoleScreen {
-    pub screen: [[char; SCREEN_WIDTH]; SCREEN_HEIGHT],
+    screen: [[char; SCREEN_WIDTH]; SCREEN_HEIGHT],
+    cursor: (usize, usize),
+}
+
+impl ConsoleScreen {
+    pub const fn new() -> ConsoleScreen {
+        ConsoleScreen {
+            screen: [[' '; SCREEN_WIDTH]; SCREEN_HEIGHT],
+            cursor: (0, 0),
+        }
+    }
 }
 
 impl Screen for ConsoleScreen {
@@ -42,6 +56,28 @@ impl Screen for ConsoleScreen {
     fn status(&mut self, msg: &str) {
         for (i, c) in msg.chars().enumerate() {
             self.screen[SCREEN_HEIGHT - 1][i] = c;
+        }
+    }
+
+    fn move_cursor(&mut self, y: usize, x: usize) {
+        self.cursor = (y, x);
+    }
+
+    fn writ_char(&mut self, c: char) {
+        self.screen[self.cursor.0][self.cursor.1] = c;
+    }
+
+    fn write(&mut self, msg: &str) {
+        for (_, c) in msg.chars().enumerate() {
+            if c == '\n' {
+                self.move_cursor(self.cursor.0 + 1, 0);
+            } else if self.cursor.1 > SCREEN_WIDTH - 1 {
+                self.move_cursor(self.cursor.0 + 1, 0);
+                self.writ_char(c);
+            } else {
+                self.move_cursor(self.cursor.0, self.cursor.1 + 1);
+                self.writ_char(c);
+            }
         }
     }
 
