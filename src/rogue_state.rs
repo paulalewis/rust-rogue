@@ -50,6 +50,11 @@ impl <'a> RogueState<'a> {
             is_wand,
         }
     }
+
+    pub fn calculate_score(&self) -> usize {
+	    let score = self.player.purse - self.player.purse / 10;
+        score
+    }
 }
 
 fn init_scroll_names() -> Vec<String> {

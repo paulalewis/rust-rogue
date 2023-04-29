@@ -9,156 +9,26 @@ const RIP: &str = "
                   / was writ in water\\
                   |                  |
                   |                  |
-                  |   killed by a    |
+                  |                  |
                   |                  |
                   |                  |
                  *|     *  *  *      | *
          ________)/\\\\_//(\\/(/\\)/\\//\\/|_)_______
 ";
 
-/*
-// Figure score and post it.
-void
-score(int amount, int flags, char monst, bool noscore)
-{
-    SCORE *scp;
-    int i;
-    SCORE *sc2;
-    SCORE *top_ten, *endp;
-    void (*fp)(int);
-    unsigned int uid;
-    static char *reason[] = {
-	"killed",
-	"quit",
-	"A total winner",
-	"killed with Amulet"
-    };
+const WINNER: &str = "
+    Congratulations, you have made it to the light of day!
+    You have joined the elite ranks of those who have escaped the
+    Dungeons of Doom alive. You journey home and sell all your loot at
+    a great profit and are admitted to the Fighters' Guild.
+";
 
-    start_score();
-
- if (flags >= 0)
-    {
-	mvaddstr(LINES - 1, 0 , "[Press return to continue]");
-        refresh();
-        wgetnstr(stdscr,prbuf,80);
- 	endwin();
-        printf("\n");
-	/*
-	 * free up space to "guarantee" there is space for the top_ten
-	 */
-	delwin(stdscr);
-	delwin(curscr);
-	if (hw != NULL)
-	    delwin(hw);
-    }
-
-    top_ten = (SCORE *) malloc(numscores * sizeof (SCORE));
-    endp = &top_ten[numscores];
-    for (scp = top_ten; scp < endp; scp++)
-    {
-	scp->sc_score = 0;
-	for (i = 0; i < MAXSTR; i++)
-	    scp->sc_name[i] = (unsigned char) rnd(255);
-	scp->sc_flags = RN;
-	scp->sc_level = RN;
-	scp->sc_monster = (unsigned short) RN;
-	scp->sc_uid = RN;
-    }
-
-    signal(SIGINT, SIG_DFL);
-
-    rd_score(top_ten);
-    /*
-     * Insert her in list if need be
-     */
-    sc2 = NULL;
-    if (!noscore)
-    {
-	uid = md_getuid();
-	for (scp = top_ten; scp < endp; scp++)
-	    if (amount > scp->sc_score)
-		break;
-	    else if (!allscore &&	/* only one score per nowin uid */
-		flags != 2 && scp->sc_uid == uid && scp->sc_flags != 2)
-		    scp = endp;
-	if (scp < endp)
-	{
-	    if (flags != 2 && !allscore)
-	    {
-		for (sc2 = scp; sc2 < endp; sc2++)
-		{
-		    if (sc2->sc_uid == uid && sc2->sc_flags != 2)
-			break;
-		}
-		if (sc2 >= endp)
-		    sc2 = endp - 1;
-	    }
-	    else
-		sc2 = endp - 1;
-	    while (sc2 > scp)
-	    {
-		*sc2 = sc2[-1];
-		sc2--;
-	    }
-	    scp->sc_score = amount;
-	    strncpy(scp->sc_name, ADVENTURER_NAME, MAXSTR);
-	    scp->sc_flags = flags;
-	    if (flags == 2)
-		scp->sc_level = max_level;
-	    else
-		scp->sc_level = level;
-	    scp->sc_monster = monst;
-	    scp->sc_uid = uid;
-	    sc2 = scp;
-	}
-    }
-    /*
-     * Print the list
-     */
-    if (flags != -1)
-	putchar('\n');
-    printf("Top %s %s:\n", Numname, allscore ? "Scores" : "Rogueists");
-    printf("   Score Name\n");
-    for (scp = top_ten; scp < endp; scp++)
-    {
-	if (scp->sc_score) {
-	    if (sc2 == scp)
-            md_raw_standout();
-	    printf("%2d %5d %s: %s on level %d", (int) (scp - top_ten + 1),
-		scp->sc_score, scp->sc_name, reason[scp->sc_flags],
-		scp->sc_level);
-	    if (scp->sc_flags == 0 || scp->sc_flags == 3)
-		printf(" by %s", killname((char) scp->sc_monster, TRUE));
-                printf(".");
-	    if (sc2 == scp)
-		    md_raw_standend();
-            putchar('\n');
-	}
-	else
-	    break;
-    }
-    /*
-     * Update the list file
-     */
-    if (sc2 != NULL)
-    {
-	if (lock_sc())
-	{
-	    fp = signal(SIGINT, SIG_IGN);
-	    wr_score(top_ten);
-	    unlock_sc();
-	    signal(SIGINT, fp);
-	}
-    }
-}
-*/
+const KILLED_BY: &str = "killed by";
 
 // Do something really fun when he dies
 // death 
-pub fn death(mut screen: Box<dyn Screen>, player: &Player, monster: char) {
-	let purse = player.purse - player.purse / 10;
-	// todo - score(purse, 0, monster, false);
-	draw_death_screen(screen, purse, monster);
+pub fn death(screen: Box<dyn Screen>, purse: usize, monster: char) {
+	draw_death_screen(screen, purse - purse / 10, monster);
 	wait_for(' ');
 }
 
@@ -167,26 +37,20 @@ fn draw_death_screen(mut screen: Box<dyn Screen>, purse: usize, monster: char) {
 	screen.move_cursor(8, 0);
 	screen.write(RIP);
 	let gold_string = format!("{} Au", purse);
-	screen.move_cursor(16, center(&gold_string));
+	screen.move_cursor(16, center_text_index(&gold_string));
 	screen.write(&gold_string);
-	let killer_name = killer_name(monster, false);
-	screen.move_cursor(18, center(&killer_name));
+	let (article, killer_name) = killer_name(monster);
+	screen.move_cursor(18, center_text_index(&killer_name));
 	screen.write(killer_name.as_str());
-	if monster == 's' || monster == 'h' {
-		screen.move_cursor(17, 32);
-		screen.writ_char(' ');
-	} else {
-		screen.move_cursor(17, 33);
-		screen.write(vowelstr(&killer_name));
-	}
+	let killed_string = format!("{} {}", KILLED_BY, article);
+	screen.move_cursor(17, center_text_index(&killed_string.trim_end()));
+	screen.write(&killed_string.trim_end());
 	screen.move_cursor(SCREEN_HEIGHT - 1, 0);
 	screen.write(PRESS_SPACE_TO_CONTINUE);
 	screen.draw();
 }
 
-
-// Return the index to center the given string
-fn center(str: &str) -> usize {
+fn center_text_index(str: &str) -> usize {
 	28 - ((str.len() + 1) / 2)
 }
 
@@ -195,22 +59,7 @@ fn center(str: &str) -> usize {
 void
 total_winner()
 {
-    THING *obj;
-    struct obj_info *op;
     int worth = 0;
-    int oldpurse;
-
-    clear();
-    standout();
-    addstr("     Congratulations, you have made it to the light of day!    \n");
-    standend();
-    addstr("\nYou have joined the elite ranks of those who have escaped the\n");
-    addstr("Dungeons of Doom alive.  You journey home and sell all your loot at\n");
-    addstr("a great profit and are admitted to the Fighters' Guild.\n");
-    mvaddstr(LINES - 1, 0, "--Press space to continue--");
-    refresh();
-    wait_for(' ');
-    clear();
     mvaddstr(0, 0, "   Worth  Item\n");
     oldpurse = purse;
     for (obj = pack; obj != NULL; obj = next(obj))
@@ -278,11 +127,20 @@ total_winner()
     score(purse, 2, ' ');
 }
 */
+pub fn total_winner(mut screen: Box<dyn Screen>) {
+	screen.clear();
+	screen.move_cursor(0, 0);
+	screen.write(WINNER);
+	screen.move_cursor(SCREEN_HEIGHT - 1, 0);
+	screen.write(PRESS_SPACE_TO_CONTINUE);
+	wait_for(' ');
+	screen.clear();
+}
 
 const UNKOWN_KILLER_NAME: &str = "Wally the Wonder Badger";
 // Convert a code to a monster name
 // killname
-fn killer_name(monster: char, doart: bool) -> String {
+fn killer_name(monster: char) -> (String, String) {
 	let death_causes = [
 		('a', "arrow", true),
 		('b', "bolt", true),
@@ -291,7 +149,7 @@ fn killer_name(monster: char, doart: bool) -> String {
 		('s', "starvation", false),
 	];
 	
-	let (killer_name, article) = if monster.is_ascii_uppercase() {
+	let (name, article) = if monster.is_ascii_uppercase() {
 		(String::from(monsters[monster as usize - 'A' as usize].name.as_str()), true)
 	} else {
 		let mut sp = String::from(UNKOWN_KILLER_NAME);
@@ -306,11 +164,7 @@ fn killer_name(monster: char, doart: bool) -> String {
 		(sp, article)
 	};
 
-	if doart && article {
-		format!("a{} {}", vowelstr(&killer_name), killer_name)
-	} else {
-		killer_name
-	}
+	(if article { format!("a{}", vowelstr(&name)) } else { "".to_string() }, name)
 }
 
 #[cfg(test)]
@@ -320,12 +174,39 @@ mod tests {
 
     use super::{draw_death_screen};
 
+	#[test]
+	fn killer_name_arrow() {
+		let (article, name) = super::killer_name('a');
+		assert_eq!(article, "an");
+		assert_eq!(name, "arrow");
+	}
+
+	#[test]
+	fn killer_name_snake() {
+		let (article, name) = super::killer_name('S');
+		assert_eq!(article, "a");
+		assert_eq!(name, "snake");
+	}
+
+	#[test]
+	fn killer_name_hypothermia() {
+		let (article, name) = super::killer_name('h');
+		assert_eq!(article, "");
+		assert_eq!(name, "hypothermia");
+	}
+
     #[test]
 	#[serial]
     fn death_by_arrow() {
 		draw_death_screen(Box::new(MockScreen::new()), 100, 'a');
     }
     
+	
+	#[test]
+	#[serial]
+    fn death_by_snake() {
+		draw_death_screen(Box::new(MockScreen::new()), 100, 'S');
+    }
 	
 	#[test]
 	#[serial]
