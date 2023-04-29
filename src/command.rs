@@ -155,10 +155,7 @@ over:
 		when 'U': do_run('u');
 		when 'B': do_run('b');
 		when 'N': do_run('n');
-		when 'F':
-		    kamikaze = TRUE;
-		    /* FALLTHROUGH */
-		case 'f':
+		when 'f':
 		    if (!get_dir())
 		    {
 			after = FALSE;
@@ -175,7 +172,6 @@ over:
 		    else if (diag_ok(&hero, &delta))
 		    {
 			to_death = TRUE;
-			max_hit = 0;
 			mp->t_flags |= ISTARGET;
 			runch = ch = dir_ch;
 			goto over;

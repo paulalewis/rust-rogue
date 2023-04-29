@@ -133,7 +133,6 @@ attack(THING *mp)
     if (to_death && !on(*mp, ISTARGET))
     {
 	to_death = FALSE;
-	kamikaze = FALSE;
     }
     if (mp->t_type == 'X' && mp->t_disguise != 'X' && !on(player, ISBLIND))
     {
@@ -157,14 +156,6 @@ attack(THING *mp)
 	has_hit = FALSE;
 	if (pstats.s_hpt <= 0)
 	    death(mp->t_type);	/* Bye bye life ... */
-	else if (!kamikaze)
-	{
-	    oldhp -= pstats.s_hpt;
-	    if (oldhp > max_hit)
-		max_hit = oldhp;
-	    if (pstats.s_hpt <= max_hit)
-		to_death = FALSE;
-	}
 	if (!on(*mp, ISCANC))
 	    switch (mp->t_type)
 	    {
@@ -569,7 +560,6 @@ remove_mon(coord *mp, THING *tp, bool waskill)
     mvaddch(mp->y, mp->x, tp->t_oldch);
     detach(mlist, tp);
     if (on(*tp, ISTARGET)) {
-	kamikaze = FALSE;
 	to_death = FALSE;
     }
     discard(tp);

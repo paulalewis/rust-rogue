@@ -14,8 +14,6 @@ pub static seenstairs: bool = false;
 pub static has_hit: bool = false;
 //bool inv_describe = TRUE;		/* Say which way items are being used */
 pub static inv_describe: bool = true;
-//bool kamikaze = FALSE;			/* to_death really to DEATH */
-pub static kamikaze: bool = false;
 //bool move_on = FALSE;			/* Next move shouldn't pick up items */
 pub static move_on: bool = false;
 //bool msg_esc = FALSE;			/* Check for ESC from msg's --More-- */
@@ -50,8 +48,6 @@ pub static TRAP_NAMES: [&str; 8] = [
 
 //int n_objs;				/* # items listed in inventory() call */
 pub static n_objs: usize = 0;
-//int max_hit;				/* Max damage done to her in to_death */
-pub static max_hit: usize = 0;
 //int mpos = 0;				/* Where cursor is on top line */
 pub static mpos: usize = 0;
 //int a_class[MAXARMORS] = {

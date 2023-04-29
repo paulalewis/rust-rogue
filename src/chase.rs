@@ -168,7 +168,6 @@ over:
 	    if (to_death && !on(*th, ISTARGET))
 	    {
 		to_death = FALSE;
-		kamikaze = FALSE;
 	    }
 	    return(0);
 	}
