@@ -26,9 +26,6 @@ msg(char *fmt, ...)
     va_end(args);
     return endmsg();
 }*/
-pub fn msg(msg: &str) {
-    println!("{}", msg);
-}
 
 // Add things to the current message
 /*void
@@ -100,19 +97,13 @@ doadd(char *fmt, va_list args)
 }*/
 
 // Returns true if it is ok to step on ch
-/*int
-step_ok(int ch)
-{
-    switch (ch)
-    {
-	case ' ':
-	case '|':
-	case '-':
-	    return FALSE;
-	default:
-	    return (!isalpha(ch));
+/// int step_ok(int ch)
+pub fn step_ok(character: char) -> bool {
+    match character {
+        ' ' | '|' | '-' => false,
+        _ => !character.is_alphabetic()
     }
-}*/
+}
 
 // Reads and returns a character, checking for gross input errors
 pub fn readchar() -> Result<char, Error> {

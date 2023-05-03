@@ -1,6 +1,7 @@
 use crate::core::player::Player;
 
-use crate::{rogue::*, utils::vowelstr, screen::{Screen, SCREEN_HEIGHT}, io::wait_for, constants::PRESS_SPACE_TO_CONTINUE};
+use crate::core::screen::{Screen, SCREEN_HEIGHT};
+use crate::{rogue::*, utils::vowelstr, io::wait_for, constants::PRESS_SPACE_TO_CONTINUE};
 
 const RIP: &str = "
                        __________

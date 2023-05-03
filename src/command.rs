@@ -1,4 +1,4 @@
-use crate::{rogue::*, io::{msg, readchar, wait_for}, constants::PRESS_SPACE_TO_CONTINUE, core::rogue_state::RogueState};
+use crate::{rogue::*, io::{readchar, wait_for}, constants::PRESS_SPACE_TO_CONTINUE, core::{rogue_state::RogueState, screen::Screen}};
 
 // Process the user commands
 /*void command() {
@@ -288,26 +288,29 @@ over:
 	teleport();
 }
 */
-pub fn command(rogue_state: &RogueState) -> bool {
+pub fn command(
+	screen: &mut dyn Screen,
+	rogue_state: &RogueState,
+) -> bool {
 	let command_char = readchar().unwrap();
 	match dbg!(command_char) {
 		'Q' => {
 			unsafe { after = false; }
-			quit()
+			quit(screen)
 		}
 		'?' => {
 			unsafe { after = false; }
-			help()
+			help(screen)
 		}
 		_ => {
-			illegal_command(command_char)
+			illegal_command(screen, command_char)
 		}
 	}
 }
 
-fn illegal_command(ch: char) -> bool {
+fn illegal_command(screen: &mut dyn Screen, character: char) -> bool {
 	unsafe { repeat_command_count = 0; }
-	msg(&format!("illegal command '{}'", ch));
+	screen.msg(&format!("illegal command '{}'", character));
 	true
 }
 
@@ -418,7 +421,7 @@ help()
     touchwin(stdscr);
     wrefresh(stdscr);
 }*/
-fn help() -> bool {
+fn help(screen: &mut dyn Screen) -> bool {
 	for help_item in &HELP_ITEMS {
 		println!("{}", help_item);
 	}
@@ -633,10 +636,10 @@ void current(THING *cur, char *how, char *where) {
 }
 */
 
-fn quit() -> bool {
+fn quit(screen: &mut dyn Screen) -> bool {
     //int oy, ox;
     // getyx(curscr, oy, ox);
-    msg("really quit?");
+    screen.msg("really quit?");
     if readchar().unwrap() == 'y' {
 		// clear();
 		// mvprintw(LINES - 2, 0, "You quit with %d gold pieces", purse);

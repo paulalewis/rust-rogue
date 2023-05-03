@@ -1,8 +1,8 @@
 use std::{io::Error, rc::Rc};
 
-use crate::{screen::{Screen, ConsoleScreen}, io::readchar, core::rogue_state::RogueState};
+use crate::{io::readchar, core::{rogue_state::RogueState, screen::Screen}};
 
-use super::rogue_view_model::{RogueViewModel, ViewCommand, ViewModelCommand};
+use super::{rogue_view_model::{RogueViewModel, ViewCommand, ViewModelCommand}, console_screen::ConsoleScreen};
 
 pub struct RogueView<'a> {
     rogue_view_model: RogueViewModel<'a>,

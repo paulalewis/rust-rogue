@@ -4,8 +4,10 @@ use crate::core::coord::Coord;
 
 use crate::core::creature::Creature;
 use crate::core::object::Object;
-use crate::rogue::Room;
-use crate::{rogue::{rainbow, NCOLORS}, constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME}, utils::rnd, io::msg, monsters::save_throw};
+use crate::rogue::{Room, console_screen};
+use crate::{rogue::{rainbow, NCOLORS}, constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME}, utils::rnd, monsters::save_throw};
+
+use super::screen::Screen;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Player {
@@ -122,7 +124,9 @@ impl Player {
 	    let cur_ring = self.cur_ring.as_ref();
 	    let cur_weapon = self.cur_weapon.as_ref().unwrap();
 	    if object == cur_armor || object == cur_weapon || object == cur_ring[0].as_ref().unwrap() || object == cur_ring[1].as_ref().unwrap() {
-		    msg("That's already in use");
+            unsafe {
+		        console_screen.msg("That's already in use");
+            }
 		    true
 	    } else {
 		    false

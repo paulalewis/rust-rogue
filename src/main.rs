@@ -5,6 +5,7 @@ use std::env;
 use rust_rogue::command::command;
 use rust_rogue::constants::{NUMCOLS, NUMLINES};
 use rust_rogue::core::rogue_state::RogueState;
+use rust_rogue::rogue::console_screen;
 
 enum InitGame {
     Init,
@@ -75,5 +76,7 @@ fn init_rogue<'a>(seed: u64) -> RogueState<'a> {
 }
 
 fn play_rogue(rouge_state: RogueState) {
-    while command(&rouge_state) {};
+    unsafe {
+        while command(&mut console_screen, &rouge_state) {};
+    }
 }

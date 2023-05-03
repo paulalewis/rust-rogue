@@ -1,6 +1,7 @@
 #[cfg(test)]
 pub mod tests {
-    use crate::screen::{ConsoleScreen, Screen};
+    use crate::{core::screen::Screen, ui::console_screen::ConsoleScreen};
+
 
     pub struct MockScreen {
         console_screen: ConsoleScreen,
