@@ -1,4 +1,4 @@
-use crate::{rogue::*, utils::*, constants::{AMULETLEVEL, VS_MAGIC, R_PROTECT, LEFT, RIGHT}, rogue_state::RogueState};
+use crate::{rogue::*, utils::*, constants::{AMULETLEVEL, VS_MAGIC, R_PROTECT, LEFT, RIGHT}, core::{coord::Coord, creature::Creature, rogue_state::RogueState}};
 
 use std::cmp;
 
@@ -66,13 +66,13 @@ new_monster(THING *tp, char type, coord *cp)
     if (type == 'X')
 	tp->t_disguise = rnd_thing();
 }*/
-pub fn new_monster(state: &RogueState, tp: Box<Thing>, m_type: char, cp: Option<Coord>) {
+pub fn new_monster(state: &RogueState, tp: Box<Creature>, m_type: char, cp: Option<Coord>) {
     let mut mp: Monster;
-    let mut tp: Thing;
+    let mut tp: Creature;
     let mut cp: Coord;
     // let mut mlist: Vec<Thing>;
 
-    let lev_add = cmp::max(0, state.level as isize - AMULETLEVEL as isize);
+    let lev_add = cmp::max(0, state.dungeon.level as isize - AMULETLEVEL as isize);
 
     /*attach(mlist, tp);
     tp.t_type = m_type;
@@ -105,15 +105,10 @@ pub fn new_monster(state: &RogueState, tp: Box<Thing>, m_type: char, cp: Option<
 
 // Experience to add for this monster's level/hit points
 //int exp_add(THING *tp)
-pub fn exp_add(monster: &Thing) -> usize {
+pub fn exp_add(monster: &Creature) -> usize {
     let mut xp: usize;
-    match monster {
-        Thing::Creature { stats, .. } => {
-            xp = stats.max_hp / if stats.lvl == 1 { 8 } else { 6 };
-            xp *= if stats.lvl > 9 { 20 } else if stats.lvl > 6 { 4 } else { 1 };
-        },
-        _ => panic!("exp_add: monster is not a creature"),
-    }
+    xp = monster.stats.max_hp / if monster.stats.lvl == 1 { 8 } else { 6 };
+    xp *= if monster.stats.lvl > 9 { 20 } else if monster.stats.lvl > 6 { 4 } else { 1 };
     xp
 }
 
@@ -207,28 +202,18 @@ wake_monster(int y, int x)
 
 // Give a pack to a monster if it deserves one
 // void give_pack(THING *tp)
-pub fn give_pack(state: &RogueState, creature: Thing) {
-    if state.level >= state.max_level {
-        match creature {
-            Thing::Creature { pack, r#type, .. } => {
-                let index = (r#type as u8 - b'A') as usize;
-                if rnd(100) < monsters[index].carry {
-                    // todo - attach(pack, new_thing());
-                }
-            },
-            _ => ()
+pub fn give_pack(state: &RogueState, creature: Creature) {
+    if state.dungeon.level >= state.max_level {
+        let index = (creature.creature_type as u8 - b'A') as usize;
+        if rnd(100) < monsters[index].carry {
+            // todo - attach(pack, new_thing());
         }
     }
 }
 
 // See if a creature save against something
 //int save_throw(int which, THING *tp)
-pub fn save_throw(which: usize, creature: &Thing) -> bool {
-    match creature {
-        Thing::Creature { stats, .. } => {
-            let need: usize = 14 + which - stats.lvl / 2;
-            roll(1, 20) >= need
-        },
-        _ => panic!("save_throw: not a creature"),
-    }
+pub fn save_throw(which: usize, creature: &Creature) -> bool {
+    let need: usize = 14 + which - creature.stats.lvl / 2;
+    roll(1, 20) >= need
 }

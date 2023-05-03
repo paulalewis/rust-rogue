@@ -1,4 +1,4 @@
-use crate::{player::Player, constants::{MAXSCROLLS, MAXRINGS, MAXPOTIONS, MAXSTICKS}, utils::rnd, rogue::{sylls, NUMBER_OF_SYLLABLES, NSTONES, stones, NCOLORS, rainbow, NMETAL, NWOOD, metal, wood}};
+use crate::{constants::{MAXSCROLLS, MAXRINGS, MAXPOTIONS, MAXSTICKS}, utils::rnd, rogue::{NSTONES, stones, NCOLORS, rainbow, NMETAL, NWOOD, metal, wood}, core::{object::Object, dungeon::Dungeon, player::Player}};
 
 // This represents the state of the game.
 // It can be used to save and restore a game.
@@ -6,8 +6,6 @@ use crate::{player::Player, constants::{MAXSCROLLS, MAXRINGS, MAXPOTIONS, MAXSTI
 pub struct RogueState<'a> {
     // amulet player found the amulet
     pub amulet: bool,
-    // level what level the player is on
-    pub level: usize,
     //no_food number of levels without food 
     pub no_food: usize,
     //ntraps number of traps on this level
@@ -15,6 +13,7 @@ pub struct RogueState<'a> {
     // max_level deepest player has gone 
     pub max_level: usize,
     pub player: Player,
+    pub dungeon: Dungeon,
     // p_colors colors of the potions
     pub potion_colors: [&'a str; MAXPOTIONS],
     // quiet number of quiet turns 
@@ -36,11 +35,11 @@ impl <'a> RogueState<'a> {
         let (stick_material, is_wand) = init_wand_and_staff_materials();
         RogueState {
             amulet: false,
-            level: 1,
             no_food: 0,
             n_traps: 0,
             max_level: 1,
             player: Player::new(),
+            dungeon: Dungeon::new(),
             potion_colors: init_potion_colors(),
             quiet: 0,
             ring_stones: init_ring_stones(),
@@ -145,3 +144,24 @@ fn init_wand_and_staff_materials<'a>() -> ([&'a str; MAXSTICKS], [bool; MAXSTICK
     }
     (stick_material, is_wand)
 }
+
+const NUMBER_OF_SYLLABLES: usize = 147;
+//static char *sylls[] = {
+static sylls: [&str; NUMBER_OF_SYLLABLES] = [
+    "a", "ab", "ag", "aks", "ala", "an", "app", "arg", "arze", "ash",
+    "bek", "bie", "bit", "bjor", "blu", "bot", "bu", "byt", "comp",
+    "con", "cos", "cre", "dalf", "dan", "den", "do", "e", "eep", "el",
+    "eng", "er", "ere", "erk", "esh", "evs", "fa", "fid", "fri", "fu",
+    "gan", "gar", "glen", "gop", "gre", "ha", "hyd", "i", "ing", "ip",
+    "ish", "it", "ite", "iv", "jo", "kho", "kli", "klis", "la", "lech",
+    "mar", "me", "mi", "mic", "mik", "mon", "mung", "mur", "nej",
+    "nelg", "nep", "ner", "nes", "nes", "nih", "nin", "o", "od", "ood",
+    "org", "orn", "ox", "oxy", "pay", "ple", "plu", "po", "pot",
+    "prok", "re", "rea", "rhov", "ri", "ro", "rog", "rok", "rol", "sa",
+    "san", "sat", "sef", "seh", "shu", "ski", "sna", "sne", "snik",
+    "sno", "so", "sol", "sri", "sta", "sun", "ta", "tab", "tem",
+    "ther", "ti", "tox", "trol", "tue", "turs", "u", "ulk", "um", "un",
+    "uni", "ur", "val", "viv", "vly", "vom", "wah", "wed", "werg",
+    "wex", "whon", "wun", "xo", "y", "yot", "yu", "zant", "zeb", "zim",
+    "zok", "zon", "zum",
+];

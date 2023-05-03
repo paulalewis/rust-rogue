@@ -1,4 +1,4 @@
-use crate::{utils::spread, rogue_state::RogueState, constants::{NUMTHINGS, ISMEAN, ISFLY, ISREGEN, ISGREED, ISINVIS, MAXPOTIONS, MAXARMORS, MAXRINGS, MAXSCROLLS, MAXWEAPONS, MAXSTICKS}, screen::ConsoleScreen};
+use crate::{utils::spread, constants::{NUMTHINGS, ISMEAN, ISFLY, ISREGEN, ISGREED, ISINVIS, MAXPOTIONS, MAXARMORS, MAXRINGS, MAXSCROLLS, MAXWEAPONS, MAXSTICKS}, screen::ConsoleScreen, core::{coord::Coord, object::Object, creature::Creature}};
 
 // This file contains global values for the game
 
@@ -98,8 +98,6 @@ pub static XP_LEVELS: [usize; 21] = [
 
 // coord delta;				/* Change indicated to get_dir() */
 pub static delta: Coord = Coord { y: 0, x: 0 };
-// coord oldpos;				/* Position before last look() call */
-pub static oldpos: Coord = Coord { y: 0, x: 0 };
 // coord stairs;				/* Location of staircase */
 pub static stairs: Coord = Coord { y: 0, x: 0 };
 
@@ -108,21 +106,14 @@ pub static stairs: Coord = Coord { y: 0, x: 0 };
 pub static places: Vec<Place> = Vec::new();
 
 //THING *l_last_pick = NULL;		/* Last last_pick */
-pub static l_last_pick: Option<Thing> = None;
+pub static l_last_pick: Option<Object> = None;
 //THING *last_pick = NULL;		/* Last object picked in get_item() */
-pub static last_pick: Option<Thing> = None;
-//THING *lvl_obj = NULL;			/* List of objects on this level */
-pub static lvl_obj: Option<Thing> = None;
-//THING *mlist = NULL;			/* List of monsters on the level */
-pub static mlist: Option<Thing> = None;
+pub static last_pick: Option<Object> = None;
 
 //#define INIT_STATS { 16, 0, 1, 10, 12, "1x4", 12 }
 //struct stats max_stats = INIT_STATS;	/* The maximum for the player */
 const MAX_INITIAL_STR: usize = 16;
 pub static max_str: usize = MAX_INITIAL_STR;
-
-//struct room *oldrp;			/* Roomin(&oldpos) */
-pub static oldrp: Option<Room> = None;
 
 //struct room rooms[MAXROOMS];		/* One for each room -- A level */
 //static rooms: [Room; MAXROOMS] = [Room::new(); MAXROOMS];
@@ -366,14 +357,6 @@ pub const BEFORE: usize = 1;
 //#define AFTER		spread(2)
 pub const AFTER: usize = 2;
 
-
-// coord
-#[derive(Debug, Copy, Clone, PartialEq)]
-pub struct Coord {
-    pub x: i32,
-    pub y: i32,
-}
-
 /*
  * Stuff about objects
  */
@@ -463,96 +446,6 @@ impl Stats {
     }
 }
 
-/*union thing {
-    struct {
-	union thing *_l_next, *_l_prev;	/* Next pointer in link */
-	coord _t_pos;			/* Position */
-	bool _t_turn;			/* If slowed, is it a turn to move */
-	char _t_type;			/* What it is */
-	char _t_disguise;		/* What mimic looks like */
-	char _t_oldch;			/* Character that was where it was */
-	coord *_t_dest;			/* Where it is running to */
-	short _t_flags;			/* State word */
-	struct stats _t_stats;		/* Physical description */
-	struct room *_t_room;		/* Current room for thing */
-	union thing *_t_pack;		/* What the thing is carrying */
-        int _t_reserved;
-    } _t;
-    struct {
-	union thing *_l_next, *_l_prev;	/* Next pointer in link */
-	int _o_type;			/* What kind of object it is */
-	coord _o_pos;			/* Where it lives on the screen */
-	char *_o_text;			/* What it says if you read it */
-	int  _o_launch;			/* What you need to launch it */
-	char _o_packch;			/* What character it is in the pack */
-	char _o_damage[8];		/* Damage if used like sword */
-	char _o_hurldmg[8];		/* Damage if thrown */
-	int _o_count;			/* count for plural objects */
-	int _o_which;			/* Which object of a type it is */
-	int _o_hplus;			/* Plusses to hit */
-	int _o_dplus;			/* Plusses to damage */
-	int _o_arm;			/* Armor protection */
-	int _o_flags;			/* information about objects */
-	int _o_group;			/* group number for this object */
-	char *_o_label;			/* Label for object */
-    } _o;
-};*/
-//typedef union thing THING;
-#[derive(Debug, Clone, PartialEq)]
-pub enum Thing {
-    Creature {
-        next: Box<Option<Thing>>,
-        prev: Box<Option<Thing>>,
-        pos: Coord,
-        turn: bool,
-        r#type: char,
-        disguise: char,
-        oldch: char,
-        dest: Option<Coord>,
-        flags: usize,
-        stats: Stats,
-        room: Box<Room>,
-        pack: Box<Option<(Thing, /* reserved */i32)>>,
-    },
-    Object {
-        next: Box<Option<Thing>>,
-        prev: Box<Option<Thing>>,
-        r#type: i32,
-        pos: Coord,
-        text: String,
-        launch: i32,
-        packch: char,
-        damage: String,
-        hurldmg: String,
-        count: i32,
-        which: usize,
-        hplus: i32,
-        dplus: i32,
-        arm: isize,
-        flags: usize,
-        group: i32,
-        label: String,
-    },
-}
-
-impl Thing {
-    pub fn new_creature() -> Self {
-        Thing::Creature {
-            next: Box::new(None),
-            prev: Box::new(None),
-            pos: Coord { x: 0, y: 0 },
-            turn: false,
-            r#type: '\0',
-            disguise: '\0',
-            oldch: '\0',
-            dest: None,
-            flags: 0,
-            stats: Stats::new(),
-            room: Box::new(Room::new()),
-            pack: Box::new(None),
-        }
-    }
-}
 
 // describe a place on the level map
 /*typedef struct {
@@ -564,7 +457,7 @@ impl Thing {
 pub struct Place {
     pub ch: char,
     pub flags: char,
-    pub monst: Option<Thing>,
+    pub monst: Option<Creature>,
 }
 
 impl Place {
@@ -616,27 +509,6 @@ pub struct Stone<'a> {
     pub name: &'a str,
     pub value: isize,
 }
-
-pub const NUMBER_OF_SYLLABLES: usize = 147;
-//static char *sylls[] = {
-pub static sylls: [&str; NUMBER_OF_SYLLABLES] = [
-    "a", "ab", "ag", "aks", "ala", "an", "app", "arg", "arze", "ash",
-    "bek", "bie", "bit", "bjor", "blu", "bot", "bu", "byt", "comp",
-    "con", "cos", "cre", "dalf", "dan", "den", "do", "e", "eep", "el",
-    "eng", "er", "ere", "erk", "esh", "evs", "fa", "fid", "fri", "fu",
-    "gan", "gar", "glen", "gop", "gre", "ha", "hyd", "i", "ing", "ip",
-    "ish", "it", "ite", "iv", "jo", "kho", "kli", "klis", "la", "lech",
-    "mar", "me", "mi", "mic", "mik", "mon", "mung", "mur", "nej",
-    "nelg", "nep", "ner", "nes", "nes", "nih", "nin", "o", "od", "ood",
-    "org", "orn", "ox", "oxy", "pay", "ple", "plu", "po", "pot",
-    "prok", "re", "rea", "rhov", "ri", "ro", "rog", "rok", "rol", "sa",
-    "san", "sat", "sef", "seh", "shu", "ski", "sna", "sne", "snik",
-    "sno", "so", "sol", "sri", "sta", "sun", "ta", "tab", "tem",
-    "ther", "ti", "tox", "trol", "tue", "turs", "u", "ulk", "um", "un",
-    "uni", "ur", "val", "viv", "vly", "vom", "wah", "wed", "werg",
-    "wex", "whon", "wun", "xo", "y", "yot", "yu", "zant", "zeb", "zim",
-    "zok", "zon", "zum",
-];
 
 pub const NSTONES: usize = 26;
 //STONE stones[] = {

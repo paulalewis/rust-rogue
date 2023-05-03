@@ -2,7 +2,7 @@ use std::io::Error;
 use std::rc::{Rc, Weak};
 
 use crate::core::rogue_action::RogueAction;
-use crate::rogue_state::RogueState;
+use crate::core::rogue_state::RogueState;
 
 pub struct RogueViewModel<'a> {
     rogue_state: RogueState<'a>,

@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-use crate::{rogue::{Thing}, io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL, ISHALU}};
+use crate::{io::msg, constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL, ISHALU}, core::creature::Creature};
 
 // Pick a random number.
 pub fn rnd(range: usize) -> usize {
@@ -24,14 +24,6 @@ pub fn roll(number: usize, sides: usize) -> usize {
 //#define pack		player.t_pack
 //#define proom		player.t_room
 //#define max_hp		player.t_stats.s_maxhp
-
-//#define on(thing,flag)
-pub fn on(thing: &Thing, flag: usize) -> bool {
-	match thing {
-        Thing::Creature { flags, .. } => flags & flag != 0,
-        Thing::Object { flags, .. } => flags & flag != 0,
-	}
-}
 
 //#define GOLDCALC
 pub fn goldcalc(lvl: usize) -> usize {

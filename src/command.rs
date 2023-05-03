@@ -1,4 +1,4 @@
-use crate::{rogue::*, io::{msg, readchar, wait_for}, constants::PRESS_SPACE_TO_CONTINUE, rogue_state::{self, RogueState}};
+use crate::{rogue::*, io::{msg, readchar, wait_for}, constants::PRESS_SPACE_TO_CONTINUE, core::rogue_state::RogueState};
 
 // Process the user commands
 /*void command() {

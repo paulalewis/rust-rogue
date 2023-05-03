@@ -1,4 +1,6 @@
-use crate::{rogue::*, player::Player, utils::vowelstr, screen::{Screen, SCREEN_HEIGHT}, io::wait_for, constants::PRESS_SPACE_TO_CONTINUE};
+use crate::core::player::Player;
+
+use crate::{rogue::*, utils::vowelstr, screen::{Screen, SCREEN_HEIGHT}, io::wait_for, constants::PRESS_SPACE_TO_CONTINUE};
 
 const RIP: &str = "
                        __________
@@ -170,7 +172,7 @@ fn killer_name(monster: char) -> (String, String) {
 #[cfg(test)]
 mod tests {
 	use serial_test::serial;
-	use crate::test_helpers::tests::MockScreen;
+	use crate::test::test_helpers::tests::MockScreen;
 
     use super::{draw_death_screen};
 

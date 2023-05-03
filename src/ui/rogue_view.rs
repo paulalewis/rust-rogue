@@ -1,6 +1,6 @@
 use std::{io::Error, rc::Rc};
 
-use crate::{screen::{Screen, ConsoleScreen}, rogue_state::RogueState, io::readchar};
+use crate::{screen::{Screen, ConsoleScreen}, io::readchar, core::rogue_state::RogueState};
 
 use super::rogue_view_model::{RogueViewModel, ViewCommand, ViewModelCommand};
 

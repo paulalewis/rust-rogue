@@ -1,15 +1,20 @@
 use std::char::MAX;
 
-use crate::{rogue::{Thing, rainbow, NCOLORS}, constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME}, utils::{on, rnd}, io::msg, monsters::save_throw};
+use crate::core::coord::Coord;
+
+use crate::core::creature::Creature;
+use crate::core::object::Object;
+use crate::rogue::Room;
+use crate::{rogue::{rainbow, NCOLORS}, constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME}, utils::rnd, io::msg, monsters::save_throw};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Player {
     // cur_armor what player is wearing
-    pub cur_armor: Option<Thing>,
+    pub cur_armor: Option<Object>,
     // cur_ring which rings are being worn
-    pub cur_ring: [Option<Thing>; 2],
+    pub cur_ring: [Option<Object>; 2],
     // cur_weapon which weapon he is weilding
-    pub cur_weapon: Option<Thing>,
+    pub cur_weapon: Option<Object>,
     // food_left amount of food in hero's stomach
     pub food_left: usize,
     //hungry_state how hungry is he 
@@ -19,9 +24,13 @@ pub struct Player {
     // pack_used Is the character used in the pack?
     pub pack_used: [bool; MAX_PACK_SIZE], 
     // player the player stats
-    pub player_stats: Option<Thing>,
+    pub player_stats: Creature,
     // purse how much gold he has 
     pub purse: usize,
+    // oldpos position before last look() call
+    pub oldpos: Coord,
+    // oldrp roomin(&oldpos)
+    pub oldrp: Option<Room>,
 }
 
 impl Player {
@@ -65,6 +74,8 @@ impl Player {
             obj->o_flags |= ISKNOW;
             add_pack(obj, TRUE);
         }*/
+        let player_stats = Creature::new();
+        let pos = player_stats.pos;
         Player {
             cur_armor: None,
             cur_ring: [None, None],
@@ -73,15 +84,19 @@ impl Player {
             hungry_state: 0,
             inpack: 0,
             pack_used: [false; MAX_PACK_SIZE],
-            player_stats: None,
+            player_stats: player_stats,
             purse: 0,
+            //oldpos = hero;
+            oldpos: pos,
+            //oldrp = roomin(&hero);
+            oldrp: None,
         }
     }
     
     // If he is halucinating, pick a random color name and return it,
     // otherwise return the given color.
     pub fn pick_color<'a>(&self, color: &'a str) -> &'a str {
-        return if on(self.player_stats.as_ref().unwrap(), ISHALU) { rainbow[rnd(NCOLORS)] } else { color };
+        return if self.player_stats.on(ISHALU) { rainbow[rnd(NCOLORS)] } else { color };
     }
 
     //#define ISRING(h,r)
@@ -89,12 +104,7 @@ impl Player {
 	    let cur_ring = self.cur_ring.as_ref();
         match cur_ring[h] {
             Some(ref ring) => {
-                match ring {
-                    Thing::Object { which, .. } => {
-                        *which == r
-                    },
-                    _ => false
-                }
+                ring.which == r
             },
             None => false
         }
@@ -107,7 +117,7 @@ impl Player {
 
     // See if the object is one of the currently used items
     // bool is_current(THING *obj)
-    pub fn is_current(&self, object: &Thing) -> bool {
+    pub fn is_current(&self, object: &Object) -> bool {
 	    let cur_armor = self.cur_armor.as_ref().unwrap();
 	    let cur_ring = self.cur_ring.as_ref();
 	    let cur_weapon = self.cur_weapon.as_ref().unwrap();
@@ -122,7 +132,7 @@ impl Player {
     // Choose the first or second string depending on whether it the player is tripping
     // choose_str
     pub fn choose_str<'a>(&self, ts: &'a str, ns: &'a str) -> &'a str {
-	    if on(&self.player_stats.as_ref().unwrap(), ISHALU) { ts } else { ns }
+	    if self.player_stats.on(ISHALU) { ts } else { ns }
     }
 
     // See if he saves against various nasty things
@@ -132,24 +142,14 @@ impl Player {
             which -= self.adjust_saving_throw(LEFT);
             which -= self.adjust_saving_throw(RIGHT);
         }
-        match &self.player_stats {
-            Some(player_stats) => {
-                save_throw(which, player_stats)
-            },
-            None => panic!("save: player is None"),
-        }
+        save_throw(which, &self.player_stats)
     }
 
     fn adjust_saving_throw(&self, side: usize) -> usize {
         let cur_ring = self.cur_ring.as_ref();
         if self.is_ring(side, R_PROTECT) {
             match &cur_ring[side] {
-                Some(ring) => {
-                    match ring {
-                        Thing::Object { arm, .. } => *arm as usize,
-                        _ => 0,
-                    }
-                },
+                Some(ring) => ring.arm as usize,
                 None => 0,
             }
         } else {
