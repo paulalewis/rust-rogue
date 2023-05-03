@@ -7,9 +7,9 @@ pub const MAX_MESSAGE_LENGTH: usize = SCREEN_WIDTH - SIZE_OF_MORE; // MAXMSG
 
 pub trait Screen {
     fn clear(&mut self);
-    fn clear_msg(&mut self);
-    fn msg(&mut self, msg: &str);
-    fn status(&mut self, msg: &str);
+    fn clear_message(&mut self);
+    fn show_message(&mut self, msg: &str);
+    fn show_status(&mut self, msg: &str);
     fn move_cursor(&mut self, y: usize, x: usize);
     fn writ_char(&mut self, c: char);
     fn write(&mut self, msg: &str);

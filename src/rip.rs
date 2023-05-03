@@ -1,7 +1,6 @@
-use crate::core::player::Player;
-
 use crate::core::screen::{Screen, SCREEN_HEIGHT};
-use crate::{rogue::*, utils::vowelstr, io::wait_for, constants::PRESS_SPACE_TO_CONTINUE};
+use crate::ui::input_handler::wait_for_character;
+use crate::{rogue::*, utils::vowelstr, constants::PRESS_SPACE_TO_CONTINUE};
 
 const RIP: &str = "
                        __________
@@ -32,7 +31,7 @@ const KILLED_BY: &str = "killed by";
 // death 
 pub fn death(screen: Box<dyn Screen>, purse: usize, monster: char) {
 	draw_death_screen(screen, purse - purse / 10, monster);
-	wait_for(' ');
+	wait_for_character(' ');
 }
 
 fn draw_death_screen(mut screen: Box<dyn Screen>, purse: usize, monster: char) {
@@ -136,7 +135,7 @@ pub fn total_winner(mut screen: Box<dyn Screen>) {
 	screen.write(WINNER);
 	screen.move_cursor(SCREEN_HEIGHT - 1, 0);
 	screen.write(PRESS_SPACE_TO_CONTINUE);
-	wait_for(' ');
+	wait_for_character(' ');
 	screen.clear();
 }
 

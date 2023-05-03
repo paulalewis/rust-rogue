@@ -2,8 +2,6 @@ use crate::{utils::spread, constants::{NUMTHINGS, ISMEAN, ISFLY, ISREGEN, ISGREE
 
 // This file contains global values for the game
 
-pub static mut console_screen: ConsoleScreen = ConsoleScreen::new();
-
 //bool after;				/* True if we want after daemons */
 pub static mut after: bool = false;
 //bool again;				/* Repeating the last command */

@@ -20,16 +20,16 @@ pub mod tests {
             self.console_screen.clear();
         }
 
-        fn clear_msg(&mut self) {
-            self.console_screen.clear_msg();
+        fn clear_message(&mut self) {
+            self.console_screen.clear_message();
         }
 
-        fn msg(&mut self, msg: &str) {
-            self.console_screen.msg(msg);
+        fn show_message(&mut self, msg: &str) {
+            self.console_screen.show_message(msg);
         }
 
-        fn status(&mut self, msg: &str) {
-            self.console_screen.status(msg);
+        fn show_status(&mut self, msg: &str) {
+            self.console_screen.show_status(msg);
         }
 
         fn move_cursor(&mut self, y: usize, x: usize) {

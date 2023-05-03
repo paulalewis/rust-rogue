@@ -4,7 +4,7 @@ use crate::core::coord::Coord;
 
 use crate::core::creature::Creature;
 use crate::core::object::Object;
-use crate::rogue::{Room, console_screen};
+use crate::rogue::Room;
 use crate::{rogue::{rainbow, NCOLORS}, constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME}, utils::rnd, monsters::save_throw};
 
 use super::screen::Screen;
@@ -119,14 +119,12 @@ impl Player {
 
     // See if the object is one of the currently used items
     // bool is_current(THING *obj)
-    pub fn is_current(&self, object: &Object) -> bool {
+    pub fn is_current(&self, screen: &mut dyn Screen, object: &Object) -> bool {
 	    let cur_armor = self.cur_armor.as_ref().unwrap();
 	    let cur_ring = self.cur_ring.as_ref();
 	    let cur_weapon = self.cur_weapon.as_ref().unwrap();
 	    if object == cur_armor || object == cur_weapon || object == cur_ring[0].as_ref().unwrap() || object == cur_ring[1].as_ref().unwrap() {
-            unsafe {
-		        console_screen.msg("That's already in use");
-            }
+		    screen.show_message("That's already in use");
 		    true
 	    } else {
 		    false

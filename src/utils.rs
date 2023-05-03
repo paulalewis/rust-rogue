@@ -17,6 +17,15 @@ pub fn roll(number: usize, sides: usize) -> usize {
     return total;
 }
 
+// Returns true if it is ok to step on ch
+/// int step_ok(int ch)
+pub fn step_ok(character: char) -> bool {
+    match character {
+        ' ' | '|' | '-' => false,
+        _ => !character.is_alphabetic()
+    }
+}
+
 //#define winat(y,x)	(moat(y,x) != NULL ? moat(y,x)->t_disguise : chat(y,x))
 //#define ce(a,b)		((a).x == (b).x && (a).y == (b).y)
 //#define hero		player.t_pos

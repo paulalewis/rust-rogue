@@ -1,6 +1,6 @@
 use std::{io::Error, rc::Rc};
 
-use crate::{io::readchar, core::{rogue_state::RogueState, screen::Screen}};
+use crate::{core::{rogue_state::RogueState, screen::Screen}};
 
 use super::{rogue_view_model::{RogueViewModel, ViewCommand, ViewModelCommand}, console_screen::ConsoleScreen};
 
@@ -58,22 +58,22 @@ impl<'a> RogueView<'a> {
     }
 
     fn cancel(&mut self) {
-        self.screen.clear_msg();
+        self.screen.clear_message();
         self.screen.draw();
     }
 
     fn illegal_command(&mut self, command: char) {
-        self.screen.msg(&format!("illegal command '{}'", command));
+        self.screen.show_message(&format!("illegal command '{}'", command));
     }
 
     fn quit(&mut self) {
-        self.screen.msg("really quit?(y/n)");
+        self.screen.show_message("really quit?(y/n)");
         self.screen.draw();
         let input = self.next_character();
         if input == 'y' {
             self.rogue_view_model.handle_command(ViewModelCommand::Quit);
         } else {
-            self.screen.clear_msg();
+            self.screen.clear_message();
             self.screen.draw();
         }
     }

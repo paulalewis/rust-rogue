@@ -10,7 +10,6 @@ pub mod command;
 pub mod constants;
 pub mod daemon;
 pub mod fight;
-pub mod io;
 pub mod monsters;
 pub mod movement;
 pub mod new_level;
