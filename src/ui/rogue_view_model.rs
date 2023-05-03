@@ -1,16 +1,13 @@
 use std::io::Error;
+use std::rc::{Rc, Weak};
 
 use crate::core::rogue_action::RogueAction;
 use crate::rogue_state::RogueState;
 
-pub struct RogueViewModel {
-    rogue_state: RogueState<'static>,
-    view_command_handler: Box<dyn ViewCommandHandler>,
+pub struct RogueViewModel<'a> {
+    rogue_state: RogueState<'a>,
+    view_command_callback: Option<Box<dyn FnMut(ViewCommand) -> Result<(), Error> + 'a>>,
     previous_action: Option<RogueAction>,
-}
-
-pub trait ViewCommandHandler {
-    fn update_view(&mut self, command: ViewCommand) -> Result<(), Error>;
 }
 
 pub enum ViewCommand {
@@ -26,19 +23,22 @@ pub enum ViewModelCommand {
 	Quit,
     RepeatAction,
 	SaveGame,
-	// Unknown(char),
 }
 
-impl RogueViewModel {
-    pub fn new(rogue_state: RogueState, view_command_handler: Box<dyn ViewCommandHandler>) -> RogueViewModel {
+impl<'a> RogueViewModel<'a> {
+    pub fn new(rogue_state: RogueState) -> RogueViewModel {
         RogueViewModel {
             rogue_state,
-            view_command_handler,
+            view_command_callback: None, 
             previous_action: None,
         }
     }
 
-    pub fn handle_command(&mut self, command: ViewModelCommand) -> Result<(), Error> {
+    pub fn add_callback(&mut self, callback: impl FnMut(ViewCommand) -> Result<(), Error> + 'a) {
+        self.view_command_callback = Some(Box::new(callback));
+    }
+
+    pub fn handle_command(&mut self, command: ViewModelCommand) {
         match command {
             ViewModelCommand::Help => self.handle_help(),
             ViewModelCommand::Quit => self.handle_quit(),
@@ -47,22 +47,22 @@ impl RogueViewModel {
         }
     }
 
-    fn handle_help(&mut self) -> Result<(), Error> {
-        self.view_command_handler.update_view(ViewCommand::ShowHelp("Help".to_string()))
+    fn handle_help(&mut self) {
+        (self.view_command_callback.as_mut().unwrap())(ViewCommand::ShowHelp("Help".to_string()));
     }
 
-    fn handle_quit(&mut self) -> Result<(), Error> {
-        self.view_command_handler.update_view(ViewCommand::Quit)
+    fn handle_quit(&mut self) {
+        (self.view_command_callback.as_mut().unwrap())(ViewCommand::Quit);
     }
     
-    fn handle_repeat_action(&mut self) -> Result<(), Error> {
-        if let Some(action) = self.previous_action {
-            self.rogue_state.take_action(action);
+    fn handle_repeat_action(&mut self) {
+        if self.previous_action.is_some() {
+            let action = self.previous_action.as_ref().unwrap();
+            // self.rogue_state.player.take_action(action);
         }
-        Ok(())
     }
 
-    fn handle_save_game(&mut self) -> Result<(), Error> {
+    fn handle_save_game(&mut self) {
         todo!();
     }
 }
