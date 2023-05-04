@@ -2,7 +2,7 @@ use std::{io::Error, rc::Rc};
 
 use crate::{core::{rogue_state::RogueState, screen::Screen}};
 
-use super::{rogue_view_model::{RogueViewModel, ViewCommand, ViewModelCommand}, console_screen::ConsoleScreen};
+use super::{rogue_view_model::{RogueViewModel, ViewCommand, ViewModelCommand}, console_screen::ConsoleScreen, input_handler::read_character};
 
 pub struct RogueView<'a> {
     rogue_view_model: RogueViewModel<'a>,
@@ -54,7 +54,7 @@ impl<'a> RogueView<'a> {
     }
 
     fn next_character(&mut self) -> char {
-        readchar().unwrap()
+        read_character().unwrap()
     }
 
     fn cancel(&mut self) {

@@ -36,8 +36,8 @@ pub mod tests {
             self.console_screen.move_cursor(y, x);
         }
 
-        fn writ_char(&mut self, c: char) {
-            self.console_screen.writ_char(c);
+        fn write_char(&mut self, c: char) {
+            self.console_screen.write_char(c);
         }
 
         fn write(&mut self, msg: &str) {

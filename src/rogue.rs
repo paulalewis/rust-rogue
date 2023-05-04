@@ -99,10 +99,6 @@ pub static delta: Coord = Coord { y: 0, x: 0 };
 // coord stairs;				/* Location of staircase */
 pub static stairs: Coord = Coord { y: 0, x: 0 };
 
-//PLACE places[MAXLINES*MAXCOLS];		/* level map */
-//static places: [Option<Place>; MAXLINES * MAXCOLS] = [None; MAXLINES * MAXCOLS];
-pub static places: Vec<Place> = Vec::new();
-
 //THING *l_last_pick = NULL;		/* Last last_pick */
 pub static l_last_pick: Option<Object> = None;
 //THING *last_pick = NULL;		/* Last object picked in get_item() */
@@ -451,10 +447,10 @@ impl Stats {
     char p_flags;
     THING *p_monst;
 } PLACE;*/
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Place {
     pub ch: char,
-    pub flags: char,
+    pub flags: usize,
     pub monst: Option<Creature>,
 }
 
@@ -462,7 +458,7 @@ impl Place {
     pub fn new() -> Self {
         Place {
             ch: '\0',
-            flags: '\0',
+            flags: 0,
             monst: None,
         }
     }

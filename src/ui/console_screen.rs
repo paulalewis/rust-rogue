@@ -129,20 +129,20 @@ impl Screen for ConsoleScreen {
         self.cursor = (y, x);
     }
 
-    fn writ_char(&mut self, c: char) {
-        self.screen[self.cursor.0][self.cursor.1] = c;
+    fn write_char(&mut self, value: char) {
+        self.screen[self.cursor.0][self.cursor.1] = value;
     }
 
-    fn write(&mut self, msg: &str) {
-        for (_, c) in msg.chars().enumerate() {
-            if c == '\n' {
+    fn write(&mut self, value: &str) {
+        for (_, character) in value.chars().enumerate() {
+            if character == '\n' {
                 self.move_cursor(self.cursor.0 + 1, 0);
             } else if self.cursor.1 > SCREEN_WIDTH - 1 {
                 self.move_cursor(self.cursor.0 + 1, 0);
-                self.writ_char(c);
+                self.write_char(character);
             } else {
                 self.move_cursor(self.cursor.0, self.cursor.1 + 1);
-                self.writ_char(c);
+                self.write_char(character);
             }
         }
     }

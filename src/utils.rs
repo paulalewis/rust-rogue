@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-use crate::{constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL, ISHALU}, core::creature::Creature};
+use crate::{constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL, ISHALU}, core::{creature::Creature, dungeon::Dungeon, coord::Coord}};
 
 // Pick a random number.
 pub fn rnd(range: usize) -> usize {
@@ -26,8 +26,6 @@ pub fn step_ok(character: char) -> bool {
     }
 }
 
-//#define winat(y,x)	(moat(y,x) != NULL ? moat(y,x)->t_disguise : chat(y,x))
-//#define ce(a,b)		((a).x == (b).x && (a).y == (b).y)
 //#define hero		player.t_pos
 //#define pstats		player.t_stats
 //#define pack		player.t_pack
@@ -47,11 +45,10 @@ fn is_mult(item_type: char) -> bool {
 	}
 }
 
-//#define INDEX(y,x)	(&places[((x) << 5) + (y)])
-//#define chat(y,x)	(places[((x) << 5) + (y)].p_ch)
-//#define flat(y,x)	(places[((x) << 5) + (y)].p_flags)
-//#define moat(y,x)	(places[((x) << 5) + (y)].p_monst)
 //#define unc(cp)		(cp).y, (cp).x
+pub fn unc(coord: &Coord) -> (usize, usize) {
+	(coord.y, coord.x)
+}
 
 /*
 // A quick glance all around the player

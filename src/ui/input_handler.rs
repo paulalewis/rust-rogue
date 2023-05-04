@@ -13,6 +13,7 @@ pub fn read_character() -> Result<char, Error> {
 
 // Wait for the user to type a character
 // wait_for()
-pub fn wait_for_character(character: char) {
-    while read_character().unwrap() != character {}
+pub fn wait_for_character(character: char) -> Result<(), Error> {
+    while read_character()? != character {}
+    Ok(())
 }

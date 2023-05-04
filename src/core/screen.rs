@@ -11,7 +11,7 @@ pub trait Screen {
     fn show_message(&mut self, msg: &str);
     fn show_status(&mut self, msg: &str);
     fn move_cursor(&mut self, y: usize, x: usize);
-    fn writ_char(&mut self, c: char);
-    fn write(&mut self, msg: &str);
+    fn write_char(&mut self, value: char);
+    fn write(&mut self, value: &str);
     fn draw(&self);
 }
