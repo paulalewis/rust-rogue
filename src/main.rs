@@ -5,6 +5,7 @@ use std::env;
 use rust_rogue::command::command;
 use rust_rogue::constants::{NUMCOLS, NUMLINES};
 use rust_rogue::core::rogue_state::RogueState;
+use rust_rogue::new_level::new_level;
 use rust_rogue::ui::console_screen;
 
 enum InitGame {
@@ -65,9 +66,8 @@ fn check_terminal_size() {
 }
 
 fn init_rogue<'a>(seed: u64) -> RogueState<'a> {
-    let rogue_state = RogueState::new(seed);
-    //new_level();			/* Draw current level */
-    //Start up daemons and fuses
+    let mut rogue_state = RogueState::new(seed);
+    new_level(&mut rogue_state);
     //start_daemon(runners, 0, AFTER);
     //start_daemon(doctor, 0, AFTER);
     //fuse(swander, 0, WANDERTIME, AFTER);

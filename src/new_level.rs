@@ -1,22 +1,19 @@
-use crate::rogue::*;
+use crate::{rogue::*, core::rogue_state::RogueState, constants::ISHELD};
 
 // one chance in CHANCE_OF_TREASURE_ROOM for a treasure room
 const CHANCE_OF_TREASURE_ROOM: usize = 20;
 const MAX_TREASURES: usize = 10;
 const MIN_TREASURES: usize = 2;
+// max number of tries to put down a monster
+const MAX_TRIES: usize =  10;
 
 /*
-void
-new_level()
-{
+void new_level() {
     THING *tp;
     PLACE *pp;
     char *sp;
     int i;
 
-    player.t_flags &= ~ISHELD;	/* unhold when you go down just in case */
-    if (level > max_level)
-	max_level = level;
     /*
      * Clean things off from last level
      */
@@ -84,29 +81,19 @@ new_level()
 	turn_see(FALSE);
     if (on(player, ISHALU))
 	visuals();
+}*/
+pub fn new_level(rogue_state: &mut RogueState) {
+    //player.t_flags &= ~ISHELD;	/* unhold when you go down just in case */
+    rogue_state.player.player_stats.flags &= !ISHELD;
+    //if (level > max_level)
+	//max_level = level;
+    if rogue_state.dungeon.level > rogue_state.max_level {
+        rogue_state.max_level = rogue_state.dungeon.level;
+    }
 }
 
 /*
- * rnd_room:
- *	Pick a room that is really there
- */
-int
-rnd_room()
-{
-    int rm;
-
-    do
-    {
-	rm = rnd(MAXROOMS);
-    } while (rooms[rm].r_flags & ISGONE);
-    return rm;
-}
-
-/*
- * put_things:
- *	Put potions and scrolls on this level
- */
-
+// Put potions and scrolls on this level
 void
 put_things()
 {
@@ -164,12 +151,8 @@ put_things()
 }
 
 /*
- * treas_room:
  *	Add a treasure room
  */
-#define MAXTRIES 10	/* max number of tries to put down a monster */
-
-
 void
 treas_room()
 {
@@ -186,7 +169,7 @@ treas_room()
     num_monst = nm = rnd(spots) + MIN_TREASURES;
     while (nm--)
     {
-	find_floor(rp, &mp, 2 * MAXTRIES, FALSE);
+	find_floor(rp, &mp, 2 * MAX_TRIES, FALSE);
 	tp = new_thing();
 	tp->o_pos = mp;
 	attach(lvl_obj, tp);
@@ -206,7 +189,7 @@ treas_room()
     while (nm--)
     {
 	spots = 0;
-	if (find_floor(rp, &mp, MAXTRIES, TRUE))
+	if (find_floor(rp, &mp, MAX_TRIES, TRUE))
 	{
 	    tp = new_item();
 	    new_monster(tp, randmonster(FALSE), &mp);

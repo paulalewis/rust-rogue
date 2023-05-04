@@ -1,3 +1,5 @@
+use crate::{constants::{ARMOR, POTION, SCROLL, STICK, RING, AMULET, ISPROT, WEAPON}, rogue::ARMOR_CLASS};
+
 use super::coord::Coord;
 
 /*union thing {
@@ -40,7 +42,7 @@ pub struct Object {
     pub next: Box<Option<Object>>,
     pub prev: Box<Option<Object>>,
     // type
-    pub object_type: i32,
+    pub object_type: char,
     pub pos: Coord,
     pub text: String,
     pub launch: i32,
@@ -51,7 +53,7 @@ pub struct Object {
     pub which: usize,
     pub hplus: i32,
     pub dplus: i32,
-    pub arm: isize,
+    pub arm: usize,
     pub flags: usize,
     pub group: i32,
     pub label: String,
@@ -62,7 +64,7 @@ impl Object {
         Object {
             next: Box::new(None),
             prev: Box::new(None),
-            object_type: 0,
+            object_type: '\0',
             pos: Default::default(),
             text: String::new(),
             launch: 0,
@@ -83,5 +85,16 @@ impl Object {
     // on()
     pub fn on(&self, flag: usize) -> bool {
 	    self.flags & flag != 0
+    }
+
+    // Returns true if an object radiates magic
+    // is_magic(THING *obj)
+    pub fn is_magic(&self) -> bool {
+        match self.object_type {
+            ARMOR => self.on(ISPROT) || self.arm != ARMOR_CLASS[self.which],
+            WEAPON => self.hplus != 0 || self.dplus != 0,
+            POTION | SCROLL | STICK | RING | AMULET => true,
+            _ => false,
+        }
     }
 }

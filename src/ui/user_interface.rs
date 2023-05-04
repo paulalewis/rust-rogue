@@ -1,6 +1,6 @@
 use std::io::{Error, Read};
 
-use crate::{core::{screen::{Screen, SCREEN_HEIGHT}, object::Object}, rogue::{HELP_ITEMS, Stats}, constants::PRESS_SPACE_TO_CONTINUE};
+use crate::{core::{screen::{Screen, SCREEN_HEIGHT}, object::Object, stats::Stats}, rogue::HELP_ITEMS, constants::PRESS_SPACE_TO_CONTINUE};
 
 use super::{input_handler::{read_character, wait_for_character}, console_screen::ConsoleScreen};
 

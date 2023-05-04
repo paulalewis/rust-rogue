@@ -203,33 +203,8 @@ quaff()
 }
 
 /*
- * is_magic:
- *	Returns true if an object radiates magic
- */
-bool
-is_magic(THING *obj)
-{
-    switch (obj->o_type)
-    {
-	case ARMOR:
-	    return (bool)((obj->o_flags&ISPROT) || obj->o_arm != a_class[obj->o_which]);
-	case WEAPON:
-	    return (bool)(obj->o_hplus != 0 || obj->o_dplus != 0);
-	case POTION:
-	case SCROLL:
-	case STICK:
-	case RING:
-	case AMULET:
-	    return TRUE;
-    }
-    return FALSE;
-}
-
-/*
- * invis_on:
  *	Turn on the ability to see invisible
  */
-
 void
 invis_on()
 {
@@ -242,7 +217,6 @@ invis_on()
 }
 
 /*
- * turn_see:
  *	Put on or off seeing monsters on this level
  */
 bool
@@ -284,7 +258,6 @@ turn_see(bool turn_off)
 }
 
 /*
- * seen_stairs:
  *	Return TRUE if the player has seen the stairs
  */
 bool
@@ -314,10 +287,8 @@ seen_stairs()
 }
 
 /*
- * raise_level:
  *	The guy just magically went up a level.
  */
-
 void
 raise_level()
 {

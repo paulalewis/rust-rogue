@@ -1,4 +1,4 @@
-use crate::{utils::spread, constants::{NUMTHINGS, ISMEAN, ISFLY, ISREGEN, ISGREED, ISINVIS, MAXPOTIONS, MAXARMORS, MAXRINGS, MAXSCROLLS, MAXWEAPONS, MAXSTICKS}, core::{coord::Coord, object::Object, creature::Creature}, ui::console_screen::ConsoleScreen};
+use crate::{utils::spread, constants::{NUMTHINGS, ISMEAN, ISFLY, ISREGEN, ISGREED, ISINVIS, MAXPOTIONS, MAXARMORS, MAXRINGS, MAXSCROLLS, MAXWEAPONS, MAXSTICKS}, core::{coord::Coord, object::Object, creature::Creature, room::Room, stats::Stats}, ui::console_screen::ConsoleScreen};
 
 // This file contains global values for the game
 
@@ -108,10 +108,6 @@ pub static last_pick: Option<Object> = None;
 //struct stats max_stats = INIT_STATS;	/* The maximum for the player */
 const MAX_INITIAL_STR: usize = 16;
 pub static max_str: usize = MAX_INITIAL_STR;
-
-//struct room rooms[MAXROOMS];		/* One for each room -- A level */
-//static rooms: [Room; MAXROOMS] = [Room::new(); MAXROOMS];
-pub static rooms: Vec<Room> = Vec::new();
 
 //struct room passages[MAXPASS] =		/* One for each passage */
 //{
@@ -368,78 +364,6 @@ pub struct ObjInfo {
     pub guess: String,
     pub know: bool,
 }
-
-/*
- * Room structure
- */
-/*struct room {
-    coord r_pos;			/* Upper left corner */
-    coord r_max;			/* Size of room */
-    coord r_gold;			/* Where the gold is */
-    int r_goldval;			/* How much the gold is worth */
-    short r_flags;			/* info about the room */
-    int r_nexits;			/* Number of exits */
-    coord r_exit[12];			/* Where the exits are */
-};*/
-#[derive(Debug, Copy, Clone, PartialEq)]
-pub struct Room {
-    pub pos: Coord,
-    pub max: Coord,
-    pub gold: Coord,
-    pub goldval: i32,
-    pub flags: usize,
-    pub nexits: i32,
-    pub exit: [Coord; 12],
-}
-
-impl Room {
-    pub fn new() -> Self {
-        Room {
-            pos: Coord { x: 0, y: 0 },
-            max: Coord { x: 0, y: 0 },
-            gold: Coord { x: 0, y: 0 },
-            goldval: 0,
-            flags: 0,
-            nexits: 0,
-            exit: [Coord { x: 0, y: 0 }; 12],
-        }
-    }
-}
-
-/*struct stats {
-    uint s_str;			/* Strength */
-    int s_exp;				/* Experience */
-    int s_lvl;				/* level of mastery */
-    int s_arm;				/* Armor class */
-    int s_hpt;			/* Hit points */
-    char s_dmg[13];			/* String describing damage done */
-    int  s_maxhp;			/* Max hit points */
-};*/
-#[derive(Debug, Clone, PartialEq)]
-pub struct Stats {
-    pub str: usize,
-    pub exp: i32,
-    pub lvl: usize,
-    pub arm: i32,
-    pub hpt: i32,
-    pub dmg: String,
-    pub max_hp: usize,
-}
-
-impl Stats {
-    pub fn new() -> Self {
-        Stats {
-            str: 0,
-            exp: 0,
-            lvl: 0,
-            arm: 0,
-            hpt: 0,
-            dmg: String::new(),
-            max_hp: 0,
-        }
-    }
-}
-
 
 // describe a place on the level map
 /*typedef struct {

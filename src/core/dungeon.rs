@@ -1,6 +1,7 @@
-use crate::rogue::Place;
+use crate::{rogue::Place, utils::rnd};
+use crate::constants::ISGONE;
 
-use super::{object::Object, screen::{SCREEN_HEIGHT, SCREEN_WIDTH}, creature::Creature, coord::Coord};
+use super::{object::Object, screen::{SCREEN_HEIGHT, SCREEN_WIDTH}, creature::Creature, coord::Coord, room::Room};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Dungeon {
@@ -12,6 +13,8 @@ pub struct Dungeon {
     pub monsters: Vec<Object>,
     // places[MAXLINES*MAXCOLS] level map 
     pub places: Vec<Place>,
+    // rooms[MAXROOMS] One for each room -- A level
+    pub rooms: Vec<Room>,
 }
 
 impl Dungeon {
@@ -21,6 +24,7 @@ impl Dungeon {
             objects: Vec::new(),
             monsters: Vec::new(),
             places: Vec::new(),
+            rooms: Vec::new(),
         }
     }
 
@@ -50,5 +54,18 @@ impl Dungeon {
 		    Some(monster) => monster.disguise,
 		    None => self.character_at(coord)
 	    }
+    }
+
+    // Pick a room that is really there
+    // int rnd_room()
+    pub fn rnd_room_index(&self) -> usize {
+        let mut index: usize;
+        loop {
+            index = rnd(self.rooms.len());
+            if self.rooms[index].flags & ISGONE == 0 {
+                break;
+            }
+        }
+        index
     }
 }

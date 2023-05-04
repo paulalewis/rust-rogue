@@ -4,6 +4,8 @@ pub mod direction;
 pub mod dungeon;
 pub mod object;
 pub mod player;
+pub mod room;
 pub mod screen;
+pub mod stats;
 pub mod rogue_action;
 pub mod rogue_state;

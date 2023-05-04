@@ -1,12 +1,12 @@
-use std::char::MAX;
-
 use crate::core::coord::Coord;
 
 use crate::core::creature::Creature;
 use crate::core::object::Object;
-use crate::rogue::Room;
+use crate::rogue::XP_LEVELS;
+use crate::utils::roll;
 use crate::{rogue::{rainbow, NCOLORS}, constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME}, utils::rnd, monsters::save_throw};
 
+use super::room::Room;
 use super::screen::Screen;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -156,6 +156,42 @@ impl Player {
             }
         } else {
             0
+        }
+    }
+
+    // Check to see if the guy has gone up a level.
+    /*void check_level() {
+        int i, add, olevel;
+
+        for (i = 0; e_levels[i] != 0; i++)
+	    if (e_levels[i] > pstats.s_exp)
+	        break;
+        i++;
+        olevel = pstats.s_lvl;
+        pstats.s_lvl = i;
+        if (i > olevel)
+        {
+	    add = roll(i - olevel, 10);
+	    max_hp += add;
+	    pstats.s_hpt += add;
+	    msg("welcome to level %d", i);
+        }
+    }*/
+    pub fn check_level(&mut self, screen: &mut dyn Screen) {
+        let mut index = 0;
+        for (i, xp) in XP_LEVELS.iter().enumerate() {
+            if *xp > self.player_stats.stats.exp {
+                index = i + 1;
+                break;
+            }
+        }
+        let old_level = self.player_stats.stats.lvl;
+        self.player_stats.stats.lvl = index;
+        if index > old_level {
+            let add = roll(index - old_level, 10);
+            self.player_stats.stats.max_hp += add;
+            self.player_stats.stats.hpt += add;
+            screen.show_message(&format!("Welcome to level {}", index));
         }
     }
 }

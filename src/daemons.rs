@@ -35,7 +35,6 @@ doctor()
 }
 
 /*
- * Swander:
  *	Called when it is time to start rolling for wandering monsters
  */
 void

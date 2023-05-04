@@ -1,6 +1,6 @@
-use crate::rogue::{Stats, Room};
+use crate::core::stats::Stats;
 
-use super::{coord::Coord, object::Object};
+use super::{coord::Coord, object::Object, room::Room};
 
 /*union thing {
     struct {

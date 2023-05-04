@@ -233,27 +233,6 @@ eat()
     leave_pack(obj, FALSE, FALSE);
 }
 
-// Check to see if the guy has gone up a level.
-void
-check_level()
-{
-    int i, add, olevel;
-
-    for (i = 0; e_levels[i] != 0; i++)
-	if (e_levels[i] > pstats.s_exp)
-	    break;
-    i++;
-    olevel = pstats.s_lvl;
-    pstats.s_lvl = i;
-    if (i > olevel)
-    {
-	add = roll(i - olevel, 10);
-	max_hp += add;
-	pstats.s_hpt += add;
-	msg("welcome to level %d", i);
-    }
-}
-
 // used to modify the playes strength.  It keeps track of the
 // highest it has been, just in case
 void
