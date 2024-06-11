@@ -1,8 +1,12 @@
+use std::fmt;
+
+use abstract_game_engine::core::simulator::State;
+
 use crate::{constants::{MAXSCROLLS, MAXRINGS, MAXPOTIONS, MAXSTICKS}, utils::rnd, rogue::{NSTONES, stones, NCOLORS, rainbow, NMETAL, NWOOD, metal, wood}, core::{object::Object, dungeon::Dungeon, player::Player}};
 
 // This represents the state of the game.
 // It can be used to save and restore a game.
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct RogueState<'a> {
     // amulet player found the amulet
     pub amulet: bool,
@@ -30,6 +34,8 @@ pub struct RogueState<'a> {
     pub is_wand: [bool; MAXSTICKS],
 }
 
+impl State for RogueState<'_> {}
+
 impl <'a> RogueState<'a> {
     pub fn new(seed: u64) -> RogueState<'a> {
         let (stick_material, is_wand) = init_wand_and_staff_materials();
@@ -56,6 +62,12 @@ impl <'a> RogueState<'a> {
     }
 }
 
+impl fmt::Display for RogueState<'_> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        todo!()
+    }
+}
+
 fn init_scroll_names() -> Vec<String> {
     (0..MAXSCROLLS).map(|_| generate_scroll_name()).collect()
 }
@@ -67,7 +79,7 @@ fn generate_scroll_name() -> String {
     'words: for _ in 0..nwords {
         let nsyl = rnd(3) + 1;
         for _ in 0..nsyl {
-            let sp = sylls[rnd(NUMBER_OF_SYLLABLES)];
+            let sp = SYLLS[rnd(NUMBER_OF_SYLLABLES)];
             if scroll_name.len() + sp.len() > MAX_NAME_LENGTH {
                 break 'words;
             }
@@ -147,7 +159,7 @@ fn init_wand_and_staff_materials<'a>() -> ([&'a str; MAXSTICKS], [bool; MAXSTICK
 
 const NUMBER_OF_SYLLABLES: usize = 147;
 //static char *sylls[] = {
-static sylls: [&str; NUMBER_OF_SYLLABLES] = [
+static SYLLS: [&str; NUMBER_OF_SYLLABLES] = [
     "a", "ab", "ag", "aks", "ala", "an", "app", "arg", "arze", "ash",
     "bek", "bie", "bit", "bjor", "blu", "bot", "bu", "byt", "comp",
     "con", "cos", "cre", "dalf", "dan", "den", "do", "e", "eep", "el",

@@ -3,7 +3,7 @@ use crate::constants::ISGONE;
 
 use super::{object::Object, screen::{SCREEN_HEIGHT, SCREEN_WIDTH}, creature::Creature, coord::Coord, room::Room};
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Dungeon {
     // level what level the player is on
     pub level: usize,

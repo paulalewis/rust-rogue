@@ -371,7 +371,7 @@ pub struct ObjInfo {
     char p_flags;
     THING *p_monst;
 } PLACE;*/
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Hash, PartialEq, Eq)]
 pub struct Place {
     pub ch: char,
     pub flags: usize,

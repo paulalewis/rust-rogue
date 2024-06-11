@@ -37,7 +37,7 @@ use super::coord::Coord;
     } _o;
 };*/
 //typedef union thing THING;
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Object {
     pub next: Box<Option<Object>>,
     pub prev: Box<Option<Object>>,

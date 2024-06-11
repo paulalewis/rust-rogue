@@ -7,7 +7,7 @@
     char s_dmg[13];			/* String describing damage done */
     int  s_maxhp;			/* Max hit points */
 };*/
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Stats {
     pub str: usize,
     pub exp: usize,

@@ -1,5 +1,5 @@
 // coord
-#[derive(Default, Debug, Copy, Clone, PartialEq)]
+#[derive(Default, Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub struct Coord {
     pub x: usize,
     pub y: usize,

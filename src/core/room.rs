@@ -12,7 +12,7 @@ use super::coord::Coord;
     int r_nexits;			/* Number of exits */
     coord r_exit[12];			/* Where the exits are */
 };*/
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub struct Room {
     pub pos: Coord,
     pub max: Coord,

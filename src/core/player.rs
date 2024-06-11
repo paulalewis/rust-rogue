@@ -9,7 +9,7 @@ use crate::{rogue::{rainbow, NCOLORS}, constants::{MAX_PACK_SIZE, ISHALU, R_PROT
 use super::room::Room;
 use super::screen::Screen;
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, Hash, PartialEq, Eq)]
 pub struct Player {
     // cur_armor what player is wearing
     pub cur_armor: Option<Object>,
