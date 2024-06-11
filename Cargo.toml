@@ -11,3 +11,4 @@ rand = "0.8.5"
 term_size = "0.3.2"
 serial_test = "2.0.0"
 termion = "2.0.1"
+abstract_game_engine = { path = "../../Projects/rust-age" }
