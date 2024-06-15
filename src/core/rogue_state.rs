@@ -7,7 +7,7 @@ use crate::{constants::{MAXSCROLLS, MAXRINGS, MAXPOTIONS, MAXSTICKS}, utils::rnd
 // This represents the state of the game.
 // It can be used to save and restore a game.
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
-pub struct RogueState<'a> {
+pub struct RogueState {
     // amulet player found the amulet
     pub amulet: bool,
     //no_food number of levels without food 
@@ -19,25 +19,23 @@ pub struct RogueState<'a> {
     pub player: Player,
     pub dungeon: Dungeon,
     // p_colors colors of the potions
-    pub potion_colors: [&'a str; MAXPOTIONS],
+    pub potion_colors: Vec<String>,
     // quiet number of quiet turns 
     pub quiet: usize,
     // r_stones stone settings of the rings 
-    pub ring_stones: [&'a str; MAXRINGS],
+    pub ring_stones: Vec<String>,
     // s_names names of the scrolls
     pub scroll_names: Vec<String>,
-    //seed random number seed
-    pub seed: u64,
     // ws_made what sticks are made of
-    pub stick_material: [&'a str; MAXSTICKS],
+    pub stick_material: Vec<String>,
     // ws_type is it a wand or a staff
     pub is_wand: [bool; MAXSTICKS],
 }
 
-impl State for RogueState<'_> {}
+impl State for RogueState {}
 
-impl <'a> RogueState<'a> {
-    pub fn new(seed: u64) -> RogueState<'a> {
+impl RogueState {
+    pub fn new() -> RogueState {
         let (stick_material, is_wand) = init_wand_and_staff_materials();
         RogueState {
             amulet: false,
@@ -50,7 +48,6 @@ impl <'a> RogueState<'a> {
             quiet: 0,
             ring_stones: init_ring_stones(),
             scroll_names: init_scroll_names(),
-            seed,
             stick_material,
             is_wand,
         }
@@ -62,7 +59,7 @@ impl <'a> RogueState<'a> {
     }
 }
 
-impl fmt::Display for RogueState<'_> {
+impl fmt::Display for RogueState {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         todo!()
     }
@@ -90,9 +87,9 @@ fn generate_scroll_name() -> String {
     scroll_name
 }
 
-fn init_ring_stones<'a>() -> [&'a str; MAXRINGS] {
+fn init_ring_stones() -> Vec<String> {
     let mut used = [false; NSTONES];
-    let mut ring_stones = [""; MAXRINGS];
+    let mut ring_stones: Vec<String> = Vec::new();
     for i in 0..MAXRINGS {
         let mut j;
         loop {
@@ -103,13 +100,13 @@ fn init_ring_stones<'a>() -> [&'a str; MAXRINGS] {
         unsafe {
             // todo - ring_info[i].worth += stones[j].value;
         }
-        ring_stones[i] = stones[j].name;
+        ring_stones.push(String::from(stones[j].name));
     }
     return ring_stones;
 }
 
-fn init_potion_colors<'a>() -> [&'a str; MAXPOTIONS] {
-    let mut potion_colors = [""; MAXPOTIONS];
+fn init_potion_colors() -> Vec<String> {
+    let mut potion_colors: Vec<String> = Vec::new();
     let mut used = [false; NCOLORS];
     for i in 0..MAXPOTIONS {
         let mut j;
@@ -120,19 +117,19 @@ fn init_potion_colors<'a>() -> [&'a str; MAXPOTIONS] {
             }
         }
         used[j] = true;
-        potion_colors[i] = rainbow[j];
+        potion_colors.push(String::from(rainbow[j]));
     }
     potion_colors
 }
 
-fn init_wand_and_staff_materials<'a>() -> ([&'a str; MAXSTICKS], [bool; MAXSTICKS]) {
-    let mut stick_material = [""; MAXSTICKS];
+fn init_wand_and_staff_materials() -> (Vec<String>, [bool; MAXSTICKS]) {
+    let mut stick_material: Vec<String> = Vec::new();
     let mut is_wand = [false; MAXSTICKS];
     let mut wood_used = [false; NWOOD];
     let mut metal_used = [false; NMETAL];
     for i in 0..MAXSTICKS {
         let mut j;
-        let material: &'a str;
+        let material: &str;
         loop {
             if rnd(2) == 0 {
                 j = rnd(NMETAL);
@@ -152,13 +149,12 @@ fn init_wand_and_staff_materials<'a>() -> ([&'a str; MAXSTICKS], [bool; MAXSTICK
                 }
             }
         }
-        stick_material[i] = material;
+        stick_material.push(String::from(material));
     }
     (stick_material, is_wand)
 }
 
 const NUMBER_OF_SYLLABLES: usize = 147;
-//static char *sylls[] = {
 static SYLLS: [&str; NUMBER_OF_SYLLABLES] = [
     "a", "ab", "ag", "aks", "ala", "an", "app", "arg", "arze", "ash",
     "bek", "bie", "bit", "bjor", "blu", "bot", "bu", "byt", "comp",

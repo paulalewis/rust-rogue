@@ -1,4 +1,4 @@
-use crate::{rogue::*, constants::PRESS_SPACE_TO_CONTINUE, core::{rogue_state::RogueState, screen::Screen}, ui::input_handler::{wait_for_character, read_character}};
+use crate::{constants::PRESS_SPACE_TO_CONTINUE, core::{direction::Direction, rogue_action::RogueAction, rogue_state::RogueState, screen::Screen}, rogue::*, ui::input_handler::{read_character, wait_for_character}};
 
 // Process the user commands
 /*void command() {
@@ -220,9 +220,6 @@ over:
 		    else
 			after = FALSE;
 		when 'D': after = FALSE; discovered();
-		when 'v':
-		    after = FALSE;
-		    msg("version %s", RELEASE);
 		when 'S': 
 		    after = FALSE;
 		    save_game();
@@ -288,31 +285,6 @@ over:
 	teleport();
 }
 */
-pub fn command(
-	screen: &mut dyn Screen,
-	rogue_state: &RogueState,
-) -> bool {
-	let command_char = read_character().unwrap();
-	match dbg!(command_char) {
-		'Q' => {
-			unsafe { after = false; }
-			quit(screen)
-		}
-		'?' => {
-			unsafe { after = false; }
-			help(screen)
-		}
-		_ => {
-			illegal_command(screen, command_char)
-		}
-	}
-}
-
-fn illegal_command(screen: &mut dyn Screen, character: char) -> bool {
-	unsafe { repeat_command_count = 0; }
-	screen.show_message(&format!("illegal command '{}'", character));
-	true
-}
 
 /*
 // player gropes about him to find hidden things.
@@ -421,15 +393,6 @@ help()
     touchwin(stdscr);
     wrefresh(stdscr);
 }*/
-fn help(screen: &mut dyn Screen) -> bool {
-	for help_item in &HELP_ITEMS {
-		println!("{}", help_item);
-	}
-	println!("{}", PRESS_SPACE_TO_CONTINUE);
-	wait_for_character(' ');
-	//refresh();
-	true
-}
 
 /*
 // Tell the player what a certain thing is.
@@ -635,27 +598,3 @@ void current(THING *cur, char *how, char *where) {
     }
 }
 */
-
-fn quit(screen: &mut dyn Screen) -> bool {
-    //int oy, ox;
-    // getyx(curscr, oy, ox);
-    screen.show_message("really quit?");
-    if read_character().unwrap() == 'y' {
-		// clear();
-		// mvprintw(LINES - 2, 0, "You quit with %d gold pieces", purse);
-		// move(LINES - 1, 0);
-		// refresh();
-		// score(purse, 1, 0);
-		false	
-    } else {
-		// move(0, 0);
-		// clrtoeol();
-		// status();
-		// move(oy, ox);
-		// refresh();
-		// mpos = 0;
-		// count = 0;
-		// to_death = FALSE;
-		true
-    }
-}

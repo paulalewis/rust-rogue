@@ -8,7 +8,7 @@ use super::direction::Direction;
 pub enum RogueAction {
 	DropObject,
 	EatFood,
-	FightToDeath(Direction),
+	Fight(Direction),
 	Identify,
 	IdentifyTrap(Direction),
 	Move(Direction),

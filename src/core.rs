@@ -8,4 +8,5 @@ pub mod room;
 pub mod screen;
 pub mod stats;
 pub mod rogue_action;
+pub mod rogue_simulator;
 pub mod rogue_state;

@@ -1,7 +1,7 @@
 use std::io::{Read, Error};
 
-// Reads and returns a character, checking for gross input errors
-// readchar()
+/// Reads and returns a character, checking for gross input errors
+/// readchar()
 pub fn read_character() -> Result<char, Error> {
     let mut std_in = std::io::stdin();
     let mut buf = ['\n' as u8; 1];
@@ -11,8 +11,8 @@ pub fn read_character() -> Result<char, Error> {
     return Ok(buf[0] as char);
 }
 
-// Wait for the user to type a character
-// wait_for()
+/// Wait for the user to type a character
+/// wait_for()
 pub fn wait_for_character(character: char) -> Result<(), Error> {
     while read_character()? != character {}
     Ok(())

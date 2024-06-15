@@ -2,11 +2,13 @@ extern crate term_size;
 
 use std::env;
 
-use rust_rogue::command::command;
-use rust_rogue::constants::{NUMCOLS, NUMLINES};
-use rust_rogue::core::rogue_state::RogueState;
-use rust_rogue::new_level::new_level;
-use rust_rogue::ui::console_screen;
+use rust_rogue::{constants::{NUMCOLS, NUMLINES}, ui::game::Game};
+
+fn main() {
+    check_terminal_size();
+    let mut game = init_game();
+    game.play();
+}
 
 enum InitGame {
     Init,
@@ -14,15 +16,12 @@ enum InitGame {
     FromFile(String),
 }
 
-fn main() {
-    check_terminal_size();
-    let init_game = handle_args(&env::args().collect());
-    let rogue_state = match init_game {
-        InitGame::Init => init_rogue(0),
-        InitGame::FromSeed(seed) => init_rogue(seed),
-        InitGame::FromFile(filepath) => restore_game_from_file(&filepath),
-    };
-    play_rogue(rogue_state);
+fn init_game() -> Game {
+    match handle_args(&env::args().collect()) {
+        InitGame::Init => Game::new(),
+        InitGame::FromSeed(seed) => Game::new_from_seed(seed),
+        InitGame::FromFile(filepath) => Game::new_from_file(filepath),
+    }
 }
 
 fn handle_args(args: &Vec<String>) -> InitGame {
@@ -49,11 +48,6 @@ fn handle_args(args: &Vec<String>) -> InitGame {
     }
 }
 
-fn restore_game_from_file<'a, 'b>(filepath: &'a str) -> RogueState<'b> {
-    dbg!(filepath);
-    todo!("Restore not implemented");
-}
-
 fn check_terminal_size() {
     if let Some((width, height)) = term_size::dimensions() {
         dbg!(width, height, NUMCOLS, NUMLINES);
@@ -63,19 +57,4 @@ fn check_terminal_size() {
     } else {
         panic!("Unable to get term size");
     }
-}
-
-fn init_rogue<'a>(seed: u64) -> RogueState<'a> {
-    let mut rogue_state = RogueState::new(seed);
-    new_level(&mut rogue_state);
-    //start_daemon(runners, 0, AFTER);
-    //start_daemon(doctor, 0, AFTER);
-    //fuse(swander, 0, WANDERTIME, AFTER);
-    //start_daemon(stomach, 0, AFTER);
-    rogue_state
-}
-
-fn play_rogue(rouge_state: RogueState) {
-    let mut console_screen = console_screen::ConsoleScreen::new();
-    while command(&mut console_screen, &rouge_state) {};
 }

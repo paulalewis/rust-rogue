@@ -1,5 +1,4 @@
 pub mod console_screen;
+pub mod command;
+pub mod game;
 pub mod input_handler;
-pub mod rogue_view_model;
-pub mod rogue_view;
-pub mod user_interface;
