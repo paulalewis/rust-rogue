@@ -1,4 +1,4 @@
-use crate::{constants::PRESS_SPACE_TO_CONTINUE, core::{direction::Direction, rogue_action::RogueAction, rogue_state::RogueState, screen::Screen}, rogue::*, ui::input_handler::{read_character, wait_for_character}};
+// use crate::{constants::PRESS_SPACE_TO_CONTINUE, core::{direction::Direction, rogue_action::RogueAction, rogue_state::RogueState, screen::Screen}, rogue::*, ui::input_handler::{read_character, wait_for_character}};
 
 // Process the user commands
 /*void command() {

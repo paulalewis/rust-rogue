@@ -1,6 +1,6 @@
 use abstract_game_engine::core::simulator::Simulator;
 
-use crate::{constants::PRESS_SPACE_TO_CONTINUE, core::{direction::Direction, rogue_action::RogueAction, rogue_simulator::RogueSimulator, rogue_state::RogueState, screen::Screen}, ui::input_handler::wait_for_character};
+use crate::{constants::PRESS_ANY_KEY_TO_CONTINUE, core::{direction::Direction, rogue_action::RogueAction, rogue_simulator::RogueSimulator, rogue_state::RogueState, screen::Screen}, ui::input_handler::{wait_for_any_character, wait_for_character}};
 
 use super::input_handler::read_character;
 
@@ -53,13 +53,11 @@ fn rogue_action(
 }
 
 fn help(screen: &mut dyn Screen) -> CommandStatus {
-	// unsafe { after = false; }
 	// for help_item in &HELP_ITEMS {
 	// 	println!("{}", help_item);
 	// }
-	println!("{}", PRESS_SPACE_TO_CONTINUE);
-	wait_for_character(' ').unwrap();
-	//refresh();
+	println!("{}", PRESS_ANY_KEY_TO_CONTINUE);
+    wait_for_any_character().unwrap();
 	CommandStatus::Continue
 }
 

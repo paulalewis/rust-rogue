@@ -17,3 +17,10 @@ pub fn wait_for_character(character: char) -> Result<(), Error> {
     while read_character()? != character {}
     Ok(())
 }
+
+/// Wait for the user to type a character
+/// wait_for()
+pub fn wait_for_any_character() -> Result<(), Error> {
+    read_character()?;
+    Ok(())
+}

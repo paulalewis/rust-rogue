@@ -1,6 +1,7 @@
+use crate::constants::PRESS_ANY_KEY_TO_CONTINUE;
 use crate::core::screen::{Screen, SCREEN_HEIGHT};
 use crate::ui::input_handler::wait_for_character;
-use crate::{rogue::*, utils::vowelstr, constants::PRESS_SPACE_TO_CONTINUE};
+use crate::{rogue::*, utils::vowelstr};
 
 const RIP: &str = "
                        __________
@@ -48,7 +49,7 @@ fn draw_death_screen(mut screen: Box<dyn Screen>, purse: usize, monster: char) {
 	screen.move_cursor(17, center_text_index(&killed_string.trim_end()));
 	screen.write(&killed_string.trim_end());
 	screen.move_cursor(SCREEN_HEIGHT - 1, 0);
-	screen.write(PRESS_SPACE_TO_CONTINUE);
+	screen.write(PRESS_ANY_KEY_TO_CONTINUE);
 	screen.draw();
 }
 
@@ -134,7 +135,7 @@ pub fn total_winner(mut screen: Box<dyn Screen>) {
 	screen.move_cursor(0, 0);
 	screen.write(WINNER);
 	screen.move_cursor(SCREEN_HEIGHT - 1, 0);
-	screen.write(PRESS_SPACE_TO_CONTINUE);
+	screen.write(PRESS_ANY_KEY_TO_CONTINUE);
 	wait_for_character(' ');
 	screen.clear();
 }

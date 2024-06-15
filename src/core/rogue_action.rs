@@ -12,7 +12,6 @@ pub enum RogueAction {
 	Identify,
 	IdentifyTrap(Direction),
 	Move(Direction),
-	MoveNoPickup(Direction),
 	PickUp,
 	QuaffPotion,
 	ReadScroll,
