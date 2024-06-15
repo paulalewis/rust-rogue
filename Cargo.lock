@@ -340,6 +340,7 @@ dependencies = [
  "abstract_game_engine",
  "lazy_static",
  "rand",
+ "rand_chacha",
  "serial_test",
  "term_size",
  "termion",
