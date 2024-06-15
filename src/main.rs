@@ -1,10 +1,11 @@
 extern crate term_size;
 
-use std::env;
+use std::{env, fs};
 
 use rust_rogue::{constants::{NUMCOLS, NUMLINES}, ui::game::Game};
 
 fn main() {
+    check_tty();
     check_terminal_size();
     let mut game = init_game();
     game.play();
@@ -56,5 +57,13 @@ fn check_terminal_size() {
         }
     } else {
         panic!("Unable to get term size");
+    }
+}
+
+fn check_tty() {
+    if termion::is_tty(&fs::File::create("/dev/stdout").unwrap()) {
+        dbg!("This is a TTY!");
+    } else {
+        panic!("This is not a TTY :(");
     }
 }

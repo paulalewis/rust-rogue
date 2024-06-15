@@ -11,5 +11,5 @@ rand = "0.8.5"
 rand_chacha = "0.3.1"
 term_size = "0.3.2"
 serial_test = "2.0.0"
-termion = "2.0.1"
+termion = "4.0.2"
 abstract_game_engine = { path = "../rust-age" }
