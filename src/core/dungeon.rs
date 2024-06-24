@@ -1,7 +1,7 @@
 use crate::{rogue::Place, utils::rnd};
 use crate::constants::ISGONE;
 
-use super::{object::Object, screen::{SCREEN_HEIGHT, SCREEN_WIDTH}, creature::Creature, coord::Coord, room::Room};
+use super::{object::Object, creature::Creature, coord::Coord, room::Room};
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Dungeon {

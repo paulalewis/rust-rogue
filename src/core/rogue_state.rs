@@ -2,12 +2,15 @@ use std::fmt;
 
 use abstract_game_engine::core::simulator::State;
 
-use crate::{constants::{MAXSCROLLS, MAXRINGS, MAXPOTIONS, MAXSTICKS}, utils::rnd, rogue::{NSTONES, stones, NCOLORS, rainbow, NMETAL, NWOOD, metal, wood}, core::{object::Object, dungeon::Dungeon, player::Player}};
+use crate::{constants::{MAXSCROLLS, MAXRINGS, MAXPOTIONS, MAXSTICKS}, utils::rnd, rogue::{NSTONES, stones, NCOLORS, rainbow, NMETAL, NWOOD, metal, wood}, core::{dungeon::Dungeon, player::Player}};
+
+use super::rogue_message::RogueMessage;
 
 // This represents the state of the game.
 // It can be used to save and restore a game.
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct RogueState {
+    pub message: Option<RogueMessage>,
     // amulet player found the amulet
     pub amulet: bool,
     //no_food number of levels without food 
@@ -38,6 +41,7 @@ impl RogueState {
     pub fn new() -> RogueState {
         let (stick_material, is_wand) = init_wand_and_staff_materials();
         RogueState {
+            message: None,
             amulet: false,
             no_food: 0,
             n_traps: 0,

@@ -6,8 +6,9 @@ use crate::rogue::XP_LEVELS;
 use crate::utils::roll;
 use crate::{rogue::{rainbow, NCOLORS}, constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME}, utils::rnd, monsters::save_throw};
 
+use super::rogue_message::RogueMessage;
+use super::rogue_state::RogueState;
 use super::room::Room;
-use super::screen::Screen;
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq)]
 pub struct Player {
@@ -119,12 +120,13 @@ impl Player {
 
     // See if the object is one of the currently used items
     // bool is_current(THING *obj)
-    pub fn is_current(&self, screen: &mut dyn Screen, object: &Object) -> bool {
+    pub fn is_current(&self, state: &mut RogueState, object: &Object) -> bool {
 	    let cur_armor = self.cur_armor.as_ref().unwrap();
 	    let cur_ring = self.cur_ring.as_ref();
 	    let cur_weapon = self.cur_weapon.as_ref().unwrap();
 	    if object == cur_armor || object == cur_weapon || object == cur_ring[0].as_ref().unwrap() || object == cur_ring[1].as_ref().unwrap() {
-		    screen.show_message("That's already in use");
+		    // screen.show_message("That's already in use");
+            state.message = Some(RogueMessage::AlreadyInUse);
 		    true
 	    } else {
 		    false
@@ -177,7 +179,7 @@ impl Player {
 	    msg("welcome to level %d", i);
         }
     }*/
-    pub fn check_level(&mut self, screen: &mut dyn Screen) {
+    pub fn check_level(&mut self, state: &mut RogueState) {
         let mut index = 0;
         for (i, xp) in XP_LEVELS.iter().enumerate() {
             if *xp > self.player_stats.stats.exp {
@@ -191,7 +193,8 @@ impl Player {
             let add = roll(index - old_level, 10);
             self.player_stats.stats.max_hp += add;
             self.player_stats.stats.hpt += add;
-            screen.show_message(&format!("Welcome to level {}", index));
+            // screen.show_message(&format!("Welcome to level {}", index));
+            state.message = Some(RogueMessage::WelcomeToLevel(index));
         }
     }
 }
