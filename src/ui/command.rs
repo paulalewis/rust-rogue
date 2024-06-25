@@ -1,13 +1,25 @@
 use abstract_game_engine::core::simulator::Simulator;
 
-use crate::{constants::PRESS_ANY_KEY_TO_CONTINUE, core::{direction::Direction, rogue_action::RogueAction, rogue_simulator::RogueSimulator, rogue_state::RogueState, screen::Screen}, ui::input_handler::{wait_for_any_character, wait_for_character}};
+use crate::core::{direction::Direction, rogue_action::RogueAction, rogue_simulator::RogueSimulator, rogue_state::RogueState};
 
-use super::input_handler::read_character;
+use super::game_view_state::{GameViewState, OverlayViewState};
 
 #[derive(Debug, PartialEq)]
-pub enum CommandStatus {
+pub enum Command {
 	Continue,
-    StateChange(RogueState),
+    Multi(MultiCommand),
+    Exit(ExitCommand),
+}
+
+#[derive(Debug, PartialEq)]
+pub enum MultiCommand {
+    Help,
+    Inventory,
+    Quit,
+}
+
+#[derive(Debug, PartialEq)]
+pub enum ExitCommand {
 	Win,
 	Loss,
     Save,
@@ -16,58 +28,92 @@ pub enum CommandStatus {
 }
 
 pub fn process_command(
-	screen: &mut dyn Screen,
+    view_state: &mut GameViewState,
     simulator: &mut RogueSimulator,
-	state: &RogueState,
-) -> CommandStatus {
-	let mut prev_char: Option<char> = None;
-	match read_character() {
-		Ok(command_char) => {
-			match command_char {
-                COMMAND_CHAR_HELP => help(screen),
-                COMMAND_CHAR_MOVE_LEFT => rogue_action(RogueAction::Move(Direction::Left), screen, simulator, state),
-                COMMAND_CHAR_MOVE_DOWN => rogue_action(RogueAction::Move(Direction::Down), screen, simulator, state),
-                COMMAND_CHAR_MOVE_UP => rogue_action(RogueAction::Move(Direction::Up), screen, simulator, state),
-                COMMAND_CHAR_MOVE_RIGHT => rogue_action(RogueAction::Move(Direction::Right), screen, simulator, state),
-                COMMAND_CHAR_MOVE_UP_LEFT => rogue_action(RogueAction::Move(Direction::UpLeft), screen, simulator, state),
-                COMMAND_CHAR_MOVE_UP_RIGHT => rogue_action(RogueAction::Move(Direction::UpRight), screen, simulator, state),
-                COMMAND_CHAR_MOVE_DOWN_LEFT => rogue_action(RogueAction::Move(Direction::DownLeft), screen, simulator, state),
-                COMMAND_CHAR_MOVE_DOWN_RIGHT => rogue_action(RogueAction::Move(Direction::DownRight), screen, simulator, state),
-				COMMAND_CHAR_QUIT => quit(screen),
-				_ => illegal_command(screen, command_char),
-			}
-		} 
-		Err(_) => CommandStatus::Error,
-	}
+	state: &mut RogueState,
+    prev_command: &Command,
+    char: char,
+) -> Command {
+    match prev_command{
+        Command::Continue => handle_new_command(view_state, simulator, state, char),
+        Command::Multi(multi_command) => {
+            match multi_command {
+                MultiCommand::Quit => {
+                    match char {
+                        COMMAND_CHAR_YES => {
+                            Command::Exit(ExitCommand::Quit)
+                        },
+                        _ => {
+                            view_state.main_view_state.message = "".to_string();
+                            Command::Continue
+                        },
+                    }
+                },
+                MultiCommand::Help | MultiCommand::Inventory => {
+                    match char {
+                        _ => {
+                            hide_overlay(view_state)
+                        },
+                    }
+                },
+            }
+        },
+        Command::Exit(_) => todo!(),
+    }
+} 
+
+fn handle_new_command(
+    view_state: &mut GameViewState,
+    simulator: &mut RogueSimulator,
+	state: &mut RogueState,
+    char: char,
+) -> Command {
+    match char {
+        COMMAND_CHAR_HELP => show_help(view_state),
+        COMMAND_CHAR_MOVE_LEFT => rogue_action(RogueAction::Move(Direction::Left), simulator, state),
+        COMMAND_CHAR_MOVE_DOWN => rogue_action(RogueAction::Move(Direction::Down), simulator, state),
+        COMMAND_CHAR_MOVE_UP => rogue_action(RogueAction::Move(Direction::Up), simulator, state),
+        COMMAND_CHAR_MOVE_RIGHT => rogue_action(RogueAction::Move(Direction::Right), simulator, state),
+        COMMAND_CHAR_MOVE_UP_LEFT => rogue_action(RogueAction::Move(Direction::UpLeft), simulator, state),
+        COMMAND_CHAR_MOVE_UP_RIGHT => rogue_action(RogueAction::Move(Direction::UpRight), simulator, state),
+        COMMAND_CHAR_MOVE_DOWN_LEFT => rogue_action(RogueAction::Move(Direction::DownLeft), simulator, state),
+        COMMAND_CHAR_MOVE_DOWN_RIGHT => rogue_action(RogueAction::Move(Direction::DownRight), simulator, state),
+        COMMAND_CHAR_QUIT => quit(view_state),
+        _ => illegal_command(view_state, char),
+    }
 }
+
 
 fn rogue_action(
     action: RogueAction,
-	screen: &mut dyn Screen,
     simulator: &mut RogueSimulator,
-	state: &RogueState,
-) -> CommandStatus {
+	state: &mut RogueState,
+) -> Command {
     let actions = vec![Some(action)];
-    let new_state = simulator.state_transition(state, &actions);
-    CommandStatus::StateChange(new_state)
+    *state = simulator.state_transition(state, &actions);
+    Command::Continue
 }
 
-fn help(screen: &mut dyn Screen) -> CommandStatus {
-	// for help_item in &HELP_ITEMS {
-	// 	println!("{}", help_item);
-	// }
-	println!("{}", PRESS_ANY_KEY_TO_CONTINUE);
-    wait_for_any_character().unwrap();
-	CommandStatus::Continue
+fn show_help(view_state: &mut GameViewState) -> Command {
+	// println!("{}", PRESS_ANY_KEY_TO_CONTINUE);
+    // wait_for_any_character().unwrap();
+    view_state.overlay_view_state = Some(OverlayViewState::Help);
+    Command::Multi(MultiCommand::Help)
 }
 
-fn quit(screen: &mut dyn Screen) -> CommandStatus {
+fn hide_overlay(view_state: &mut GameViewState) -> Command {
+    view_state.overlay_view_state = None;
+    Command::Continue
+}
+
+fn quit(view_state: &mut GameViewState) -> Command {
+    view_state.main_view_state.message = "quit?".to_string();
 	// unsafe { after = false; }
     // int oy, ox;
     // getyx(curscr, oy, ox);
-    screen.show_message("really quit?");
-    if read_character().unwrap() == COMMAND_CHAR_YES {
-		// clear();
+    // screen.show_message("really quit?");
+    /*if read_character().unwrap() == COMMAND_CHAR_YES {
+        screen.clear();
 		// mvprintw(LINES - 2, 0, "You quit with %d gold pieces", purse);
 		// move(LINES - 1, 0);
 		// refresh();
@@ -82,13 +128,17 @@ fn quit(screen: &mut dyn Screen) -> CommandStatus {
 		// mpos = 0;
 		// count = 0;
 		CommandStatus::Continue
-    }
+    }*/
+    Command::Multi(MultiCommand::Quit)
 }
 
-fn illegal_command(screen: &mut dyn Screen, character: char) -> CommandStatus {
+/// Not action taken for illegal commands
+fn illegal_command(view_state: &mut GameViewState, character: char) -> Command {
+    // dbg!("illegal comand {}", character);
 	// unsafe { repeat_command_count = 0; }
-	screen.show_message(&format!("illegal command '{}'", character));
-	CommandStatus::Continue
+	// screen.show_message(&format!("illegal command '{}'", character));
+    view_state.main_view_state.message = format!("illegal command '{}'", character);
+	Command::Continue
 }
 
 const COMMAND_CHAR_HELP: char = '?';
@@ -219,23 +269,19 @@ pub static HELP_DESCS: [&str; 37] = [
 
 const MSG_ASK_DIRECTION: &str = "which direction?";
 pub fn get_direction(
-	screen: &mut dyn Screen,
+    view_state: &mut GameViewState,
+    direction_char: char,
 ) -> Option<Direction> {
-	screen.show_message(MSG_ASK_DIRECTION);
-	match read_character() {
-		Ok(ch) => {
-			match ch {
-				COMMAND_CHAR_MOVE_LEFT => Some(Direction::Left),
-				COMMAND_CHAR_MOVE_DOWN => Some(Direction::Down),
-				COMMAND_CHAR_MOVE_UP => Some(Direction::Up),
-				COMMAND_CHAR_MOVE_RIGHT => Some(Direction::Right),
-				COMMAND_CHAR_MOVE_UP_LEFT => Some(Direction::UpLeft),
-				COMMAND_CHAR_MOVE_UP_RIGHT => Some(Direction::UpRight),
-				COMMAND_CHAR_MOVE_DOWN_LEFT => Some(Direction::DownLeft),
-				COMMAND_CHAR_MOVE_DOWN_RIGHT => Some(Direction::DownRight),
-				_ => None,
-			}
-		}
-		Err(_) => None,
-	}
+    view_state.main_view_state.message = MSG_ASK_DIRECTION.to_string();
+    match direction_char {
+        COMMAND_CHAR_MOVE_LEFT => Some(Direction::Left),
+        COMMAND_CHAR_MOVE_DOWN => Some(Direction::Down),
+        COMMAND_CHAR_MOVE_UP => Some(Direction::Up),
+        COMMAND_CHAR_MOVE_RIGHT => Some(Direction::Right),
+        COMMAND_CHAR_MOVE_UP_LEFT => Some(Direction::UpLeft),
+        COMMAND_CHAR_MOVE_UP_RIGHT => Some(Direction::UpRight),
+        COMMAND_CHAR_MOVE_DOWN_LEFT => Some(Direction::DownLeft),
+        COMMAND_CHAR_MOVE_DOWN_RIGHT => Some(Direction::DownRight),
+        _ => None,
+    }
 }

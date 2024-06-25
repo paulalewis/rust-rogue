@@ -1,4 +1,4 @@
-use crate::{utils::spread, constants::{NUMTHINGS, ISMEAN, ISFLY, ISREGEN, ISGREED, ISINVIS, MAXPOTIONS, MAXARMORS, MAXRINGS, MAXSCROLLS, MAXWEAPONS, MAXSTICKS}, core::{coord::Coord, object::Object, creature::Creature, room::Room, stats::Stats}, ui::console_screen::ConsoleScreen};
+use crate::{utils::spread, constants::{NUMTHINGS, ISMEAN, ISFLY, ISREGEN, ISGREED, ISINVIS, MAXPOTIONS, MAXARMORS, MAXRINGS, MAXSCROLLS, MAXWEAPONS, MAXSTICKS}, core::{coord::Coord, object::Object, creature::Creature, room::Room, stats::Stats}};
 
 // This file contains global values for the game
 

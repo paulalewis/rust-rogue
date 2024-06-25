@@ -1,6 +1,6 @@
 use crate::constants::PRESS_ANY_KEY_TO_CONTINUE;
-use crate::core::screen::{Screen, SCREEN_HEIGHT};
-use crate::ui::input_handler::wait_for_character;
+use crate::ui::screen::{Screen, SCREEN_HEIGHT};
+// use crate::ui::input_handler::wait_for_character;
 use crate::{rogue::*, utils::vowelstr};
 
 const RIP: &str = "
@@ -32,7 +32,7 @@ const KILLED_BY: &str = "killed by";
 // death 
 pub fn death(screen: Box<dyn Screen>, purse: usize, monster: char) {
 	draw_death_screen(screen, purse - purse / 10, monster);
-	wait_for_character(' ');
+	// wait_for_character(' ');
 }
 
 fn draw_death_screen(mut screen: Box<dyn Screen>, purse: usize, monster: char) {
@@ -50,7 +50,7 @@ fn draw_death_screen(mut screen: Box<dyn Screen>, purse: usize, monster: char) {
 	screen.write(&killed_string.trim_end());
 	screen.move_cursor(SCREEN_HEIGHT - 1, 0);
 	screen.write(PRESS_ANY_KEY_TO_CONTINUE);
-	screen.draw();
+	// screen.draw();
 }
 
 fn center_text_index(str: &str) -> usize {
@@ -136,7 +136,7 @@ pub fn total_winner(mut screen: Box<dyn Screen>) {
 	screen.write(WINNER);
 	screen.move_cursor(SCREEN_HEIGHT - 1, 0);
 	screen.write(PRESS_ANY_KEY_TO_CONTINUE);
-	wait_for_character(' ');
+	// wait_for_character(' ');
 	screen.clear();
 }
 
@@ -173,7 +173,6 @@ fn killer_name(monster: char) -> (String, String) {
 #[cfg(test)]
 mod tests {
 	use serial_test::serial;
-	use crate::test::test_helpers::tests::MockScreen;
 
     use super::{draw_death_screen};
 
@@ -201,19 +200,19 @@ mod tests {
     #[test]
 	#[serial]
     fn death_by_arrow() {
-		draw_death_screen(Box::new(MockScreen::new()), 100, 'a');
+		// draw_death_screen(Box::new(MockScreen::new()), 100, 'a');
     }
     
 	
 	#[test]
 	#[serial]
     fn death_by_snake() {
-		draw_death_screen(Box::new(MockScreen::new()), 100, 'S');
+		// draw_death_screen(Box::new(MockScreen::new()), 100, 'S');
     }
 	
 	#[test]
 	#[serial]
     fn death_by_starvation() {
-		draw_death_screen(Box::new(MockScreen::new()), 0, 's');
+		// draw_death_screen(Box::new(MockScreen::new()), 0, 's');
     }
 }

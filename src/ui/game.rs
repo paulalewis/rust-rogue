@@ -1,59 +1,50 @@
-use abstract_game_engine::core::simulator::Simulator;
+use std::io::{stdin, Result};
 
-use crate::core::{rogue_simulator::RogueSimulator, rogue_state::RogueState};
+use termion::input::TermRead;
 
-use super::{command::{process_command, CommandStatus}, console_screen::ConsoleScreen};
+use crate::core::rogue_simulator::RogueSimulator;
 
+use super::{game_view::GameView, game_screen::GameScreen, view_model::ViewModel};
+
+/// Create and play a new game.
 pub struct Game {
-    simulator: RogueSimulator,
-    current_state: RogueState,
-    screen: ConsoleScreen,
+    game_view: GameView,
+    view_model: ViewModel,
 }
 
 impl Game {
-    pub fn new() -> Game {
-        let mut simulator = RogueSimulator::new();
-        let current_state = simulator.generate_initial_state();
-        Game { simulator, current_state, screen: ConsoleScreen::new() }
+    pub fn new(
+        screen_wrapper: GameScreen,
+    ) -> Game {
+        Game { game_view: GameView::new(screen_wrapper), view_model: ViewModel::new(RogueSimulator::new()) }
     }
 
-    pub fn new_from_seed(seed: u64) -> Game {
-        let mut simulator = RogueSimulator::seed_from_u64(seed);
-        let current_state = simulator.generate_initial_state();
-        Game { simulator, current_state, screen: ConsoleScreen::new() }
+    pub fn new_from_seed(
+        screen_wrapper: GameScreen,
+        seed: u64,
+    ) -> Game {
+        Game { game_view: GameView::new(screen_wrapper), view_model: ViewModel::new(RogueSimulator::seed_from_u64(seed)) }
     }
     
     fn restore_game_from_file(filepath: String) -> RogueSimulator {
-        dbg!(filepath);
         todo!();
     }
 
-    pub fn new_from_file(filepath: String) -> Game {
-        let mut simulator = Self::restore_game_from_file(filepath);
-        let current_state = simulator.generate_initial_state();
-        Game { simulator, current_state, screen: ConsoleScreen::new() }
+    pub fn new_from_file(
+        screen_wrapper: GameScreen,
+        filepath: String,
+    ) -> Game {
+        Game { game_view: GameView::new(screen_wrapper), view_model: ViewModel::new(Self::restore_game_from_file(filepath)) }
     }
 
-    pub fn play(&mut self) {
-        loop {
-            match process_command(&mut self.screen, &mut self.simulator, &self.current_state) {
-                CommandStatus::Continue => continue,
-                CommandStatus::Quit => break,
-                CommandStatus::Win => todo!(),
-                CommandStatus::Loss => todo!(),
-                CommandStatus::Save => todo!(),
-                CommandStatus::Error => todo!(),
-                CommandStatus::StateChange(state) => self.current_state = state,
-            }
+    pub fn play(&mut self) -> Result<()> {
+        let stdin = stdin();
+        self.game_view.draw(&self.view_model.view_state)?;
+        for key in stdin.keys() {
+            self.view_model.process_key(key?);
+            self.game_view.draw(&self.view_model.view_state)?;
         }
-        /*
-        while !simulator.is_terminal_state(&current_state) {
-            // todo!("update screen");
-            let legal_actions = simulator.calculate_legal_actions(&current_state);
-            let action = agent.select_action(0, &current_state, &mut simulator);
-            let mut actions = HashMap::new();
-            actions.insert(0, action);
-            current_state = simulator.state_transition(&current_state, &actions);
-        }*/
+        self.game_view.clean_up()
     }
+    
 }

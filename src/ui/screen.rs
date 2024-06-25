@@ -35,6 +35,4 @@ pub trait Screen {
         self.move_cursor(y, x);
         self.write_char(value);
     }
-    
-    fn flush(&self);
 }

@@ -1,14 +1,19 @@
 extern crate term_size;
 
-use std::{env, fs};
+use std::{env, fs, panic};
 
-use rust_rogue::{constants::{NUMCOLS, NUMLINES}, ui::game::Game};
+use rust_rogue::{constants::{NUMCOLS, NUMLINES}, ui::{game::Game, game_screen::GameScreen}};
 
 fn main() {
     check_tty();
     check_terminal_size();
-    let mut game = init_game();
-    game.play();
+    let prev = panic::take_hook();
+    panic::set_hook(Box::new(move |info| {
+        println!("Custom panic hook called");
+        // println!("{}", info);
+        prev(info);
+    }));
+    init_game().play().unwrap();
 }
 
 enum InitGame {
@@ -18,10 +23,11 @@ enum InitGame {
 }
 
 fn init_game() -> Game {
+    let screen = GameScreen::new();
     match handle_args(&env::args().collect()) {
-        InitGame::Init => Game::new(),
-        InitGame::FromSeed(seed) => Game::new_from_seed(seed),
-        InitGame::FromFile(filepath) => Game::new_from_file(filepath),
+        InitGame::Init => Game::new(screen),
+        InitGame::FromSeed(seed) => Game::new_from_seed(screen, seed),
+        InitGame::FromFile(filepath) => Game::new_from_file(screen, filepath),
     }
 }
 
@@ -51,9 +57,9 @@ fn handle_args(args: &Vec<String>) -> InitGame {
 
 fn check_terminal_size() {
     if let Some((width, height)) = term_size::dimensions() {
-        dbg!(width, height, NUMCOLS, NUMLINES);
+        dbg!(width, height);
         if width < NUMCOLS || height < NUMLINES {
-            panic!("Sorry, the screen must be at least {}x{}", NUMCOLS, NUMLINES);
+            panic!("The screen must be at least {}x{}", NUMCOLS, NUMLINES);
         }
     } else {
         panic!("Unable to get term size");
@@ -61,9 +67,7 @@ fn check_terminal_size() {
 }
 
 fn check_tty() {
-    if termion::is_tty(&fs::File::create("/dev/stdout").unwrap()) {
-        dbg!("This is a TTY!");
-    } else {
-        panic!("This is not a TTY :(");
+    if !termion::is_tty(&fs::File::create("/dev/stdout").unwrap()) {
+        panic!("Terminal is not a TTY");
     }
 }
