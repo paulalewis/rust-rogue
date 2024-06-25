@@ -1,5 +1,5 @@
 use crate::constants::PRESS_ANY_KEY_TO_CONTINUE;
-use crate::ui::screen::{Screen, SCREEN_HEIGHT};
+use crate::ui::game_screen::SCREEN_HEIGHT;
 // use crate::ui::input_handler::wait_for_character;
 use crate::{rogue::*, utils::vowelstr};
 
@@ -30,26 +30,26 @@ const KILLED_BY: &str = "killed by";
 
 // Do something really fun when he dies
 // death 
-pub fn death(screen: Box<dyn Screen>, purse: usize, monster: char) {
-	draw_death_screen(screen, purse - purse / 10, monster);
+pub fn death(purse: usize, monster: char) {
+	draw_death_screen(purse - purse / 10, monster);
 	// wait_for_character(' ');
 }
 
-fn draw_death_screen(mut screen: Box<dyn Screen>, purse: usize, monster: char) {
-	screen.clear();
-	screen.move_cursor(8, 0);
-	screen.write(RIP);
-	let gold_string = format!("{} Au", purse);
-	screen.move_cursor(16, center_text_index(&gold_string));
-	screen.write(&gold_string);
-	let (article, killer_name) = killer_name(monster);
-	screen.move_cursor(18, center_text_index(&killer_name));
-	screen.write(killer_name.as_str());
-	let killed_string = format!("{} {}", KILLED_BY, article);
-	screen.move_cursor(17, center_text_index(&killed_string.trim_end()));
-	screen.write(&killed_string.trim_end());
-	screen.move_cursor(SCREEN_HEIGHT - 1, 0);
-	screen.write(PRESS_ANY_KEY_TO_CONTINUE);
+fn draw_death_screen(purse: usize, monster: char) {
+	//screen.clear();
+	//screen.move_cursor(8, 0);
+	//screen.write(RIP);
+	//let gold_string = format!("{} Au", purse);
+	//screen.move_cursor(16, center_text_index(&gold_string));
+	//screen.write(&gold_string);
+	//let (article, killer_name) = killer_name(monster);
+	//screen.move_cursor(18, center_text_index(&killer_name));
+	//screen.write(killer_name.as_str());
+	//let killed_string = format!("{} {}", KILLED_BY, article);
+	//screen.move_cursor(17, center_text_index(&killed_string.trim_end()));
+	//screen.write(&killed_string.trim_end());
+	//screen.move_cursor(SCREEN_HEIGHT - 1, 0);
+	//screen.write(PRESS_ANY_KEY_TO_CONTINUE);
 	// screen.draw();
 }
 
@@ -130,14 +130,14 @@ total_winner()
     score(purse, 2, ' ');
 }
 */
-pub fn total_winner(mut screen: Box<dyn Screen>) {
-	screen.clear();
-	screen.move_cursor(0, 0);
-	screen.write(WINNER);
-	screen.move_cursor(SCREEN_HEIGHT - 1, 0);
-	screen.write(PRESS_ANY_KEY_TO_CONTINUE);
+pub fn total_winner() {
+	//screen.clear();
+	//screen.move_cursor(0, 0);
+	//screen.write(WINNER);
+	//screen.move_cursor(SCREEN_HEIGHT - 1, 0);
+	//screen.write(PRESS_ANY_KEY_TO_CONTINUE);
 	// wait_for_character(' ');
-	screen.clear();
+	//screen.clear();
 }
 
 const UNKOWN_KILLER_NAME: &str = "Wally the Wonder Badger";

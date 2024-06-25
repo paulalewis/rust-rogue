@@ -2,6 +2,11 @@ use std::io::{stdout, Stdout, Write};
 
 use termion::raw::{IntoRawMode, RawTerminal};
 
+pub const SCREEN_HEIGHT: usize = 32; // MAXLINES
+pub const SCREEN_WIDTH: usize = 80; // MAXCOLS
+// pub const SIZE_OF_MORE: usize = 8; // "--More--"
+// pub const MAX_MESSAGE_LENGTH: usize = SCREEN_WIDTH - SIZE_OF_MORE; // MAXMSG
+
 pub struct GameScreen {
     // stdout: AlternateScreen<RawTerminal<Stdout>>,
     pub stdout: RawTerminal<Stdout>,

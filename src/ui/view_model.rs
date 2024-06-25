@@ -3,7 +3,7 @@ use termion::event::Key;
 
 use crate::core::{rogue_simulator::RogueSimulator, rogue_state::RogueState};
 
-use super::{command::{process_command, Command, MultiCommand}, game_view_state::{GameViewState, MainViewState}, screen::{SCREEN_HEIGHT, SCREEN_WIDTH}};
+use super::{command::{process_command, Command}, game_view_state::{GameViewState, MainViewState}, game_screen::{SCREEN_HEIGHT, SCREEN_WIDTH}};
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
