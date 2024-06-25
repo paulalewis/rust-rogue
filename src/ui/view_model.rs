@@ -11,7 +11,7 @@ pub struct ViewModel {
     simulator: RogueSimulator,
     current_state: RogueState,
     pub view_state: GameViewState,
-    prev_command: Command,
+    pub prev_command: Command,
 }
 
 impl ViewModel {

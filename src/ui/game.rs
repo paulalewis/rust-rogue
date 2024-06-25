@@ -4,7 +4,7 @@ use termion::input::TermRead;
 
 use crate::core::rogue_simulator::RogueSimulator;
 
-use super::{game_view::GameView, game_screen::GameScreen, view_model::ViewModel};
+use super::{command::{Command, ExitCommand}, game_screen::GameScreen, game_view::GameView, view_model::ViewModel};
 
 /// Create and play a new game.
 pub struct Game {
@@ -43,6 +43,9 @@ impl Game {
         for key in stdin.keys() {
             self.view_model.process_key(key?);
             self.game_view.draw(&self.view_model.view_state)?;
+            if self.view_model.prev_command == Command::Exit(ExitCommand::Quit) {
+                break;
+            }
         }
         self.game_view.clean_up()
     }

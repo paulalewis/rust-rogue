@@ -35,7 +35,6 @@ pub fn process_command(
     char: char,
 ) -> Command {
     match prev_command{
-        Command::Continue => handle_new_command(view_state, simulator, state, char),
         Command::Multi(multi_command) => {
             match multi_command {
                 MultiCommand::Quit => {
@@ -58,7 +57,7 @@ pub fn process_command(
                 },
             }
         },
-        Command::Exit(_) => todo!(),
+        _ => handle_new_command(view_state, simulator, state, char),
     }
 } 
 
