@@ -3,7 +3,7 @@ use termion::event::Key;
 
 use crate::core::{rogue_simulator::RogueSimulator, rogue_state::RogueState, status::Status};
 
-use super::{command::{process_command, Command, ExitCommand}, game_screen::{SCREEN_HEIGHT, SCREEN_WIDTH}, game_view_state::{GameViewState, MainViewState}};
+use super::{command::{process_command, Command}, game_screen::{SCREEN_HEIGHT, SCREEN_WIDTH}, game_view_state::{GameViewState, MainViewState}};
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
@@ -49,6 +49,6 @@ impl GameController {
     }
 
     pub fn end_game(&self) -> bool {
-        self.prev_command == Command::Exit(ExitCommand::Quit)
+        self.prev_command == Command::Exit
     }
 }

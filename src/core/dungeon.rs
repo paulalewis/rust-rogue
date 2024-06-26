@@ -5,7 +5,7 @@ use super::{object::Object, creature::Creature, coord::Coord, room::Room};
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Dungeon {
-    // level what level the player is on
+    // dungeon level
     pub level: usize,
     // lvl_obj List of objects on this level
     pub objects: Vec<Object>,

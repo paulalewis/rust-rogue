@@ -10,7 +10,7 @@ use super::game_view_state::{GameViewState, OverlayViewState};
 pub enum Command {
 	Continue,
     Multi(MultiCommand),
-    Exit(ExitCommand),
+    Exit,
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -19,15 +19,9 @@ pub enum MultiCommand {
     Inventory,
     Quit,
     ConfirmQuit,
-}
-
-#[derive(Debug, PartialEq, Eq)]
-pub enum ExitCommand {
-	Win,
-	Loss,
+    Win,
+    Loss,
     Save,
-	Quit,
-    Error,
 }
 
 pub fn process_command(
@@ -53,7 +47,7 @@ pub fn process_command(
                     }
                 },
                 MultiCommand::Quit => {
-                    Command::Exit(ExitCommand::Quit)
+                    Command::Exit
                 },
                 MultiCommand::Help | MultiCommand::Inventory => {
                     match char {
@@ -62,6 +56,9 @@ pub fn process_command(
                         },
                     }
                 },
+                MultiCommand::Win => todo!(),
+                MultiCommand::Loss => todo!(),
+                MultiCommand::Save => todo!(),
             }
         },
         _ => handle_new_command(view_state, simulator, state, char),
@@ -162,7 +159,7 @@ const COMMAND_CHAR_QUIT: char = 'Q';
 // const COMMAND_CHAR_CANCEL: char = '\u{1b}'; ESC not needed, any key other than correct key will cancel
 const COMMAND_CHAR_YES: char = 'y';
 
-pub static HELP_ITEMS: [(char, &str); 32] = [
+pub static HELP_ITEMS: [(char, &str); 31] = [
     (COMMAND_CHAR_IDENTIFY, "identify object"),
     (COMMAND_CHAR_MOVE_LEFT, "left"),
     (COMMAND_CHAR_MOVE_DOWN, "down"),
@@ -173,7 +170,7 @@ pub static HELP_ITEMS: [(char, &str); 32] = [
     (COMMAND_CHAR_MOVE_DOWN_LEFT, "down & left"),
     (COMMAND_CHAR_MOVE_DOWN_RIGHT, "down & right"),
     // "<SHIFT><dir>: run that way",
-    (COMMAND_CHAR_FIGHT, "fight"),
+    // (COMMAND_CHAR_FIGHT, "fight to the death"),
     (COMMAND_CHAR_THROW, "throw something"),
     // COMMAND_CHAR_MOVE, instead move never picks up, must always be separate action
     (COMMAND_CHAR_ZAP, "zap a wand in a direction"),
