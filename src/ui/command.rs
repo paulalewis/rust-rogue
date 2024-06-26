@@ -43,7 +43,7 @@ pub fn process_command(
                 MultiCommand::ConfirmQuit => {
                     match char {
                         COMMAND_CHAR_YES => {
-                            view_state.overlay_view_state = Some(OverlayViewState::Quit { score: 0 });
+                            view_state.overlay_view_state = Some(OverlayViewState::Quit { score: state.calculate_score() });
                             Command::Multi(MultiCommand::Quit)
                         },
                         _ => {
