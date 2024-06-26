@@ -1,3 +1,5 @@
+use std::ops::Mul;
+
 use abstract_game_engine::core::simulator::Simulator;
 
 use crate::core::{direction::Direction, rogue_action::RogueAction, rogue_simulator::RogueSimulator, rogue_state::RogueState};
@@ -16,6 +18,7 @@ pub enum MultiCommand {
     Help,
     Inventory,
     Quit,
+    ConfirmQuit,
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -37,16 +40,20 @@ pub fn process_command(
     match prev_command{
         Command::Multi(multi_command) => {
             match multi_command {
-                MultiCommand::Quit => {
+                MultiCommand::ConfirmQuit => {
                     match char {
                         COMMAND_CHAR_YES => {
-                            Command::Exit(ExitCommand::Quit)
+                            view_state.overlay_view_state = Some(OverlayViewState::Quit { score: 0 });
+                            Command::Multi(MultiCommand::Quit)
                         },
                         _ => {
                             view_state.main_view_state.message = "".to_string();
                             Command::Continue
                         },
                     }
+                },
+                MultiCommand::Quit => {
+                    Command::Exit(ExitCommand::Quit)
                 },
                 MultiCommand::Help | MultiCommand::Inventory => {
                     match char {
@@ -105,7 +112,7 @@ fn hide_overlay(view_state: &mut GameViewState) -> Command {
 
 fn quit(view_state: &mut GameViewState) -> Command {
     view_state.main_view_state.message = "quit? (y/n)".to_string();
-    Command::Multi(MultiCommand::Quit)
+    Command::Multi(MultiCommand::ConfirmQuit)
 }
 
 /// No action taken for illegal commands
@@ -155,8 +162,7 @@ const COMMAND_CHAR_QUIT: char = 'Q';
 // const COMMAND_CHAR_CANCEL: char = '\u{1b}'; ESC not needed, any key other than correct key will cancel
 const COMMAND_CHAR_YES: char = 'y';
 
-pub static HELP_ITEMS: [(char, &str); 36] = [
-    // COMMAND_CHAR_HELP,
+pub static HELP_ITEMS: [(char, &str); 32] = [
     (COMMAND_CHAR_IDENTIFY, "identify object"),
     (COMMAND_CHAR_MOVE_LEFT, "left"),
     (COMMAND_CHAR_MOVE_DOWN, "down"),
@@ -167,7 +173,7 @@ pub static HELP_ITEMS: [(char, &str); 36] = [
     (COMMAND_CHAR_MOVE_DOWN_LEFT, "down & left"),
     (COMMAND_CHAR_MOVE_DOWN_RIGHT, "down & right"),
     // "<SHIFT><dir>: run that way",
-    (COMMAND_CHAR_FIGHT, "fight till death or near death"),
+    (COMMAND_CHAR_FIGHT, "fight"),
     (COMMAND_CHAR_THROW, "throw something"),
     // COMMAND_CHAR_MOVE, instead move never picks up, must always be separate action
     (COMMAND_CHAR_ZAP, "zap a wand in a direction"),
@@ -187,13 +193,13 @@ pub static HELP_ITEMS: [(char, &str); 36] = [
     (COMMAND_CHAR_PUT_ON_RING, "put on ring"),
     (COMMAND_CHAR_REMOVE_RING, "remove ring"),
     (COMMAND_CHAR_DROP, "drop object"),
-    (COMMAND_CHAR_CALL, "call object"),
-    (COMMAND_CHAR_REPEAT, "repeat last command"),
+    // (COMMAND_CHAR_CALL, "call object"),
+    // (COMMAND_CHAR_REPEAT, "repeat last command"),
     (COMMAND_CHAR_PRINT_WEAPON, "print current weapon"),
     (COMMAND_CHAR_PRINT_ARMOR, "print current armor"),
     (COMMAND_CHAR_PRINT_RINGS, "print current rings"),
-    (COMMAND_CHAR_RECALL, "recall what's been discovered"),
-    (COMMAND_CHAR_SAVE, "save game"),
+    // (COMMAND_CHAR_RECALL, "recall what's been discovered"),
+    // (COMMAND_CHAR_SAVE, "save game"),
     (COMMAND_CHAR_QUIT, "quit"),
 ];
 
