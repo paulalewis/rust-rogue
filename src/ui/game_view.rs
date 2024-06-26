@@ -69,16 +69,17 @@ impl GameView {
         write!(self.screen.stdout, "{}", termion::clear::All)?;
         for (i, line) in HELP_DESCS.iter().enumerate() {
             let character = HELP_CHARS[i];
-            write!(self.screen.stdout, "{}{} {}", Self::calc_help_location(i), character, line)?;
+            write!(self.screen.stdout, "{}{} {}", Self::calc_help_location(i, HELP_DESCS.len()), character, line)?;
         }
         write!(self.screen.stdout, "{}{}", termion::cursor::Goto(1, SCREEN_HEIGHT as u16), PRESS_ANY_KEY_TO_CONTINUE)
     }
 
-    fn calc_help_location(index: usize) -> Goto {
-        if index >= SCREEN_HEIGHT - 2 {
-            Goto((SCREEN_WIDTH / 2) as u16, ((index + 1) % (SCREEN_HEIGHT - 2)) as u16)
-        } else {
+    fn calc_help_location(index: usize, n_items: usize) -> Goto {
+        let items_height = n_items / 2 + n_items % 2;
+        if index < items_height {
             Goto(1, (index + 1) as u16)
+        } else {
+            Goto((SCREEN_WIDTH / 2 + 1) as u16, ((index % items_height) + 1) as u16)
         }
     }
 
