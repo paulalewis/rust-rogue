@@ -3,26 +3,26 @@ use termion::event::Key;
 
 use crate::core::{rogue_simulator::RogueSimulator, rogue_state::RogueState};
 
-use super::{command::{process_command, Command}, game_view_state::{GameViewState, MainViewState}, game_screen::{SCREEN_HEIGHT, SCREEN_WIDTH}};
+use super::{command::{process_command, Command, ExitCommand}, game_screen::{SCREEN_HEIGHT, SCREEN_WIDTH}, game_view_state::{GameViewState, MainViewState}};
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
-pub struct ViewModel {
+pub struct GameController {
     simulator: RogueSimulator,
     current_state: RogueState,
     pub view_state: GameViewState,
     pub prev_command: Command,
 }
 
-impl ViewModel {
-    pub fn new(mut simulator: RogueSimulator) -> ViewModel {
+impl GameController {
+    pub fn new(mut simulator: RogueSimulator) -> GameController {
         let current_state = simulator.generate_initial_state();
-        ViewModel {
+        GameController {
             simulator,
             current_state,
             view_state: GameViewState {
                 main_view_state: MainViewState {
-                    message: format!("Welcome to Rust Rogue! Version {}", VERSION),
+                    message: format!("Welcome to Rust Rogue version {}. Press '?' for help.", VERSION),
                     map: [[' '; SCREEN_WIDTH]; SCREEN_HEIGHT - 2],
                     status: "".to_string(),
                 },
@@ -45,5 +45,9 @@ impl ViewModel {
             },
             _ => {}
         }
+    }
+
+    pub fn end_game(&self) -> bool {
+        self.prev_command == Command::Exit(ExitCommand::Quit)
     }
 }

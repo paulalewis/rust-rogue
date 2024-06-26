@@ -7,6 +7,7 @@ pub const SCREEN_WIDTH: usize = 80; // MAXCOLS
 // pub const SIZE_OF_MORE: usize = 8; // "--More--"
 // pub const MAX_MESSAGE_LENGTH: usize = SCREEN_WIDTH - SIZE_OF_MORE; // MAXMSG
 
+// Wrapper for terminal screen
 pub struct GameScreen {
     // stdout: AlternateScreen<RawTerminal<Stdout>>,
     pub stdout: RawTerminal<Stdout>,

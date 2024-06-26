@@ -17,5 +17,5 @@ pub enum OverlayViewState {
     Inventory,
     Win,
     Loss,
-    Quit,
+    Quit { score: usize },
 }

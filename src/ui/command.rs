@@ -4,21 +4,21 @@ use crate::core::{direction::Direction, rogue_action::RogueAction, rogue_simulat
 
 use super::game_view_state::{GameViewState, OverlayViewState};
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum Command {
 	Continue,
     Multi(MultiCommand),
     Exit(ExitCommand),
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum MultiCommand {
     Help,
     Inventory,
     Quit,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum ExitCommand {
 	Win,
 	Loss,
@@ -94,8 +94,6 @@ fn rogue_action(
 }
 
 fn show_help(view_state: &mut GameViewState) -> Command {
-	// println!("{}", PRESS_ANY_KEY_TO_CONTINUE);
-    // wait_for_any_character().unwrap();
     view_state.overlay_view_state = Some(OverlayViewState::Help);
     Command::Multi(MultiCommand::Help)
 }
@@ -106,36 +104,12 @@ fn hide_overlay(view_state: &mut GameViewState) -> Command {
 }
 
 fn quit(view_state: &mut GameViewState) -> Command {
-    view_state.main_view_state.message = "quit?".to_string();
-	// unsafe { after = false; }
-    // int oy, ox;
-    // getyx(curscr, oy, ox);
-    // screen.show_message("really quit?");
-    /*if read_character().unwrap() == COMMAND_CHAR_YES {
-        screen.clear();
-		// mvprintw(LINES - 2, 0, "You quit with %d gold pieces", purse);
-		// move(LINES - 1, 0);
-		// refresh();
-		// score(purse, 1, 0);
-		CommandStatus::Quit
-    } else {
-		// move(0, 0);
-		// clrtoeol();
-		// status();
-		// move(oy, ox);
-		// refresh();
-		// mpos = 0;
-		// count = 0;
-		CommandStatus::Continue
-    }*/
+    view_state.main_view_state.message = "quit? (y/n)".to_string();
     Command::Multi(MultiCommand::Quit)
 }
 
-/// Not action taken for illegal commands
+/// No action taken for illegal commands
 fn illegal_command(view_state: &mut GameViewState, character: char) -> Command {
-    // dbg!("illegal comand {}", character);
-	// unsafe { repeat_command_count = 0; }
-	// screen.show_message(&format!("illegal command '{}'", character));
     view_state.main_view_state.message = format!("illegal command '{}'", character);
 	Command::Continue
 }
@@ -182,8 +156,8 @@ const COMMAND_CHAR_QUIT: char = 'Q';
 const COMMAND_CHAR_YES: char = 'y';
 
 
-pub static HELP_CHARS: [char; 37] = [
-    COMMAND_CHAR_HELP,
+pub static HELP_CHARS: [char; 36] = [
+    // COMMAND_CHAR_HELP,
     COMMAND_CHAR_IDENTIFY,
     COMMAND_CHAR_MOVE_LEFT,
     COMMAND_CHAR_MOVE_DOWN,
@@ -224,8 +198,8 @@ pub static HELP_CHARS: [char; 37] = [
     COMMAND_CHAR_QUIT,
 ];
 
-pub static HELP_DESCS: [&str; 37] = [
-    "prints help",
+pub static HELP_DESCS: [&str; 36] = [
+    // "prints help",
     "identify object",
     "left",
     "down",
