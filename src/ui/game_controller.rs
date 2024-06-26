@@ -1,9 +1,9 @@
 use abstract_game_engine::core::simulator::Simulator;
 use termion::event::Key;
 
-use crate::core::{rogue_simulator::RogueSimulator, rogue_state::RogueState};
+use crate::core::{rogue_simulator::RogueSimulator, rogue_state::RogueState, status::Status};
 
-use super::{command::{process_command, Command, ExitCommand}, game_screen::{SCREEN_HEIGHT, SCREEN_WIDTH}, game_view_state::{GameViewState, MainViewState, Status}};
+use super::{command::{process_command, Command, ExitCommand}, game_screen::{SCREEN_HEIGHT, SCREEN_WIDTH}, game_view_state::{GameViewState, MainViewState}};
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
@@ -17,6 +17,7 @@ pub struct GameController {
 impl GameController {
     pub fn new(mut simulator: RogueSimulator) -> GameController {
         let current_state = simulator.generate_initial_state();
+        let status = Status::from_rogue_state(&current_state);
         GameController {
             simulator,
             current_state,
@@ -24,14 +25,7 @@ impl GameController {
                 main_view_state: MainViewState {
                     message: format!("Welcome to Rust Rogue version {}. Press '?' for help.", VERSION),
                     map: [[' '; SCREEN_WIDTH]; SCREEN_HEIGHT - 2],
-                    status: Status {
-                        level: 1,
-                        gold: 0,
-                        health: (12, 12),
-                        strength: (16, 16),
-                        armor: 4,
-                        experience: (1, 0),
-                    }
+                    status,
                 },
                 overlay_view_state: None,
             },

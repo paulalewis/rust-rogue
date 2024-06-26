@@ -4,6 +4,7 @@ use std::io::Write;
 use termion::cursor::Goto;
 
 use crate::constants::PRESS_ANY_KEY_TO_CONTINUE;
+use crate::core::status::Status;
 use crate::ui::command::HELP_ITEMS;
 use crate::ui::game_screen::SCREEN_HEIGHT;
 
@@ -12,7 +13,6 @@ use super::game_view_state::GameViewState;
 use super::game_view_state::MainViewState;
 use super::game_view_state::OverlayViewState;
 use super::game_screen::GameScreen;
-use super::game_view_state::Status;
 
 /// Display game to terminal
 pub struct GameView {
