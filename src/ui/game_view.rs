@@ -4,8 +4,7 @@ use std::io::Write;
 use termion::cursor::Goto;
 
 use crate::constants::PRESS_ANY_KEY_TO_CONTINUE;
-use crate::ui::command::HELP_CHARS;
-use crate::ui::command::HELP_DESCS;
+use crate::ui::command::HELP_ITEMS;
 use crate::ui::game_screen::SCREEN_HEIGHT;
 
 use super::game_screen::SCREEN_WIDTH;
@@ -67,9 +66,10 @@ impl GameView {
 
     fn draw_help(&mut self) -> Result<()> {
         write!(self.screen.stdout, "{}", termion::clear::All)?;
-        for (i, line) in HELP_DESCS.iter().enumerate() {
-            let character = HELP_CHARS[i];
-            write!(self.screen.stdout, "{}{} {}", Self::calc_help_location(i, HELP_DESCS.len()), character, line)?;
+        for (i, item) in HELP_ITEMS.iter().enumerate() {
+            let character = item.0;
+            let desc = item.1;
+            write!(self.screen.stdout, "{}{} {}", Self::calc_help_location(i, HELP_ITEMS.len()), character, desc)?;
         }
         write!(self.screen.stdout, "{}{}", termion::cursor::Goto(1, SCREEN_HEIGHT as u16), PRESS_ANY_KEY_TO_CONTINUE)
     }
