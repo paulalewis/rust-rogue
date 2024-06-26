@@ -12,6 +12,7 @@ use super::game_view_state::GameViewState;
 use super::game_view_state::MainViewState;
 use super::game_view_state::OverlayViewState;
 use super::game_screen::GameScreen;
+use super::game_view_state::Status;
 
 /// Display game to terminal
 pub struct GameView {
@@ -37,13 +38,18 @@ impl GameView {
     }
 
     fn draw_main_view(&mut self, main_view_state: &MainViewState) -> Result<()> {
-        self.draw_message(&main_view_state.message)
+        self.draw_message(&main_view_state.message)?;
+        self.draw_status(&main_view_state.status)
     }
 
     fn draw_message(&mut self, message: &String) -> Result<()> {
         write!(self.screen.stdout, "{}", termion::cursor::Goto(1, 1))?;
-        // write!(self.stdout, "{}", termion::clear::CurrentLine).unwrap();
         write!(self.screen.stdout, "{}", message)
+    }
+
+    fn draw_status(&mut self, status: &Status) -> Result<()> {
+        write!(self.screen.stdout, "{}", termion::cursor::Goto(1, SCREEN_HEIGHT as u16))?;
+        write!(self.screen.stdout, "Level: {} Gold: {} Health: {}/{} Strength: {}/{} Armor: {} Experience: {}/{}", status.level, status.gold, status.health.0, status.health.1, status.strength.0, status.strength.1, status.armor, status.experience.0, status.experience.1)
     }
 
     fn draw_overlay_view(&mut self, overlay_view_state: &OverlayViewState) -> Result<()> {

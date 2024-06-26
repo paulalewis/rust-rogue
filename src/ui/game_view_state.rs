@@ -9,7 +9,16 @@ pub struct GameViewState {
 pub struct MainViewState {
     pub message: String,
     pub map: [[char; MAP_WIDTH]; MAP_HEIGHT],
-    pub status: String,
+    pub status: Status,
+}
+
+pub struct Status {
+    pub level: usize,
+    pub gold: usize,
+    pub health: (usize, usize),
+    pub strength: (usize, usize),
+    pub armor: usize,
+    pub experience: (usize, usize),
 }
 
 pub enum OverlayViewState {
