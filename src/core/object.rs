@@ -49,14 +49,15 @@ pub struct Object {
     pub packch: char,
     pub damage: String,
     pub hurldmg: String,
-    pub count: i32,
+    pub count: isize,
     pub which: usize,
-    pub hplus: i32,
-    pub dplus: i32,
+    pub hplus: isize,
+    pub dplus: isize,
     pub arm: usize,
     pub flags: usize,
     pub group: i32,
     pub label: String,
+    pub charges: usize,
 }
 
 impl Object {
@@ -79,6 +80,7 @@ impl Object {
             flags: 0,
             group: 0,
             label: String::new(),
+            charges: 0,
         }
     }
 

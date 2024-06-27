@@ -172,9 +172,9 @@ pub static things: [ObjInfo; NUMTHINGS] = [
     ObjInfo { name: String::new(), prob: 100, worth: 0, guess: String::new(), know: false },/* stick */
 ];
 
-//struct obj_info arm_info[MAXARMORS]
 lazy_static! {
-    pub static ref arm_info: [ObjInfo; MAXARMORS] = [
+    //struct obj_info arm_info[MAXARMORS]
+    pub static ref ARMOR_INFO: [ObjInfo; MAXARMORS] = [
         ObjInfo { name: String::from("leather armor"), prob: 20, worth: 20, guess: String::new(), know: false },
         ObjInfo { name: String::from("ring mail"), prob: 35, worth: 25, guess: String::new(), know: false },
         ObjInfo { name: String::from("studded leather armor"), prob: 50, worth: 20, guess: String::new(), know: false },
@@ -186,9 +186,9 @@ lazy_static! {
     ];
 }
 
-//struct obj_info pot_info[MAXPOTIONS]
 lazy_static! {
-    pub static ref pot_info: [ObjInfo; MAXPOTIONS] = [
+    //struct obj_info pot_info[MAXPOTIONS]
+    pub static ref POTION_INFO: [ObjInfo; MAXPOTIONS] = [
         ObjInfo { name: String::from("confusion"), prob: 7, worth: 5, guess: String::new(), know: false },
         ObjInfo { name: String::from("hallucination"), prob: 15, worth: 5, guess: String::new(), know: false },
         ObjInfo { name: String::from("poison"), prob: 23, worth: 5, guess: String::new(), know: false },
@@ -206,9 +206,9 @@ lazy_static! {
     ];
 }
 
-//struct obj_info ring_info[MAXRINGS]
 lazy_static! {
-    pub static ref ring_info: [ObjInfo; MAXRINGS] = [
+    //struct obj_info ring_info[MAXRINGS]
+    pub static ref RING_INFO: [ObjInfo; MAXRINGS] = [
         ObjInfo { name: String::from("protection"), prob: 9, worth: 400, guess: String::new(), know: false },
         ObjInfo { name: String::from("add strength"), prob: 18, worth: 400, guess: String::new(), know: false },
         ObjInfo { name: String::from("sustain strength"), prob: 23, worth: 280, guess: String::new(), know: false },
@@ -226,9 +226,9 @@ lazy_static! {
     ];
 }
 
-//struct obj_info scr_info[MAXSCROLLS]
 lazy_static! {
-    pub static ref scr_info: [ObjInfo; MAXSCROLLS] = [
+    //struct obj_info scr_info[MAXSCROLLS]
+    pub static ref SCROLL_INFO: [ObjInfo; MAXSCROLLS] = [
         ObjInfo { name: String::from("monster confusion"), prob: 7, worth: 140, guess: String::new(), know: false },
         ObjInfo { name: String::from("magic mapping"), prob: 11, worth: 150, guess: String::new(), know: false },
         ObjInfo { name: String::from("hold monster"), prob: 13, worth: 180, guess: String::new(), know: false },
@@ -250,9 +250,9 @@ lazy_static! {
     ];
 }
 
-//struct obj_info weap_info[MAXWEAPONS + 1]
 lazy_static! {
-    pub static ref weap_info: [ObjInfo; MAXWEAPONS + 1] = [
+    //struct obj_info weap_info[MAXWEAPONS + 1]
+    pub static ref WEAPON_INFO: [ObjInfo; MAXWEAPONS] = [
         ObjInfo { name: String::from("mace"), prob: 11, worth: 8, guess: String::new(), know: false },
         ObjInfo { name: String::from("long sword"), prob: 22, worth: 15, guess: String::new(), know: false },
         ObjInfo { name: String::from("short bow"), prob: 34, worth: 15, guess: String::new(), know: false },
@@ -263,13 +263,13 @@ lazy_static! {
         ObjInfo { name: String::from("shuriken"), prob: 88, worth: 5, guess: String::new(), know: false },
         ObjInfo { name: String::from("spear"), prob: 100, worth: 5, guess: String::new(), know: false },
         //{ NULL, 0 }, /* DO NOT REMOVE: fake entry for dragon's breath
-        ObjInfo { name: String::new(), prob: 0, worth: 0, guess: String::new(), know: false },
+        //ObjInfo { name: String::new(), prob: 0, worth: 0, guess: String::new(), know: false },
     ];
 }
 
-//struct obj_info ws_info[MAXSTICKS]
 lazy_static! {
-    pub static ref ws_info: [ObjInfo; MAXSTICKS] = [
+    //struct obj_info ws_info[MAXSTICKS]
+    pub static ref STICK_INFO: [ObjInfo; MAXSTICKS] = [
         ObjInfo { name: String::from("light"), prob: 12, worth: 250, guess: String::new(), know: false },
         ObjInfo { name: String::from("invisibility"), prob: 18, worth: 5, guess: String::new(), know: false },
         ObjInfo { name: String::from("lightning"), prob: 21, worth: 330, guess: String::new(), know: false },
