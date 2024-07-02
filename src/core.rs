@@ -2,6 +2,7 @@ pub mod coord;
 pub mod creature;
 pub mod direction;
 pub mod dungeon;
+pub mod monster;
 pub mod object;
 pub mod place;
 pub mod player;

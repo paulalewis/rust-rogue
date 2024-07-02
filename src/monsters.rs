@@ -1,4 +1,4 @@
-use crate::{rogue::*, utils::*, constants::{AMULETLEVEL, VS_MAGIC, R_PROTECT, LEFT, RIGHT}, core::{coord::Coord, creature::Creature, rogue_state::RogueState}};
+use crate::{constants::{AMULETLEVEL, LEFT, RIGHT, R_PROTECT, VS_MAGIC}, core::{coord::Coord, creature::Creature, monster::{Monster, MONSTERS, NUMBER_OF_MONSTERS}, rogue_state::RogueState}, rogue::*, utils::*};
 
 use std::cmp;
 
@@ -205,7 +205,7 @@ wake_monster(int y, int x)
 pub fn give_pack(state: &RogueState, creature: Creature) {
     if state.dungeon.level >= state.max_level {
         let index = (creature.creature_type as u8 - b'A') as usize;
-        if rnd(100) < monsters[index].carry {
+        if rnd(100) < MONSTERS[index].carry {
             // todo - attach(pack, new_thing());
         }
     }

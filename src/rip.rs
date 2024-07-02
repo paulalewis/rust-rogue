@@ -1,4 +1,5 @@
 use crate::constants::PRESS_ANY_KEY_TO_CONTINUE;
+use crate::core::monster::MONSTERS;
 use crate::ui::game_screen::SCREEN_HEIGHT;
 // use crate::ui::input_handler::wait_for_character;
 use crate::{rogue::*, utils::vowelstr};
@@ -153,7 +154,7 @@ fn killer_name(monster: char) -> (String, String) {
 	];
 	
 	let (name, article) = if monster.is_ascii_uppercase() {
-		(String::from(monsters[monster as usize - 'A' as usize].name.as_str()), true)
+		(String::from(MONSTERS[monster as usize - 'A' as usize].name), true)
 	} else {
 		let mut sp = String::from(UNKOWN_KILLER_NAME);
 		let mut article = false;
