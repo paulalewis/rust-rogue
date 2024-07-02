@@ -2,9 +2,9 @@ use std::fmt;
 
 use abstract_game_engine::core::simulator::State;
 
-use crate::{constants::{MAXSCROLLS, MAXRINGS, MAXPOTIONS, MAXSTICKS}, utils::rnd, rogue::{NSTONES, stones, NCOLORS, rainbow, NMETAL, NWOOD, metal, wood}, core::{dungeon::Dungeon, player::Player}};
+use crate::{constants::{MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, NUMCOLS, NUMLINES}, core::{dungeon::Dungeon, player::Player}, rogue::{metal, rainbow, stones, wood, NCOLORS, NMETAL, NSTONES, NWOOD}, utils::rnd};
 
-use super::rogue_message::RogueMessage;
+use super::{coord::Coord, rogue_message::RogueMessage, spot::Spot};
 
 // This represents the state of the game.
 // It can be used to save and restore a game.
@@ -17,6 +17,8 @@ pub struct RogueState {
     pub no_food: usize,
     //ntraps number of traps on this level
     pub n_traps: usize,
+    //bool seenstairs Have seen the stairs (for lsd)
+    pub seenstairs: bool,
     // max_level deepest player has gone 
     pub max_level: usize,
     pub player: Player,
@@ -33,6 +35,8 @@ pub struct RogueState {
     pub stick_material: Vec<String>,
     // ws_type is it a wand or a staff
     pub is_wand: [bool; MAXSTICKS],
+    // static SPOT	maze[NUMLINES/3+1][NUMCOLS/3+1];
+    pub maze: [[Spot; NUMCOLS / 3 + 1]; NUMLINES / 3 + 1],// = [[Spot { nexits: 0, exits: [Coord { x: 0, y: 0 }; 4], used: false }; NUMCOLS / 3 + 1]; NUMLINES / 3 + 1];
 }
 
 impl State for RogueState {}
@@ -45,6 +49,7 @@ impl RogueState {
             amulet: false,
             no_food: 0,
             n_traps: 0,
+            seenstairs: false,
             max_level: 1,
             player: Player::new(),
             dungeon: Dungeon::new(),
@@ -54,6 +59,7 @@ impl RogueState {
             scroll_names: init_scroll_names(),
             stick_material,
             is_wand,
+            maze: [[Spot { nexits: 0, exits: [Coord { x: 0, y: 0 }; 4], used: false }; NUMCOLS / 3 + 1]; NUMLINES / 3 + 1],
         }
     }
 

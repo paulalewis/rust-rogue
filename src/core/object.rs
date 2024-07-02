@@ -39,8 +39,6 @@ use super::coord::Coord;
 //typedef union thing THING;
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Object {
-    pub next: Box<Option<Object>>,
-    pub prev: Box<Option<Object>>,
     // type
     pub object_type: char,
     pub pos: Coord,
@@ -63,8 +61,6 @@ pub struct Object {
 impl Object {
     pub fn new() -> Self {
         Object {
-            next: Box::new(None),
-            prev: Box::new(None),
             object_type: '\0',
             pos: Default::default(),
             text: String::new(),

@@ -1,4 +1,4 @@
-use crate::{utils::spread, constants::{NUMTHINGS, ISMEAN, ISFLY, ISREGEN, ISGREED, ISINVIS, MAXPOTIONS, MAXARMORS, MAXRINGS, MAXSCROLLS, MAXWEAPONS, MAXSTICKS}, core::{coord::Coord, object::Object, creature::Creature, room::Room, stats::Stats}};
+use crate::{constants::{ISFLY, ISGREED, ISINVIS, ISMEAN, ISREGEN, MAXARMORS, MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, MAXWEAPONS, NUMTHINGS}, core::{coord::Coord, creature::Creature, object::Object, room::Room, stats::{Attack, DmgStats, Stats}}, utils::spread};
 
 // This file contains global values for the game
 
@@ -6,8 +6,6 @@ use crate::{utils::spread, constants::{NUMTHINGS, ISMEAN, ISFLY, ISREGEN, ISGREE
 pub static mut after: bool = false;
 //bool again;				/* Repeating the last command */
 pub static again: bool = false;
-//bool seenstairs;			/* Have seen the stairs (for lsd) */
-pub static seenstairs: bool = false;
 //bool has_hit = FALSE;			/* Has a "hit" message pending in msg */
 pub static has_hit: bool = false;
 //bool inv_describe = TRUE;		/* Say which way items are being used */
@@ -130,34 +128,32 @@ pub static passages: Vec<Room> = Vec::new();
 pub const NUMBER_OF_MONSTERS: usize = 26;
 lazy_static! {
     pub static ref monsters: [Monster; NUMBER_OF_MONSTERS] = [
-        Monster { name: String::from("aquator"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 20, lvl: 5, arm: 2, hpt: 1, dmg: String::from("0x0/0x0"), max_hp: 0 } },
-        Monster { name: String::from("bat"), carry: 0, flags: ISFLY, stats: Stats { str: 10, exp: 1, lvl: 1, arm: 3, hpt: 1, dmg: String::from("1x2"), max_hp: 0 } },
-        Monster { name: String::from("centaur"), carry: 15, flags: 0, stats: Stats { str: 10, exp: 17, lvl: 4, arm: 4, hpt: 1, dmg: String::from("1x2/1x5/1x5"), max_hp: 0 } },
-        Monster { name: String::from("dragon"), carry: 100, flags: ISMEAN, stats: Stats { str: 10, exp: 5000, lvl: 10, arm: -1, hpt: 0, dmg: String::from("1x8/1x8/3x10"), max_hp: 0 } },
-        Monster { name: String::from("emu"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 2, lvl: 1, arm: 7, hpt: 1, dmg: String::from("1x2"), max_hp: 0 } },
-	    /* NOTE: the damage is %%% so that xstr won't merge this */
-	    /* string with others, since it is written on in the program */
-        Monster { name: String::from("venus flytrap"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 80, lvl: 8, arm: 3, hpt: 1, dmg: String::from("%%%x0"), max_hp: 0 } },
-        Monster { name: String::from("griffin"), carry: 20, flags: ISMEAN | ISFLY | ISREGEN, stats: Stats { str: 10, exp: 2000, lvl: 13, arm: 2, hpt: 1, dmg: String::from("4x3/3x5"), max_hp: 0 } },
-        Monster { name: String::from("hobgablin"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 3, lvl: 1, arm: 5, hpt: 1, dmg: String::from("1x8"), max_hp: 0 } },
-        Monster { name: String::from("ice monster"), carry: 0, flags: 0, stats: Stats { str: 10, exp: 5, lvl: 1, arm: 9, hpt: 1, dmg: String::from("0x0"), max_hp: 0 } },
-        Monster { name: String::from("jabberwock"), carry: 70, flags: 0, stats: Stats { str: 10, exp: 3000, lvl: 15, arm: 6, hpt: 1, dmg: String::from("2x12/2x4"), max_hp: 0 } },
-        Monster { name: String::from("kestrel"), carry: 0, flags: ISMEAN | ISFLY, stats: Stats { str: 10, exp: 1, lvl: 1, arm: 7, hpt: 1, dmg: String::from("1x4"), max_hp: 0 } },
-        Monster { name: String::from("leprechaun"), carry: 0, flags: 0, stats: Stats { str: 10, exp: 10, lvl: 3, arm: 8, hpt: 1, dmg: String::from("1x1"), max_hp: 0 } },
-        Monster { name: String::from("medusa"), carry: 40, flags: ISMEAN, stats: Stats { str: 10, exp: 200, lvl: 8, arm: 2, hpt: 1, dmg: String::from("3x4/3x4/2x5"), max_hp: 0 } },
-        Monster { name: String::from("nymph"), carry: 100, flags: 0, stats: Stats { str: 10, exp: 37, lvl: 3, arm: 9, hpt: 1, dmg: String::from("0x0"), max_hp: 0 } },
-        Monster { name: String::from("orc"), carry: 15, flags: ISGREED, stats: Stats { str: 10, exp: 5, lvl: 1, arm: 6, hpt: 1, dmg: String::from("1x8"), max_hp: 0 } },
-        Monster { name: String::from("phantom"), carry: 0, flags: ISINVIS, stats: Stats { str: 10, exp: 120, lvl: 8, arm: 3, hpt: 1, dmg: String::from("4x4"), max_hp: 0 } },
-        Monster { name: String::from("quagga"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 15, lvl: 3, arm: 3, hpt: 1, dmg: String::from("1x5/1x5"), max_hp: 0 } },
-        Monster { name: String::from("rattlesnake"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 9, lvl: 2, arm: 3, hpt: 1, dmg: String::from("1x6"), max_hp: 0 } },
-        Monster { name: String::from("snake"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 2, lvl: 1, arm: 5, hpt: 1, dmg: String::from("1x3"), max_hp: 0 } },
-        Monster { name: String::from("troll"), carry: 50, flags: ISREGEN | ISMEAN, stats: Stats { str: 10, exp: 120, lvl: 6, arm: 4, hpt: 1, dmg: String::from("1x8/1x8/2x6"), max_hp: 0 } },
-        Monster { name: String::from("black unicorn"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 190, lvl: 7, arm: -2, hpt: 1, dmg: String::from("1x9/1x9/2x9"), max_hp: 0 } },
-        Monster { name: String::from("vampire"), carry: 20, flags: ISREGEN | ISMEAN, stats: Stats { str: 10, exp: 350, lvl: 8, arm: 1, hpt: 1, dmg: String::from("1x10"), max_hp: 0 } },
-        Monster { name: String::from("wraith"), carry: 0, flags: 0, stats: Stats { str: 10, exp: 55, lvl: 5, arm: 4, hpt: 1, dmg: String::from("1x6"), max_hp: 0 } },
-        Monster { name: String::from("xeroc"), carry: 30, flags: 0, stats: Stats { str: 10, exp: 100, lvl: 7, arm: 7, hpt: 1, dmg: String::from("4x4"), max_hp: 0 } },
-        Monster { name: String::from("yeti"), carry: 30, flags: 0, stats: Stats { str: 10, exp: 50, lvl: 4, arm: 6, hpt: 1, dmg: String::from("1x6/1x6"), max_hp: 0 } },
-        Monster { name: String::from("zombie"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 6, lvl: 2, arm: 8, hpt: 1, dmg: String::from("1x8"), max_hp: 0 } },
+        Monster { name: String::from("aquator"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 20, lvl: 5, arm: 2, hpt: 1, dmg: DmgStats::Double(Attack(0, 0), Attack(0, 0)), max_hp: 0 } },
+        Monster { name: String::from("bat"), carry: 0, flags: ISFLY, stats: Stats { str: 10, exp: 1, lvl: 1, arm: 3, hpt: 1, dmg: DmgStats::Single(Attack(1, 2)), max_hp: 0 } },
+        Monster { name: String::from("centaur"), carry: 15, flags: 0, stats: Stats { str: 10, exp: 17, lvl: 4, arm: 4, hpt: 1, dmg: DmgStats::Triple(Attack(1, 2), Attack(1, 5), Attack(1, 5)), max_hp: 0 } },
+        Monster { name: String::from("dragon"), carry: 100, flags: ISMEAN, stats: Stats { str: 10, exp: 5000, lvl: 10, arm: -1, hpt: 0, dmg: DmgStats::Triple(Attack(1, 8), Attack(1, 8), Attack(3, 10)), max_hp: 0 } },
+        Monster { name: String::from("emu"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 2, lvl: 1, arm: 7, hpt: 1, dmg: DmgStats::Single(Attack(1, 2)), max_hp: 0 } },
+        Monster { name: String::from("venus flytrap"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 80, lvl: 8, arm: 3, hpt: 1, dmg: DmgStats::FlyTrap, max_hp: 0 } },
+        Monster { name: String::from("griffin"), carry: 20, flags: ISMEAN | ISFLY | ISREGEN, stats: Stats { str: 10, exp: 2000, lvl: 13, arm: 2, hpt: 1, dmg: DmgStats::Double(Attack(4, 3), Attack(3, 5)), max_hp: 0 } },
+        Monster { name: String::from("hobgablin"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 3, lvl: 1, arm: 5, hpt: 1, dmg: DmgStats::Single(Attack(1, 8)), max_hp: 0 } },
+        Monster { name: String::from("ice monster"), carry: 0, flags: 0, stats: Stats { str: 10, exp: 5, lvl: 1, arm: 9, hpt: 1, dmg: DmgStats::Single(Attack(0, 0)), max_hp: 0 } },
+        Monster { name: String::from("jabberwock"), carry: 70, flags: 0, stats: Stats { str: 10, exp: 3000, lvl: 15, arm: 6, hpt: 1, dmg: DmgStats::Double(Attack(2, 12), Attack(2, 4)), max_hp: 0 } },
+        Monster { name: String::from("kestrel"), carry: 0, flags: ISMEAN | ISFLY, stats: Stats { str: 10, exp: 1, lvl: 1, arm: 7, hpt: 1, dmg: DmgStats::Single(Attack(1, 4)), max_hp: 0 } },
+        Monster { name: String::from("leprechaun"), carry: 0, flags: 0, stats: Stats { str: 10, exp: 10, lvl: 3, arm: 8, hpt: 1, dmg: DmgStats::Single(Attack(1, 1)), max_hp: 0 } },
+        Monster { name: String::from("medusa"), carry: 40, flags: ISMEAN, stats: Stats { str: 10, exp: 200, lvl: 8, arm: 2, hpt: 1, dmg: DmgStats::Triple(Attack(3, 4), Attack(3, 4), Attack(2, 5)), max_hp: 0 } },
+        Monster { name: String::from("nymph"), carry: 100, flags: 0, stats: Stats { str: 10, exp: 37, lvl: 3, arm: 9, hpt: 1, dmg: DmgStats::Single(Attack(0, 0)), max_hp: 0 } },
+        Monster { name: String::from("orc"), carry: 15, flags: ISGREED, stats: Stats { str: 10, exp: 5, lvl: 1, arm: 6, hpt: 1, dmg: DmgStats::Single(Attack(1, 8)), max_hp: 0 } },
+        Monster { name: String::from("phantom"), carry: 0, flags: ISINVIS, stats: Stats { str: 10, exp: 120, lvl: 8, arm: 3, hpt: 1, dmg: DmgStats::Single(Attack(4, 4)), max_hp: 0 } },
+        Monster { name: String::from("quagga"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 15, lvl: 3, arm: 3, hpt: 1, dmg: DmgStats::Double(Attack(1, 5), Attack(1, 5)), max_hp: 0 } },
+        Monster { name: String::from("rattlesnake"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 9, lvl: 2, arm: 3, hpt: 1, dmg: DmgStats::Single(Attack(1, 6)), max_hp: 0 } },
+        Monster { name: String::from("snake"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 2, lvl: 1, arm: 5, hpt: 1, dmg: DmgStats::Single(Attack(1, 3)), max_hp: 0 } },
+        Monster { name: String::from("troll"), carry: 50, flags: ISREGEN | ISMEAN, stats: Stats { str: 10, exp: 120, lvl: 6, arm: 4, hpt: 1, dmg: DmgStats::Triple(Attack(1, 8), Attack(1, 8), Attack(2, 6)), max_hp: 0 } },
+        Monster { name: String::from("black unicorn"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 190, lvl: 7, arm: -2, hpt: 1, dmg: DmgStats::Triple(Attack(1, 9), Attack(1, 9), Attack(2, 9)), max_hp: 0 } },
+        Monster { name: String::from("vampire"), carry: 20, flags: ISREGEN | ISMEAN, stats: Stats { str: 10, exp: 350, lvl: 8, arm: 1, hpt: 1, dmg: DmgStats::Single(Attack(1, 10)), max_hp: 0 } },
+        Monster { name: String::from("wraith"), carry: 0, flags: 0, stats: Stats { str: 10, exp: 55, lvl: 5, arm: 4, hpt: 1, dmg: DmgStats::Single(Attack(1, 6)), max_hp: 0 } },
+        Monster { name: String::from("xeroc"), carry: 30, flags: 0, stats: Stats { str: 10, exp: 100, lvl: 7, arm: 7, hpt: 1, dmg: DmgStats::Single(Attack(4, 4)), max_hp: 0 } },
+        Monster { name: String::from("yeti"), carry: 30, flags: 0, stats: Stats { str: 10, exp: 50, lvl: 4, arm: 6, hpt: 1, dmg: DmgStats::Double(Attack(1, 6), Attack(1, 6)), max_hp: 0 } },
+        Monster { name: String::from("zombie"), carry: 0, flags: ISMEAN, stats: Stats { str: 10, exp: 6, lvl: 2, arm: 8, hpt: 1, dmg: DmgStats::Single(Attack(1, 8)), max_hp: 0 } },
     ];
 }
 
@@ -319,29 +315,6 @@ pub struct ObjInfo {
     pub worth: usize,
     pub guess: String,
     pub know: bool,
-}
-
-// describe a place on the level map
-/*typedef struct {
-    char p_ch;
-    char p_flags;
-    THING *p_monst;
-} PLACE;*/
-#[derive(Clone, Debug, Hash, PartialEq, Eq)]
-pub struct Place {
-    pub ch: char,
-    pub flags: usize,
-    pub monst: Option<Creature>,
-}
-
-impl Place {
-    pub fn new() -> Self {
-        Place {
-            ch: '\0',
-            flags: 0,
-            monst: None,
-        }
-    }
 }
 
 // Array containing information on all the various types of monsters

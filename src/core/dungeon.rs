@@ -1,7 +1,10 @@
-use crate::{rogue::Place, utils::rnd};
+use crate::utils::rnd;
 use crate::constants::ISGONE;
 
-use super::{object::Object, creature::Creature, coord::Coord, room::Room};
+use super::{coord::Coord, creature::Creature, object::Object, place::Place, room::Room};
+
+pub const SCREEN_HEIGHT: usize = 32; // MAXLINES
+pub const SCREEN_WIDTH: usize = 80; // MAXCOLS
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Dungeon {
@@ -12,7 +15,7 @@ pub struct Dungeon {
     //mlist List of monsters on the level
     pub monsters: Vec<Object>,
     // places[MAXLINES*MAXCOLS] level map 
-    pub places: Vec<Place>,
+    pub places: Vec<Vec<Place>>,
     // rooms[MAXROOMS] One for each room -- A level
     pub rooms: Vec<Room>,
 }
@@ -29,27 +32,31 @@ impl Dungeon {
     }
 
     //#define INDEX(y,x)	(&places[((x) << 5) + (y)])
-    fn index(&self, coord: &Coord) -> &Place {
-        &self.places[coord.x << 5 + coord.y]
+    pub fn place_at(&mut self, coord: Coord) -> &mut Place {
+        &mut self.places[coord.x][coord.y]
     }
 
     //#define chat(y,x)	(places[((x) << 5) + (y)].p_ch)
-    fn character_at(&self, coord: &Coord) -> char {
-	    self.places[coord.x << 5 + coord.y].ch
+    pub fn character_at(&self, coord: Coord) -> char {
+        self.places[coord.x][coord.y].ch
+    }
+
+    pub fn set_char_at(&mut self, coord: Coord, ch: char) {
+        self.places[coord.x][coord.y].ch = ch;
     }
 
     //#define flat(y,x)	(places[((x) << 5) + (y)].p_flags)
-    fn flag_at(&self, coord: &Coord) -> usize {
-        self.places[coord.x << 5 + coord.y].flags
+    fn flag_at(&self, coord: Coord) -> usize {
+        self.places[coord.x][coord.y].flags
     }
 
     //#define moat(y,x)	(places[((x) << 5) + (y)].p_monst)
-    fn monster_at(&self, coord: &Coord) -> Option<Creature> {
-        self.places[coord.x << 5 + coord.y].monst.clone()
+    fn monster_at(&self, coord: Coord) -> Option<Creature> {
+        self.places[coord.x][coord.y].monst.clone()
     }
 
     //#define winat(y,x)	(moat(y,x) != NULL ? moat(y,x)->t_disguise : chat(y,x))
-    pub fn winat(&self, coord: &Coord) -> char {
+    pub fn winat(&self, coord: Coord) -> char {
 	    match self.monster_at(coord) {
 		    Some(monster) => monster.disguise,
 		    None => self.character_at(coord)

@@ -39,8 +39,6 @@ use super::{coord::Coord, object::Object, room::Room};
 //typedef union thing THING;
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Creature {
-    pub next: Box<Option<Creature>>,
-    pub prev: Box<Option<Creature>>,
     pub pos: Coord,
     pub turn: bool,
     // type
@@ -50,15 +48,13 @@ pub struct Creature {
     pub dest: Option<Coord>,
     pub flags: usize,
     pub stats: Stats,
-    pub room: Box<Room>,
+    pub room: Room,
     pub pack: Vec<Object>,
 }
 
 impl Creature {
     pub fn new() -> Self {
         Creature {
-            next: Box::new(None),
-            prev: Box::new(None),
             pos: Default::default(),
             turn: false,
             creature_type: '\0',
@@ -67,7 +63,7 @@ impl Creature {
             dest: None,
             flags: 0,
             stats: Stats::new(),
-            room: Box::new(Room::new()),
+            room: Room::new(),
             pack: Vec::new(),
         }
     }

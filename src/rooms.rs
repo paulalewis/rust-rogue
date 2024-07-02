@@ -1,19 +1,6 @@
-use crate::rogue::*;
+use crate::{constants::{FLOOR, ISDARK, ISGONE, ISMAZE, MAXROOMS, NUMCOLS, NUMLINES}, core::{coord::Coord, rogue_state::RogueState, room::{self, Room}}, passages::put_passage, rogue::*, utils::rnd};
 
 /*
-typedef struct spot {		/* position matrix for maze positions */
-	int	nexits;
-	coord	exits[4];
-	int	used;
-} SPOT;
-
-#define GOLDGRP 1
-
-/*
- * do_rooms:
- *	Create rooms and corridors with a connectivity graph
- */
-
 void
 do_rooms()
 {
@@ -129,13 +116,87 @@ do_rooms()
 	}
     }
 }
+*/
+/// Create rooms and corridors with a connectivity graph
+pub fn do_rooms(state: &mut RogueState) {
+	// bsze
+	let max_room_size = Coord { x: NUMCOLS / 3, y: NUMLINES / 3 };
+    // Put the gone rooms, if any, on the level
+    let left_out = rnd(4);
+	for i in 0..left_out {
+		let room_index = state.dungeon.rnd_room_index();
+		state.dungeon.rooms[room_index].flags |= ISGONE;
+	}
+    // dig and populate all the rooms on the level
+	for i in 0..MAXROOMS {
+		let mut rp = state.dungeon.rooms[i];
+		// Find upper left corner of box that this room goes in
+		let top = Coord {x: (i % 3) * max_room_size.x + 1, y: (i / 3) * max_room_size.y };
+		if rp.flags & ISGONE != 0 {
+			// Place a gone room.  Make certain that there is a blank line for passage drawing.
+			loop {
+				rp.pos.x = top.x + rnd(max_room_size.x - 2) + 1;
+				rp.pos.y = top.y + rnd(max_room_size.y - 2) + 1;
+				rp.max.x = NUMCOLS; // -NUMCOLS; , todo i didn't want to make Coord signed but need to check this
+				rp.max.y = NUMLINES; // -NUMLINES;
+				if rp.pos.y > 0 && rp.pos.y < NUMLINES - 1 {
+					break;
+				}
+			}
+			continue;
+		}
+		// set room type
+		if rnd(10) < state.dungeon.level - 1 {
+			rp.flags |= ISDARK; /* dark room */
+			if rnd(15) == 0 {
+				rp.flags = ISMAZE; /* maze room */
+			}
+		}
+		// Find a place and size for a random room
+		if rp.flags & ISMAZE != 0 {
+			rp.max.x = max_room_size.x - 1;
+			rp.max.y = max_room_size.y - 1;
+			rp.pos.x = if top.x == 1 { 0 } else { top.x };
+			rp.pos.y = top.y;
+			if top.y == 0 {
+				rp.pos.y += 1;
+				rp.max.y -= 1;
+			}
+		} else {
+			loop {
+				rp.max.x = rnd(max_room_size.x - 4) + 4;
+				rp.max.y = rnd(max_room_size.y - 4) + 4;
+				rp.pos.x = top.x + rnd(max_room_size.x - rp.max.x);
+				rp.pos.y = top.y + rnd(max_room_size.y - rp.max.y);
+				if rp.pos.y != 0 {
+					break;
+				}
+			}
+		}
+		draw_room(state, &rp);
+		// Put the gold in
+		if rnd(2) == 0 && (!state.amulet || state.dungeon.level >= state.max_level) {
+			// let gold = new_item();
+			// gold->o_goldval = rp->r_goldval = GOLDCALC;
+			// find_floor(rp, &rp->r_gold, FALSE, FALSE);
+			// gold->o_pos = rp->r_gold;
+			// chat(rp->r_gold.y, rp->r_gold.x) = GOLD;
+			// gold->o_flags = ISMANY;
+			// gold->o_group = GOLDGRP;
+			// gold->o_type = GOLD;
+			// attach(lvl_obj, gold);
+		}
+		// Put the monster in
+		if rnd(100) < if rp.goldval > 0 { 80 } else { 25 } {
+			// let tp = new_item();
+			// find_floor(rp, &mp, FALSE, TRUE);
+			// new_monster(tp, randmonster(FALSE), &mp);
+			// give_pack(tp);
+		}
+    }
+}
 
 /*
- * draw_room:
- *	Draw a box around a room and lay down the floor for normal
- *	rooms; for maze rooms, draw maze.
- */
-
 void
 draw_room(struct room *rp)
 {
@@ -158,26 +219,43 @@ draw_room(struct room *rp)
 		chat(y, x) = FLOOR;
     }
 }
+*/
+/// Draw a box around a room and lay down the floor for normal
+/// rooms; for maze rooms, draw maze.
+pub fn draw_room(state: &mut RogueState, room: &Room) {
+	if room.flags & ISMAZE != 0 {
+		do_maze(state, room);
+	} else {
+		vert(state, room, room.pos.x); // Draw left side
+		vert(state, room, room.pos.x + room.max.x - 1); // Draw right side
+		horiz(state, room, room.pos.y); // Draw top
+		horiz(state, room, room.pos.y + room.max.y - 1); // Draw bottom
+		// Put the floor down
+		for y in room.pos.y + 1..room.pos.y + room.max.y - 1 {
+			for x in room.pos.x + 1..room.pos.x + room.max.x - 1 {
+				state.dungeon.set_char_at(Coord { x, y }, FLOOR);
+			}
+		}
+	}
+}
 
 /*
- * vert:
- *	Draw a vertical line
- */
-
 void
 vert(struct room *rp, int startx)
 {
     int y;
-
     for (y = rp->r_pos.y + 1; y <= rp->r_max.y + rp->r_pos.y - 1; y++)
 	chat(y, startx) = '|';
 }
+*/
+/// Draw a vertical line
+pub fn vert(state: &mut RogueState, room: &Room, startx: usize) {
+    for y in (room.pos.y + 1)..(room.max.y + room.pos.y) {
+		state.dungeon.set_char_at(Coord { x: startx, y }, '|');
+	}
+}
 
 /*
- * horiz:
- *	Draw a horizontal line
- */
-
 void
 horiz(struct room *rp, int starty)
 {
@@ -186,17 +264,15 @@ horiz(struct room *rp, int starty)
     for (x = rp->r_pos.x; x <= rp->r_pos.x + rp->r_max.x - 1; x++)
 	chat(starty, x) = '-';
 }
+*/
+/// Draw a horizontal line
+pub fn horiz(state: &mut RogueState, room: &Room, starty: usize) {
+	for x in room.pos.x..(room.pos.x + room.max.x) {
+		state.dungeon.set_char_at(Coord { x, y: starty }, '-');
+	}
+}
 
 /*
- * do_maze:
- *	Dig a maze
- */
-
-static int	Maxy, Maxx, Starty, Startx;
-
-static SPOT	maze[NUMLINES/3+1][NUMCOLS/3+1];
-
-
 void
 do_maze(struct room *rp)
 {
@@ -221,12 +297,24 @@ do_maze(struct room *rp)
     putpass(&pos);
     dig(starty, startx);
 }
+*/
+/// Dig a maze
+pub fn do_maze(state: &mut RogueState, room: &Room) {
+	for i in 0..NUMLINES / 3 {
+		for j in 0..NUMCOLS / 3 {
+			state.maze[i][j].used = false;
+			state.maze[i][j].nexits = 0;
+		}
+	}
+
+	let room_max = Coord { x: room.max.x, y: room.max.y };
+	let room_start = Coord { x: room.pos.x, y: room.pos.y };
+	let start = Coord { x: (rnd(room_max.x) / 2) * 2, y: (rnd(room_max.y) / 2) * 2 };
+    put_passage(state, Coord { x: start.x + room.pos.x, y: start.y + room.pos.y });
+    dig(state, start, room_start, room_max);
+}
 
 /*
- * dig:
- *	Dig out from around where we are now, if possible
- */
-
 void
 dig(int y, int x)
 {
@@ -281,12 +369,14 @@ dig(int y, int x)
 	dig(nexty, nextx);
     }
 }
+*/
+/// Dig out from around where we are now, if possible
+pub fn dig(state: &mut RogueState, start: Coord, room_start: Coord, room_max: Coord) {
+	todo!();
+}
 
 /*
- * accnt_maze:
- *	Account for maze exits
- */
-
+// Account for maze exits
 void
 accnt_maze(int y, int x, int ny, int nx)
 {

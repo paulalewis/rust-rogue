@@ -1,4 +1,6 @@
-use crate::{rogue::*, core::rogue_state::RogueState, constants::ISHELD};
+use crate::{constants::{ISHELD, MAXTRAPS}, core::rogue_state::RogueState, rogue::*, rooms::do_rooms, utils::rnd};
+
+use std::cmp::max;
 
 // one chance in CHANCE_OF_TREASURE_ROOM for a treasure room
 const CHANCE_OF_TREASURE_ROOM: usize = 20;
@@ -82,13 +84,51 @@ void new_level() {
     if (on(player, ISHALU))
 	visuals();
 }*/
-pub fn new_level(rogue_state: &mut RogueState) {
+pub fn new_level(state: &mut RogueState) {
+    do_rooms(state);
+    // do_passages();			/* Draw passages */
+    state.no_food += 1;
+    // put_things();			/* Place objects (if any) */
+    // Place the traps
+    if rnd(10) < state.dungeon.level {
+        let ntraps = max(state.dungeon.level / 4 + 1, MAXTRAPS);
+        for _ in 0..ntraps {
+            /*
+             * not only wouldn't it be NICE to have traps in mazes
+             * (not that we care about being nice), since the trap
+             * number is stored where the passage number is, we
+             * can't actually do it.
+             */
+            // loop {
+            //     find_floor((struct room *) NULL, &stairs, FALSE, FALSE);
+            // } while (chat(stairs.y, stairs.x) != FLOOR);
+            // sp = &flat(stairs.y, stairs.x);
+            // *sp &= ~F_REAL;
+            // *sp |= rnd(NTRAPS);
+        }
+    }
+    /*
+     * Place the staircase down.
+     */
+    // find_floor((struct room *) NULL, &stairs, FALSE, FALSE);
+    // chat(stairs.y, stairs.x) = STAIRS;
+    state.seenstairs = false;
+
+    // for (tp = mlist; tp != NULL; tp = next(tp))
+	// tp->t_room = roomin(&tp->t_pos);
+
+    // find_floor((struct room *) NULL, &hero, FALSE, TRUE);
+    // enter_room(&hero);
+    // mvaddch(hero.y, hero.x, PLAYER);
+    // if (on(player, SEEMONST))
+	// turn_see(FALSE);
+    // if (on(player, ISHALU))
+	// visuals();
+    
     //player.t_flags &= ~ISHELD;	/* unhold when you go down just in case */
-    rogue_state.player.player_stats.flags &= !ISHELD;
-    //if (level > max_level)
-	//max_level = level;
-    if rogue_state.dungeon.level > rogue_state.max_level {
-        rogue_state.max_level = rogue_state.dungeon.level;
+    state.player.player_stats.flags &= !ISHELD;
+    if state.dungeon.level > state.max_level {
+        state.max_level = state.dungeon.level;
     }
 }
 

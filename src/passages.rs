@@ -1,11 +1,7 @@
-use crate::rogue::*;
+use crate::{constants::{F_PASS, F_REAL, PASSAGE}, core::{coord::Coord, rogue_state::RogueState}, rogue::*, utils::rnd};
 
 /*
-/*
- * do_passages:
- *	Draw all the passages on a level.
- */
-
+// Draw all the passages on a level.
 void
 do_passages()
 {
@@ -111,11 +107,7 @@ do_passages()
     passnum();
 }
 
-/*
- * conn:
- *	Draw a corridor from a room in a certain direction.
- */
-
+// Draw a corridor from a room in a certain direction.
 void
 conn(int r1, int r2)
 {
@@ -247,12 +239,10 @@ conn(int r1, int r2)
     if (!ce(curr, epos))
 	msg("warning, connectivity problem on this level");
 }
+*/
 
 /*
- * putpass:
- *	add a passage character or secret passage here
- */
-
+// add a passage character or secret passage here
 void
 putpass(coord *cp)
 {
@@ -265,13 +255,20 @@ putpass(coord *cp)
     else
 	pp->p_ch = PASSAGE;
 }
+*/
+pub fn put_passage(state: &mut RogueState, coord: Coord) {
+	let level = state.dungeon.level;
+	let place = state.dungeon.place_at(coord);
+	place.flags |= F_PASS;
+	if rnd(10) + 1 < level && rnd(40) == 0 {
+		place.flags &= !F_REAL;
+	} else {
+		place.ch = PASSAGE;
+	}
+}
 
 /*
- * door:
- *	Add a door or possibly a secret door.  Also enters the door in
- *	the exits array of the room.
- */
-
+// Add a door or possibly a secret door.  Also enters the door in the exits array of the room.
 void
 door(struct room *rm, coord *cp)
 {
