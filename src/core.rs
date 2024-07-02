@@ -4,6 +4,7 @@ pub mod direction;
 pub mod dungeon;
 pub mod monster;
 pub mod object;
+pub mod object_info;
 pub mod place;
 pub mod player;
 pub mod room;
