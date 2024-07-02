@@ -1,3 +1,4 @@
+pub mod constants;
 pub mod coord;
 pub mod creature;
 pub mod direction;

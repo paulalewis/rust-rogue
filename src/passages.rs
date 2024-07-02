@@ -1,4 +1,4 @@
-use crate::{constants::{F_PASS, F_REAL, PASSAGE}, core::{coord::Coord, rogue_state::RogueState}, rogue::*, utils::rnd};
+use crate::{core::constants::{F_PASS, F_REAL, PASSAGE}, core::{coord::Coord, rogue_state::RogueState}, utils::rnd};
 
 /*
 // Draw all the passages on a level.

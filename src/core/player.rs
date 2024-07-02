@@ -4,8 +4,9 @@ use crate::core::creature::Creature;
 use crate::core::object::Object;
 use crate::rogue::XP_LEVELS;
 use crate::utils::roll;
-use crate::{rogue::{rainbow, NCOLORS}, constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME}, utils::rnd, monsters::save_throw};
+use crate::{rogue::{rainbow, NCOLORS}, utils::rnd, monsters::save_throw};
 
+use super::constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME};
 use super::rogue_message::RogueMessage;
 use super::rogue_state::RogueState;
 use super::room::Room;

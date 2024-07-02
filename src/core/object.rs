@@ -1,5 +1,6 @@
-use crate::{constants::{ARMOR, POTION, SCROLL, STICK, RING, AMULET, ISPROT, WEAPON}, rogue::ARMOR_CLASS};
+use crate::rogue::ARMOR_CLASS;
 
+use super::constants::{ARMOR, POTION, SCROLL, STICK, RING, AMULET, ISPROT, WEAPON};
 use super::coord::Coord;
 
 /*union thing {

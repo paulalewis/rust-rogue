@@ -1,5 +1,4 @@
-use crate::constants::{ISFLY, ISGREED, ISINVIS, ISMEAN, ISREGEN};
-
+use super::constants::{ISFLY, ISGREED, ISINVIS, ISMEAN, ISREGEN};
 use super::stats::{Attack, DmgStats, Stats};
 
 /*struct monster {

@@ -1,4 +1,4 @@
-use crate::{constants::{AMULETLEVEL, LEFT, RIGHT, R_PROTECT, VS_MAGIC}, core::{coord::Coord, creature::Creature, monster::{Monster, MONSTERS, NUMBER_OF_MONSTERS}, rogue_state::RogueState}, rogue::*, utils::*};
+use crate::{core::constants::AMULETLEVEL, core::{coord::Coord, creature::Creature, monster::{Monster, MONSTERS, NUMBER_OF_MONSTERS}, rogue_state::RogueState}, utils::*};
 
 use std::cmp;
 

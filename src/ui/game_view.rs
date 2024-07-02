@@ -3,9 +3,9 @@ use std::io::Write;
 
 use termion::cursor::Goto;
 
-use crate::constants::PRESS_ANY_KEY_TO_CONTINUE;
 use crate::core::status::Status;
 use crate::ui::command::HELP_ITEMS;
+use crate::ui::constants::PRESS_ANY_KEY_TO_CONTINUE;
 use crate::ui::game_screen::SCREEN_HEIGHT;
 
 use super::game_screen::SCREEN_WIDTH;

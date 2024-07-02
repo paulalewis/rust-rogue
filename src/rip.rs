@@ -1,33 +1,8 @@
-use crate::constants::PRESS_ANY_KEY_TO_CONTINUE;
 use crate::core::monster::MONSTERS;
+use crate::ui::constants::PRESS_ANY_KEY_TO_CONTINUE;
 use crate::ui::game_screen::SCREEN_HEIGHT;
 // use crate::ui::input_handler::wait_for_character;
 use crate::{rogue::*, utils::vowelstr};
-
-const RIP: &str = "
-                       __________
-                      /          \\
-                     /            \\
-                    /  here lies   \\
-                   / one whose name \\
-                  / was writ in water\\
-                  |                  |
-                  |                  |
-                  |                  |
-                  |                  |
-                  |                  |
-                 *|     *  *  *      | *
-         ________)/\\\\_//(\\/(/\\)/\\//\\/|_)_______
-";
-
-const WINNER: &str = "
-    Congratulations, you have made it to the light of day!
-    You have joined the elite ranks of those who have escaped the
-    Dungeons of Doom alive. You journey home and sell all your loot at
-    a great profit and are admitted to the Fighters' Guild.
-";
-
-const KILLED_BY: &str = "killed by";
 
 // Do something really fun when he dies
 // death 

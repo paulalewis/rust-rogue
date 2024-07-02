@@ -2,8 +2,9 @@ use std::fmt;
 
 use abstract_game_engine::core::simulator::State;
 
-use crate::{constants::{MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, NUMCOLS, NUMLINES}, core::{dungeon::Dungeon, player::Player}, rogue::{metal, rainbow, stones, wood, NCOLORS, NMETAL, NSTONES, NWOOD}, utils::rnd};
+use crate::{core::{dungeon::Dungeon, player::Player}, rogue::{metal, rainbow, stones, wood, NCOLORS, NMETAL, NSTONES, NWOOD}, utils::rnd};
 
+use super::constants::{MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, NUMCOLS, NUMLINES};
 use super::{coord::Coord, rogue_message::RogueMessage, spot::Spot};
 
 // This represents the state of the game.

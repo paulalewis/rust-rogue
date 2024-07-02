@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-use crate::{constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL, ISHALU}, core::{creature::Creature, dungeon::Dungeon, coord::Coord}};
+use crate::{core::constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL, ISHALU}, core::{creature::Creature, dungeon::Dungeon, coord::Coord}};
 
 // Pick a random number.
 pub fn rnd(range: usize) -> usize {

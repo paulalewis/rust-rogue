@@ -2,7 +2,7 @@ extern crate term_size;
 
 use std::{env, fs, panic};
 
-use rust_rogue::{constants::{NUMCOLS, NUMLINES}, ui::{game::Game, game_screen::GameScreen}};
+use rust_rogue::{core::constants::{NUMCOLS, NUMLINES}, ui::{game::Game, game_screen::GameScreen}};
 
 fn main() {
     check_tty();
