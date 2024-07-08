@@ -130,7 +130,7 @@ pub fn do_passages(state: &mut RogueState) {
     let mut room_index_1 = rnd(MAXROOMS);
 	let mut room_index_2 = room_index_1;
 	room_in_graph[room_index_1] = true;
-	
+
     while roomcount <= MAXROOMS {
 		// find a room to connect with
 		let mut j = 0;
@@ -401,12 +401,10 @@ passnum() {
 	}
 }
 */
-static mut pnum: usize = 0;
-static mut newpnum: bool = false;
 /// Assign a number to each passageway
-unsafe fn passnum(state: &mut RogueState) {
-	pnum = 0;
-	newpnum = false;
+fn passnum(state: &mut RogueState) {
+	let mut pnum = 0;
+	let mut newpnum = false;
 
     for i in 0..MAXPASS {
 		state.passages[i].nexits = 0;
@@ -415,7 +413,7 @@ unsafe fn passnum(state: &mut RogueState) {
 		let room = state.dungeon.rooms[i];
 		for j in 0..room.nexits {
 			newpnum = true;
-			numpass(state, room.exit[j]);
+			numpass(state, room.exit[j], &mut pnum, &mut newpnum);
 		}
 	}
 }
@@ -462,7 +460,7 @@ numpass(int y, int x)
 }
 */
 /// Number a passageway square and its brethren
-unsafe fn numpass(state: &mut RogueState, coord: Coord) {
+fn numpass(state: &mut RogueState, coord: Coord, pnum: &mut usize, newpnum: &mut bool) {
     if coord.x >= NUMCOLS || coord.x < 0 || coord.y >= NUMLINES || coord.y <= 0 {
 		return
 	}
@@ -471,25 +469,25 @@ unsafe fn numpass(state: &mut RogueState, coord: Coord) {
     if flag & F_PNUM != 0 {
 		return
 	}
-	if newpnum {
-		pnum += 1;
-		newpnum = false;
+	if *newpnum {
+		*pnum += 1;
+		*newpnum = false;
 	}
     // check to see if it is a door or secret door, i.e., a new exit,
     // or a numerable type of place
 	let ch = state.dungeon.character_at(coord);
     if ch == DOOR || (flag & F_REAL == 0 && (ch == '|' || ch == '-')) {
-		let room = &mut state.passages[pnum];
+		let room = &mut state.passages[*pnum];
 		room.exit[room.nexits] = coord;
 		room.nexits += 1;
     } else if flag & F_PASS == 0 {
 		return
 	}
 	let place = state.dungeon.place_at(coord);
-	place.flags |= pnum;
+	place.flags |= *pnum;
     // recurse on the surrounding places
-    numpass(state, coord.inc_y());
-    numpass(state, coord.dec_y());
-    numpass(state, coord.inc_x());
-    numpass(state, coord.dec_x());
+    numpass(state, coord.inc_y(), pnum, newpnum);
+    numpass(state, coord.dec_y(), pnum, newpnum);
+    numpass(state, coord.inc_x(), pnum, newpnum);
+    numpass(state, coord.dec_x(), pnum, newpnum);
 }
