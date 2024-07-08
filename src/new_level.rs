@@ -1,4 +1,4 @@
-use crate::{core::constants::{ISHELD, MAXTRAPS}, core::rogue_state::RogueState, rooms::do_rooms, utils::rnd};
+use crate::{core::{constants::{ISHELD, MAXTRAPS}, rogue_state::RogueState}, passages::do_passages, rooms::do_rooms, utils::rnd};
 
 use std::cmp::max;
 
@@ -86,7 +86,7 @@ void new_level() {
 }*/
 pub fn new_level(state: &mut RogueState) {
     do_rooms(state);
-    // do_passages();			/* Draw passages */
+    do_passages(state);
     state.no_food += 1;
     // put_things();			/* Place objects (if any) */
     // Place the traps

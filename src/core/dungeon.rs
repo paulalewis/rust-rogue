@@ -1,6 +1,6 @@
 use crate::utils::rnd;
 
-use super::{constants::ISGONE, coord::Coord, creature::Creature, object::Object, place::Place, room::Room};
+use super::{constants::{ISGONE, MAXROOMS}, coord::Coord, creature::Creature, object::Object, place::Place, room::Room};
 
 pub const SCREEN_HEIGHT: usize = 32; // MAXLINES
 pub const SCREEN_WIDTH: usize = 80; // MAXCOLS
@@ -16,7 +16,7 @@ pub struct Dungeon {
     // places[MAXLINES*MAXCOLS] level map 
     pub places: Vec<Vec<Place>>,
     // rooms[MAXROOMS] One for each room -- A level
-    pub rooms: Vec<Room>,
+    pub rooms: [Room; MAXROOMS],
 }
 
 impl Dungeon {
@@ -26,7 +26,7 @@ impl Dungeon {
             objects: Vec::new(),
             monsters: Vec::new(),
             places: Vec::new(),
-            rooms: Vec::new(),
+            rooms: [Room::new(); MAXROOMS],
         }
     }
 
@@ -40,17 +40,13 @@ impl Dungeon {
         self.places[coord.x][coord.y].ch
     }
 
-    pub fn set_char_at(&mut self, coord: Coord, ch: char) {
-        self.places[coord.x][coord.y].ch = ch;
-    }
-
     //#define flat(y,x)	(places[((x) << 5) + (y)].p_flags)
-    fn flag_at(&self, coord: Coord) -> usize {
+    pub fn flag_at(&self, coord: Coord) -> usize {
         self.places[coord.x][coord.y].flags
     }
 
     //#define moat(y,x)	(places[((x) << 5) + (y)].p_monst)
-    fn monster_at(&self, coord: Coord) -> Option<Creature> {
+    pub fn monster_at(&self, coord: Coord) -> Option<Creature> {
         self.places[coord.x][coord.y].monst.clone()
     }
 

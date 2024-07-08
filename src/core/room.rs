@@ -1,8 +1,5 @@
-use super::coord::Coord;
+use super::{constants::{ISDARK, ISGONE}, coord::Coord};
 
-/*
- * Room structure
- */
 /*struct room {
     coord r_pos;			/* Upper left corner */
     coord r_max;			/* Size of room */
@@ -14,12 +11,15 @@ use super::coord::Coord;
 };*/
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub struct Room {
-    pub pos: Coord,
-    pub max: Coord,
-    pub gold: Coord,
-    pub goldval: i32,
+    // upper left corner
+    pub pos: Coord, // r_pos
+    pub size: Coord, // r_max
+    pub gold_location: Coord,
+    pub gold_value: usize,
+    // info about the room
     pub flags: usize,
-    pub nexits: i32,
+    pub nexits: usize,
+    // where the exits are
     pub exit: [Coord; 12],
 }
 
@@ -27,10 +27,10 @@ impl Room {
     pub fn new() -> Self {
         Room {
             pos: Coord { x: 0, y: 0 },
-            max: Coord { x: 0, y: 0 },
-            gold: Coord { x: 0, y: 0 },
-            goldval: 0,
-            flags: 0,
+            size: Coord { x: 0, y: 0 },
+            gold_location: Coord { x: 0, y: 0 },
+            gold_value: 0,
+            flags: ISGONE | ISDARK,
             nexits: 0,
             exit: [Coord { x: 0, y: 0 }; 12],
         }

@@ -4,7 +4,7 @@ use abstract_game_engine::core::simulator::State;
 
 use crate::{core::{dungeon::Dungeon, player::Player}, rogue::{metal, rainbow, stones, wood, NCOLORS, NMETAL, NSTONES, NWOOD}, utils::rnd};
 
-use super::constants::{MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, NUMCOLS, NUMLINES};
+use super::{constants::{MAXPASS, MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, NUMCOLS, NUMLINES}, room::Room};
 use super::{coord::Coord, rogue_message::RogueMessage, spot::Spot};
 
 // This represents the state of the game.
@@ -38,6 +38,22 @@ pub struct RogueState {
     pub is_wand: [bool; MAXSTICKS],
     // static SPOT	maze[NUMLINES/3+1][NUMCOLS/3+1];
     pub maze: [[Spot; NUMCOLS / 3 + 1]; NUMLINES / 3 + 1],// = [[Spot { nexits: 0, exits: [Coord { x: 0, y: 0 }; 4], used: false }; NUMCOLS / 3 + 1]; NUMLINES / 3 + 1];
+    //struct room passages[MAXPASS] =		/* One for each passage */
+    //{
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
+    //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} }
+    //};
+    pub passages: [Room; MAXPASS],
 }
 
 impl State for RogueState {}
@@ -61,6 +77,7 @@ impl RogueState {
             stick_material,
             is_wand,
             maze: [[Spot { nexits: 0, exits: [Coord { x: 0, y: 0 }; 4], used: false }; NUMCOLS / 3 + 1]; NUMLINES / 3 + 1],
+            passages: [Room::new(); MAXPASS],
         }
     }
 

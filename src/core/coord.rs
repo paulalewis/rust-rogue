@@ -11,5 +11,21 @@ impl Coord {
     pub fn ce(&self, other: &Coord) -> bool {
 	    self.x == other.x && self.y == other.y
     }
+    
+    pub fn inc_x(&self) -> Coord {
+        Coord { x: self.x + 1, y: self.y }
+    }
+    
+    pub fn inc_y(&self) -> Coord {
+        Coord { x: self.x, y: self.y + 1 }
+    }
+
+    pub fn dec_x(&self) -> Coord {
+        Coord { x: self.x - 1, y: self.y }
+    }
+
+    pub fn dec_y(&self) -> Coord {
+        Coord { x: self.x, y: self.y - 1 }
+    }
 }
 

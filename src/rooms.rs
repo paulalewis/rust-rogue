@@ -137,8 +137,8 @@ pub fn do_rooms(state: &mut RogueState) {
 			loop {
 				rp.pos.x = top.x + rnd(max_room_size.x - 2) + 1;
 				rp.pos.y = top.y + rnd(max_room_size.y - 2) + 1;
-				rp.max.x = NUMCOLS; // -NUMCOLS; , todo i didn't want to make Coord signed but need to check this
-				rp.max.y = NUMLINES; // -NUMLINES;
+				rp.size.x = NUMCOLS; // -NUMCOLS; , todo i didn't want to make Coord signed but need to check this
+				rp.size.y = NUMLINES; // -NUMLINES;
 				if rp.pos.y > 0 && rp.pos.y < NUMLINES - 1 {
 					break;
 				}
@@ -154,20 +154,20 @@ pub fn do_rooms(state: &mut RogueState) {
 		}
 		// Find a place and size for a random room
 		if rp.flags & ISMAZE != 0 {
-			rp.max.x = max_room_size.x - 1;
-			rp.max.y = max_room_size.y - 1;
+			rp.size.x = max_room_size.x - 1;
+			rp.size.y = max_room_size.y - 1;
 			rp.pos.x = if top.x == 1 { 0 } else { top.x };
 			rp.pos.y = top.y;
 			if top.y == 0 {
 				rp.pos.y += 1;
-				rp.max.y -= 1;
+				rp.size.y -= 1;
 			}
 		} else {
 			loop {
-				rp.max.x = rnd(max_room_size.x - 4) + 4;
-				rp.max.y = rnd(max_room_size.y - 4) + 4;
-				rp.pos.x = top.x + rnd(max_room_size.x - rp.max.x);
-				rp.pos.y = top.y + rnd(max_room_size.y - rp.max.y);
+				rp.size.x = rnd(max_room_size.x - 4) + 4;
+				rp.size.y = rnd(max_room_size.y - 4) + 4;
+				rp.pos.x = top.x + rnd(max_room_size.x - rp.size.x);
+				rp.pos.y = top.y + rnd(max_room_size.y - rp.size.y);
 				if rp.pos.y != 0 {
 					break;
 				}
@@ -187,7 +187,7 @@ pub fn do_rooms(state: &mut RogueState) {
 			// attach(lvl_obj, gold);
 		}
 		// Put the monster in
-		if rnd(100) < if rp.goldval > 0 { 80 } else { 25 } {
+		if rnd(100) < if rp.gold_value > 0 { 80 } else { 25 } {
 			// let tp = new_item();
 			// find_floor(rp, &mp, FALSE, TRUE);
 			// new_monster(tp, randmonster(FALSE), &mp);
@@ -227,13 +227,13 @@ pub fn draw_room(state: &mut RogueState, room: &Room) {
 		do_maze(state, room);
 	} else {
 		vert(state, room, room.pos.x); // Draw left side
-		vert(state, room, room.pos.x + room.max.x - 1); // Draw right side
+		vert(state, room, room.pos.x + room.size.x - 1); // Draw right side
 		horiz(state, room, room.pos.y); // Draw top
-		horiz(state, room, room.pos.y + room.max.y - 1); // Draw bottom
+		horiz(state, room, room.pos.y + room.size.y - 1); // Draw bottom
 		// Put the floor down
-		for y in room.pos.y + 1..room.pos.y + room.max.y - 1 {
-			for x in room.pos.x + 1..room.pos.x + room.max.x - 1 {
-				state.dungeon.set_char_at(Coord { x, y }, FLOOR);
+		for y in room.pos.y + 1..room.pos.y + room.size.y - 1 {
+			for x in room.pos.x + 1..room.pos.x + room.size.x - 1 {
+				state.dungeon.place_at(Coord { x, y }).ch = FLOOR;
 			}
 		}
 	}
@@ -250,8 +250,8 @@ vert(struct room *rp, int startx)
 */
 /// Draw a vertical line
 pub fn vert(state: &mut RogueState, room: &Room, startx: usize) {
-    for y in (room.pos.y + 1)..(room.max.y + room.pos.y) {
-		state.dungeon.set_char_at(Coord { x: startx, y }, '|');
+    for y in (room.pos.y + 1)..(room.size.y + room.pos.y) {
+		state.dungeon.place_at(Coord { x: startx, y }).ch = '|';
 	}
 }
 
@@ -267,8 +267,8 @@ horiz(struct room *rp, int starty)
 */
 /// Draw a horizontal line
 pub fn horiz(state: &mut RogueState, room: &Room, starty: usize) {
-	for x in room.pos.x..(room.pos.x + room.max.x) {
-		state.dungeon.set_char_at(Coord { x, y: starty }, '-');
+	for x in room.pos.x..(room.pos.x + room.size.x) {
+		state.dungeon.place_at(Coord { x, y: starty }).ch = '-';
 	}
 }
 
@@ -307,8 +307,8 @@ pub fn do_maze(state: &mut RogueState, room: &Room) {
 		}
 	}
 
-	let room_max = Coord { x: room.max.x, y: room.max.y };
-	let room_start = Coord { x: room.pos.x, y: room.pos.y };
+	let room_max = room.size;
+	let room_start = room.pos;
 	let start = Coord { x: (rnd(room_max.x) / 2) * 2, y: (rnd(room_max.y) / 2) * 2 };
     put_passage(state, Coord { x: start.x + room.pos.x, y: start.y + room.pos.y });
     dig(state, start, room_start, room_max);
