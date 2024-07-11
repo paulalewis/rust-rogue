@@ -1,4 +1,4 @@
-use crate::core::{constants::{DOOR, F_PASS, F_PNUM, F_REAL, MAXPASS, MAXROOMS, NUMCOLS, NUMLINES, PASSAGE}, coord::Coord, rogue_state::RogueState, utils::rnd};
+use crate::core::{constants::{DOOR, F_PASS, F_PNUM, F_REAL, ISGONE, ISMAZE, MAXPASS, MAXROOMS, NUMCOLS, NUMLINES, PASSAGE}, coord::Coord, rogue_state::RogueState, room, utils::{has_flag, rnd}};
 
 /*
 void
@@ -183,13 +183,10 @@ pub fn do_passages(state: &mut RogueState) {
 			room_connections[room_index_2][room_index_1] = true;
 		}
     }
-	unsafe {
-	    passnum(state);
-	}
+    passnum(state);
 }
 
 /*
-// Draw a corridor from a room in a certain direction.
 void
 conn(int r1, int r2)
 {
@@ -322,8 +319,112 @@ conn(int r1, int r2)
 	msg("warning, connectivity problem on this level");
 }
 */
+/// Draw a corridor from a room in a certain direction.
 fn conn(state: &mut RogueState, coord: Coord) {
+    let (rm, direc) = if coord.x < coord.y {
+		(coord.x, if coord.x + 1 == coord.y { 'r' } else { 'd' })
+    } else {
+		(coord.y, if coord.y + 1 == coord.x { 'r' } else { 'd' })
+    };
 
+	let mut distance = 0usize;
+	let mut turn_distance = 0;
+	let mut turn_dx = 0isize;
+	let mut turn_dy = 0isize;
+	// room # of dest
+	let mut rmt = rm + if direc == 'd' { 3 } else { 1 };
+	// direction of move
+	let mut del = if direc == 'd' { Coord { x: 0, y: 1 } } else { Coord { x: 1, y: 0 } };
+	// start of move
+	let mut spos= state.dungeon.rooms[rm].pos;
+	// end of move
+	let mut epos = state.dungeon.rooms[rmt].pos;
+
+    // Set up the movement variables, in two cases:
+    // first drawing one down.
+    if direc == 'd' {
+		if !has_flag(state.dungeon.rooms[rm].flags, ISGONE) /* if not gone pick door pos */ {
+			loop {
+				spos.x = state.dungeon.rooms[rm].pos.x + rnd(state.dungeon.rooms[rm].size.x - 2) + 1;
+				spos.y = state.dungeon.rooms[rm].pos.y + state.dungeon.rooms[rm].size.y - 1;
+				if has_flag(state.dungeon.rooms[rm].flags, ISMAZE) && !has_flag(state.dungeon.flag_at(spos), F_PASS) {
+					break;
+				}
+			}
+		}
+		if !has_flag(state.dungeon.rooms[rmt].flags, ISGONE) {
+			loop {
+				epos.x = state.dungeon.rooms[rmt].pos.x + rnd(state.dungeon.rooms[rmt].size.x - 2) + 1;
+				if has_flag(state.dungeon.rooms[rmt].flags, ISMAZE) && !has_flag(state.dungeon.flag_at(epos), F_PASS) {
+					break;
+				}
+			}
+		}
+		distance = ((spos.y as i32 - epos.y as i32).abs() - 1) as usize; /* distance to move */
+		turn_dy = 0; /* direction to turn */
+		turn_dx = if spos.x < epos.x { 1 } else { -1 };
+		turn_distance = (spos.x as i32 - epos.x as i32).abs(); /* how far to turn */
+    } else if direc == 'r' /* setup for moving right */ {
+		if !has_flag(state.dungeon.rooms[rm].flags, ISGONE) {
+			loop {
+				spos.x = state.dungeon.rooms[rm].pos.x + state.dungeon.rooms[rm].size.x - 1;
+				spos.y = state.dungeon.rooms[rm].pos.y + rnd(state.dungeon.rooms[rm].size.y - 2) + 1;
+				if has_flag(state.dungeon.rooms[rm].flags, ISMAZE) && !has_flag(state.dungeon.flag_at(spos), F_PASS) {
+					break;
+				}
+			}
+		}
+		if !has_flag(state.dungeon.rooms[rmt].flags, ISGONE) {
+			loop {
+				epos.y = state.dungeon.rooms[rmt].pos.y + rnd(state.dungeon.rooms[rmt].size.y - 2) + 1;
+				if has_flag(state.dungeon.rooms[rmt].flags, ISMAZE) && !has_flag(state.dungeon.flag_at(epos), F_PASS) {
+					break;
+				}
+			}
+		}
+		distance = ((spos.x as i32 - epos.x as i32).abs() - 1) as usize;
+		turn_dy = if spos.y < epos.y { 1 } else { -1 };
+		turn_dx = 0;
+		turn_distance = (spos.y as i32 - epos.y as i32).abs();
+    }
+
+	// where turn starts
+    let turn_spot = rnd((distance - 1) as usize) + 1;
+
+    // Draw in the doors on either side of the passage or just put #'s
+    // if the rooms are gone.
+    if !has_flag(state.dungeon.rooms[rm].flags, ISGONE) {
+		door(state, rm, spos);
+	} else {
+		put_passage(state, spos);
+	}
+    if !has_flag(state.dungeon.rooms[rmt].flags, ISGONE) {
+		door(state, rmt, epos);
+	} else {
+		put_passage(state, epos);
+	}
+    // Get ready to move...
+	let mut curr = spos;
+    while distance > 0 {
+		// Move to new position
+		curr.x += del.x;
+		curr.y += del.y;
+		// Check if we are at the turn place, if so do the turn
+		if distance == turn_spot {
+			while turn_distance != 0 {
+				put_passage(state, curr);
+				curr.x = (curr.x as isize + turn_dx) as usize;
+				curr.y = (curr.y as isize + turn_dy) as usize;
+				turn_distance -= 1;
+			}
+		}
+		// Continue digging along
+		put_passage(state, curr);
+		distance -= 1;
+    }
+    curr.x += del.x;
+    curr.y += del.y;
+	assert!(curr != epos);
 }
 
 /*
@@ -377,7 +478,7 @@ door(struct room *rm, coord *cp)
 	pp->p_ch = DOOR;
 }
 */
-fn door() {
+fn door(state: &mut RogueState, room_number: usize, coord: Coord) {
 	todo!();
 }
 

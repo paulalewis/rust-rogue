@@ -399,6 +399,10 @@ pub fn rnd_thing(level: usize) -> char {
 	thing_list[i]
 }
 
+pub fn has_flag(flags: usize, flag: usize) -> bool {
+	(flags & flag) == flag
+}
+
 
 #[cfg(test)]
 mod tests {
@@ -417,5 +421,15 @@ mod tests {
     #[test]
 	fn sign_is_zero() {
 		assert_eq!(sign(0), 0);
+	}
+
+	#[test]
+	fn has_flag_false() {
+		assert_eq!(has_flag(10, 1), false);
+	}
+
+	#[test]
+	fn has_flag_true() {
+		assert_eq!(has_flag(11, 10), true);
 	}
 }
