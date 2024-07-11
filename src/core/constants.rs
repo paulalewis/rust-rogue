@@ -1,3 +1,5 @@
+use crate::rogue::Stone;
+
 use super::utils::spread;
 
 pub const LETTERS_IN_ALPHABET: usize = 26;
@@ -348,3 +350,133 @@ pub fn wander_time() -> usize { spread(70) }
 pub const BEFORE: usize = 1;
 //#define AFTER		spread(2)
 pub const AFTER: usize = 2;
+
+pub const NSTONES: usize = 26;
+/// STONE stones[] = {
+pub static STONES: [Stone; NSTONES] = [
+    Stone { name: "agate", value: 25 },
+    Stone { name: "alexandrite", value: 40 },
+    Stone { name: "amethyst", value: 50 },
+    Stone { name: "carnelian", value: 40 },
+    Stone { name: "diamond", value: 300 },
+    Stone { name: "emerald", value: 300 },
+    Stone { name: "germanium", value: 225 },
+    Stone { name: "granite", value: 5 },
+    Stone { name: "garnet", value: 50 },
+    Stone { name: "jade", value: 150 },
+    Stone { name: "kryptonite", value: 300 },
+    Stone { name: "lapis lazuli", value: 50 },
+    Stone { name: "moonstone", value: 50 },
+    Stone { name: "obsidian", value: 15 },
+    Stone { name: "onyx", value: 60 },
+    Stone { name: "opal", value: 200 },
+    Stone { name: "pearl", value: 220 },
+    Stone { name: "peridot", value: 63 },
+    Stone { name: "ruby", value: 350 },
+    Stone { name: "sapphire", value: 285 },
+    Stone { name: "stibotantalite", value: 200 },
+    Stone { name: "tiger eye", value: 50 },
+    Stone { name: "topaz", value: 60 },
+    Stone { name: "turquoise", value: 70 },
+    Stone { name: "taaffeite", value: 300 },
+    Stone { name: "zircon", value: 80 },
+];
+
+pub const NCOLORS: usize = 27;
+/// Contains defintions and functions for dealing with things like
+/// potions and scrolls
+/// char *rainbow[]
+pub static RAINBOW: [&str; NCOLORS] = [
+    "amber",
+    "aquamarine",
+    "black",
+    "blue",
+    "brown",
+    "clear",
+    "crimson",
+    "cyan",
+    "ecru",
+    "gold",
+    "green",
+    "grey",
+    "magenta",
+    "orange",
+    "pink",
+    "plaid",
+    "purple",
+    "red",
+    "silver",
+    "tan",
+    "tangerine",
+    "topaz",
+    "turquoise",
+    "vermilion",
+    "violet",
+    "white",
+    "yellow",
+];
+
+pub const NWOOD: usize = 33;
+/// char *wood[] = {
+pub static WOOD: [&str; NWOOD] = [
+    "avocado wood",
+    "balsa",
+    "bamboo",
+    "banyan",
+    "birch",
+    "cedar",
+    "cherry",
+    "cinnibar",
+    "cypress",
+    "dogwood",
+    "driftwood",
+    "ebony",
+    "elm",
+    "eucalyptus",
+    "fall",
+    "hemlock",
+    "holly",
+    "ironwood",
+    "kukui wood",
+    "mahogany",
+    "manzanita",
+    "maple",
+    "oaken",
+    "persimmon wood",
+    "pecan",
+    "pine",
+    "poplar",
+    "redwood",
+    "rosewood",
+    "spruce",
+    "teak",
+    "walnut",
+    "zebrawood",
+];
+
+pub const NMETAL: usize = 22;
+/// char *metal[] = {
+pub static METAL: [&str; NMETAL] = [
+    "aluminum",
+    "beryllium",
+    "bone",
+    "brass",
+    "bronze",
+    "copper",
+    "electrum",
+    "gold",
+    "iron",
+    "lead",
+    "magnesium",
+    "mercury",
+    "nickel",
+    "pewter",
+    "platinum",
+    "steel",
+    "silver",
+    "silicon",
+    "tin",
+    "titanium",
+    "tungsten",
+    "zinc",
+];

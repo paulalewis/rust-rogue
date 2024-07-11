@@ -2,9 +2,9 @@ use std::fmt;
 
 use abstract_game_engine::core::simulator::State;
 
-use crate::{core::{dungeon::Dungeon, player::Player}, rogue::{metal, rainbow, stones, wood, NCOLORS, NMETAL, NSTONES, NWOOD}};
+use crate::core::{dungeon::Dungeon, player::Player};
 
-use super::{constants::{MAXPASS, MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, NUMCOLS, NUMLINES}, room::Room, utils::rnd};
+use super::{constants::{MAXPASS, MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, METAL, NCOLORS, NMETAL, NSTONES, NUMCOLS, NUMLINES, NWOOD, RAINBOW, STONES, WOOD}, room::Room, utils::rnd};
 use super::{coord::Coord, rogue_message::RogueMessage, spot::Spot};
 
 // This represents the state of the game.
@@ -128,7 +128,7 @@ fn init_ring_stones() -> Vec<String> {
         unsafe {
             // todo - ring_info[i].worth += stones[j].value;
         }
-        ring_stones.push(String::from(stones[j].name));
+        ring_stones.push(String::from(STONES[j].name));
     }
     return ring_stones;
 }
@@ -145,7 +145,7 @@ fn init_potion_colors() -> Vec<String> {
             }
         }
         used[j] = true;
-        potion_colors.push(String::from(rainbow[j]));
+        potion_colors.push(String::from(RAINBOW[j]));
     }
     potion_colors
 }
@@ -163,7 +163,7 @@ fn init_wand_and_staff_materials() -> (Vec<String>, [bool; MAXSTICKS]) {
                 j = rnd(NMETAL);
                 if !metal_used[j] {
                     is_wand[i] = true;
-                    material = metal[j];
+                    material = METAL[j];
                     metal_used[j] = true;
                     break;
                 }
@@ -171,7 +171,7 @@ fn init_wand_and_staff_materials() -> (Vec<String>, [bool; MAXSTICKS]) {
                 j = rnd(NWOOD);
                 if !wood_used[j] {
                     is_wand[i] = false;
-                    material = wood[j];
+                    material = WOOD[j];
                     wood_used[j] = true;
                     break;
                 }

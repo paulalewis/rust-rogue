@@ -3,9 +3,8 @@ use crate::core::coord::Coord;
 use crate::core::creature::Creature;
 use crate::core::object::Object;
 use crate::rogue::XP_LEVELS;
-use crate::rogue::{rainbow, NCOLORS};
 
-use super::constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME};
+use super::constants::{HUNGERTIME, ISHALU, LEFT, MAX_PACK_SIZE, RAINBOW, RIGHT, R_PROTECT, VS_MAGIC};
 use super::monster::save_throw;
 use super::rogue_message::RogueMessage;
 use super::rogue_state::RogueState;
@@ -101,7 +100,7 @@ impl Player {
     // If he is halucinating, pick a random color name and return it,
     // otherwise return the given color.
     pub fn pick_color<'a>(&self, color: &'a str) -> &'a str {
-        return if self.player_stats.on(ISHALU) { rainbow[rnd(NCOLORS)] } else { color };
+        return if self.player_stats.on(ISHALU) { RAINBOW[rnd(RAINBOW.len())] } else { color };
     }
 
     //#define ISRING(h,r)
