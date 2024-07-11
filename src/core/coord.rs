@@ -1,8 +1,8 @@
 // coord
 #[derive(Default, Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub struct Coord {
-    pub x: usize,
-    pub y: usize,
+    pub x: isize,
+    pub y: isize,
 }
 
 impl Coord {
