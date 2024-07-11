@@ -1,4 +1,4 @@
-use crate::{core::{constants::{DOOR, F_PASS, F_PNUM, F_REAL, MAXPASS, MAXROOMS, NUMCOLS, NUMLINES, PASSAGE}, coord::Coord, rogue_state::RogueState, room}, utils::rnd};
+use crate::core::{constants::{DOOR, F_PASS, F_PNUM, F_REAL, MAXPASS, MAXROOMS, NUMCOLS, NUMLINES, PASSAGE}, coord::Coord, rogue_state::RogueState, utils::rnd};
 
 /*
 void

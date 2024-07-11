@@ -1,3 +1,5 @@
+use super::utils::spread;
+
 pub const LETTERS_IN_ALPHABET: usize = 26;
 pub const MAX_PACK_SIZE: usize = LETTERS_IN_ALPHABET;
 
@@ -334,3 +336,15 @@ pub const STICK: char = '/';
 pub const CALLABLE: isize = -1;
 pub const R_OR_S: isize = -2;
 
+//#define BEARTIME	spread(3)
+pub const BEARTIME: usize = 3;
+//#define SLEEPTIME	spread(5)
+pub const SLEEPTIME: usize = 5;
+//#define HOLDTIME	spread(2)
+pub const HOLDTIME: usize = 2;
+//#define WANDERTIME	spread(70)
+pub fn wander_time() -> usize { spread(70) }
+//#define BEFORE		spread(1)
+pub const BEFORE: usize = 1;
+//#define AFTER		spread(2)
+pub const AFTER: usize = 2;

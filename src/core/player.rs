@@ -3,13 +3,14 @@ use crate::core::coord::Coord;
 use crate::core::creature::Creature;
 use crate::core::object::Object;
 use crate::rogue::XP_LEVELS;
-use crate::utils::roll;
-use crate::{rogue::{rainbow, NCOLORS}, utils::rnd, monsters::save_throw};
+use crate::rogue::{rainbow, NCOLORS};
 
 use super::constants::{MAX_PACK_SIZE, ISHALU, R_PROTECT, VS_MAGIC, LEFT, RIGHT, HUNGERTIME};
+use super::monster::save_throw;
 use super::rogue_message::RogueMessage;
 use super::rogue_state::RogueState;
 use super::room::Room;
+use super::utils::{rnd, roll};
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq)]
 pub struct Player {

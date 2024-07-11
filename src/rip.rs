@@ -1,8 +1,8 @@
 use crate::core::monster::MONSTERS;
 use crate::ui::constants::PRESS_ANY_KEY_TO_CONTINUE;
 use crate::ui::game_screen::SCREEN_HEIGHT;
+use crate::ui::utils::vowelstr;
 // use crate::ui::input_handler::wait_for_character;
-use crate::{rogue::*, utils::vowelstr};
 
 // Do something really fun when he dies
 // death 

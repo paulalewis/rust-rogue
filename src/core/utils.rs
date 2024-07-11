@@ -1,6 +1,6 @@
 use rand::RngCore;
 
-use crate::{core::constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL, ISHALU}, core::{creature::Creature, dungeon::Dungeon, coord::Coord}};
+use crate::{core::constants::{POTION, SCROLL, FOOD, RING, STICK, WEAPON, ARMOR, STAIRS, GOLD, AMULET, AMULETLEVEL}, core::coord::Coord};
 
 /// Pick a random number
 pub fn rnd(range: usize) -> usize {
@@ -294,16 +294,6 @@ aggravate()
 }
 */
 
-/// For printfs: if string starts with a vowel, return "n" for an "an".
-/// vowelstr
-pub fn vowelstr(str: &str) -> &str {
-	match str.chars().next() {
-		Some('a') | Some('A') | Some('e') | Some('E') | Some('i') | Some('I') | Some('o') | Some('O') | Some('u') | Some('U') => "n",
-		_ => "",
-	
-	}
-}
-
 /*
 // Set up the direction co_ordinate for use in varios "prefix" commands
 bool
@@ -412,7 +402,7 @@ pub fn rnd_thing(level: usize) -> char {
 
 #[cfg(test)]
 mod tests {
-    use crate::utils::sign;
+    use super::*;
 
     #[test]
     fn sign_is_negative() {

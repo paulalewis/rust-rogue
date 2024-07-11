@@ -16,3 +16,4 @@ pub mod rogue_action;
 pub mod rogue_message;
 pub mod rogue_simulator;
 pub mod rogue_state;
+pub mod utils;

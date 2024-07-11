@@ -1,4 +1,4 @@
-use crate::{core::constants::{ISFLY, ISGREED, ISINVIS, ISMEAN, ISREGEN, MAXARMORS, MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, MAXWEAPONS, NUMTHINGS}, core::{coord::Coord, creature::Creature, object::Object, room::Room, stats::{Attack, DmgStats, Stats}}, utils::spread};
+use crate::{core::constants::{ISFLY, ISGREED, ISINVIS, ISMEAN, ISREGEN, MAXARMORS, MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, MAXWEAPONS, NUMTHINGS}, core::{coord::Coord, creature::Creature, object::Object, room::Room, stats::{Attack, DmgStats, Stats}}};
 
 // This file contains global values for the game
 
@@ -108,19 +108,6 @@ const MAX_INITIAL_STR: usize = 16;
 pub static max_str: usize = MAX_INITIAL_STR;
 
 //#define CCHAR(x) ( (char) (x & A_CHARTEXT) )
-
-//#define BEARTIME	spread(3)
-pub const BEARTIME: usize = 3;
-//#define SLEEPTIME	spread(5)
-pub const SLEEPTIME: usize = 5;
-//#define HOLDTIME	spread(2)
-pub const HOLDTIME: usize = 2;
-//#define WANDERTIME	spread(70)
-pub fn wander_time() -> usize { spread(70) }
-//#define BEFORE		spread(1)
-pub const BEFORE: usize = 1;
-//#define AFTER		spread(2)
-pub const AFTER: usize = 2;
 
 //struct room	*roomin(coord *cp);
 

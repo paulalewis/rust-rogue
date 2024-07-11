@@ -1,6 +1,4 @@
-use crate::utils::rnd;
-
-use super::{constants::{ISGONE, MAXROOMS}, coord::Coord, creature::Creature, object::Object, place::Place, room::Room};
+use super::{constants::{ISGONE, MAXROOMS}, coord::Coord, creature::Creature, object::Object, place::Place, room::Room, utils::rnd};
 
 pub const SCREEN_HEIGHT: usize = 32; // MAXLINES
 pub const SCREEN_WIDTH: usize = 80; // MAXCOLS
