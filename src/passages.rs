@@ -454,7 +454,6 @@ pub fn put_passage(state: &mut RogueState, coord: Coord) {
 }
 
 /*
-// Add a door or possibly a secret door.  Also enters the door in the exits array of the room.
 void
 door(struct room *rm, coord *cp)
 {
@@ -478,8 +477,26 @@ door(struct room *rm, coord *cp)
 	pp->p_ch = DOOR;
 }
 */
+/// Add a door or possibly a secret door.  Also enters the door in the exits array of the room.
 fn door(state: &mut RogueState, room_number: usize, coord: Coord) {
-	todo!();
+	let room = &mut state.dungeon.rooms[room_number];
+
+    room.exit[room.nexits] = coord;
+	room.nexits += 1;
+
+    if has_flag(room.flags, ISMAZE) {
+		return;
+	}
+
+	let room = state.dungeon.rooms[room_number];
+	let level = state.dungeon.level;
+    let place = state.dungeon.place_at(coord);
+    if rnd(10) + 1 < level && rnd(5) == 0 {
+		place.ch = if coord.y == room.pos.y || coord.y == room.pos.y + room.size.y - 1 { '-' } else { '|' };
+		place.flags &= !F_REAL;
+    } else {
+		place.ch = DOOR;
+	}
 }
 
 /*
