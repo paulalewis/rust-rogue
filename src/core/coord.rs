@@ -1,5 +1,6 @@
-// coord
-#[derive(Default, Debug, Clone, Copy, Hash, PartialEq, Eq)]
+/// an unsigend coordinate on map
+/// coord
+#[derive(Debug, Default, Clone, Copy, Hash, PartialEq, Eq)]
 pub struct Coord {
     pub x: usize,
     pub y: usize,
@@ -8,9 +9,9 @@ pub struct Coord {
 impl Coord {
     // todo - remove this and replace with just == impl
     //#define ce(a,b)		((a).x == (b).x && (a).y == (b).y)
-    pub fn ce(&self, other: &Coord) -> bool {
-	    self.x == other.x && self.y == other.y
-    }
+    // pub fn ce(&self, other: &Coord) -> bool {
+	//     self.x == other.x && self.y == other.y
+    // }
     
     pub fn inc_x(&self) -> Coord {
         Coord { x: self.x + 1, y: self.y }

@@ -8,7 +8,22 @@ use super::monster::save_throw;
 use super::rogue_message::RogueMessage;
 use super::rogue_state::RogueState;
 use super::room::Room;
+use super::stats::{Attack, DmgStats, Stats};
 use super::utils::{rnd, roll};
+
+// #define INIT_STATS { 16, 0, 1, 10, 12, "1x4", 12 }
+// struct stats max_stats = INIT_STATS;	/* The maximum for the player */
+// const MAX_INITIAL_STR: usize = 16;
+// pub static max_str: usize = MAX_INITIAL_STR;
+const INIT_STATS: Stats = Stats {
+    str: 16,
+    exp: 0,
+    lvl: 1,
+    arm: 10,
+    hpt: 12,
+    dmg: DmgStats::Single(Attack(1, 4)),
+    max_hp: 12,
+};
 
 #[derive(Clone, Debug, Hash, PartialEq, Eq)]
 pub struct Player {
@@ -77,7 +92,8 @@ impl Player {
             obj->o_flags |= ISKNOW;
             add_pack(obj, TRUE);
         }*/
-        let player_stats = Creature::new();
+        let mut player_stats = Creature::new();
+        player_stats.stats = INIT_STATS;
         let pos = player_stats.pos;
         Player {
             cur_armor: None,
