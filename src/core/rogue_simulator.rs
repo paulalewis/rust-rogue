@@ -4,9 +4,9 @@ use abstract_game_engine::core::{reward::Reward, simulator::{LegalActions, Simul
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 
-use crate::{core::direction::Direction, rogue::ARMOR_CLASS};
+use crate::core::direction::Direction;
 
-use super::constants::{AMULET, ARMOR, FOOD, POTION, RING, SCROLL, STICK, WEAPON};
+use super::constants::{AMULET, ARMOR, FOOD, POTION, RING, SCROLL, STICK, WEAPON, ARMOR_CLASS};
 use super::{object_info::{ARMOR_INFO, POTION_INFO, RING_INFO, SCROLL_INFO, STICK_INFO, WEAPON_INFO}, rogue_action::RogueAction, rogue_state::RogueState};
 
 pub struct RogueSimulator {

@@ -25,3 +25,15 @@ pub const WINNER: &str = "
 ";
 
 pub const KILLED_BY: &str = "killed by";
+
+//tr_name
+pub const TRAP_NAMES: [&str; 8] = [
+    "a trapdoor",
+    "an arrow trap",
+    "a sleeping gas trap",
+    "a beartrap",
+    "a teleport trap",
+    "a poison dart trap",
+    "a rust trap",
+    "a mysterious trap"
+];

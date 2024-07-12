@@ -480,3 +480,40 @@ pub static METAL: [&str; NMETAL] = [
     "tungsten",
     "zinc",
 ];
+
+// e_levels
+pub const XP_LEVELS: [usize; 21] = [
+    10,
+    20,
+    40,
+    80,
+    160,
+    320,
+    640,
+    1300,
+    2600,
+    5200,
+    13000,
+    26000,
+    50000,
+    100000,
+    200000,
+    400000,
+    800000,
+    2000000,
+    4000000,
+    8000000,
+    0,
+];
+
+//int a_class[MAXARMORS] = {
+//	8,	/* LEATHER */
+//	7,	/* RING_MAIL */
+//	7,	/* STUDDED_LEATHER */
+//	6,	/* SCALE_MAIL */
+//	5,	/* CHAIN_MAIL */
+//	4,	/* SPLINT_MAIL */
+//	4,	/* BANDED_MAIL */
+//	3,	/* PLATE_MAIL */
+//};
+pub const ARMOR_CLASS: [usize; MAXARMORS] = [8, 7, 7, 6, 5, 4, 4, 3];

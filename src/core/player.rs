@@ -2,9 +2,8 @@ use crate::core::coord::Coord;
 
 use crate::core::creature::Creature;
 use crate::core::object::Object;
-use crate::rogue::XP_LEVELS;
 
-use super::constants::{HUNGERTIME, ISHALU, LEFT, MAX_PACK_SIZE, RAINBOW, RIGHT, R_PROTECT, VS_MAGIC};
+use super::constants::{HUNGERTIME, ISHALU, LEFT, MAX_PACK_SIZE, RAINBOW, RIGHT, R_PROTECT, VS_MAGIC, XP_LEVELS};
 use super::monster::save_throw;
 use super::rogue_message::RogueMessage;
 use super::rogue_state::RogueState;

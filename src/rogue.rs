@@ -5,19 +5,19 @@ use crate::{core::constants::{ISFLY, ISGREED, ISINVIS, ISMEAN, ISREGEN, MAXARMOR
 //bool after;				/* True if we want after daemons */
 pub static mut after: bool = false;
 //bool again;				/* Repeating the last command */
-pub static again: bool = false;
+// pub static again: bool = false;
 //bool has_hit = FALSE;			/* Has a "hit" message pending in msg */
 pub static has_hit: bool = false;
 //bool inv_describe = TRUE;		/* Say which way items are being used */
 pub static inv_describe: bool = true;
 //bool move_on = FALSE;			/* Next move shouldn't pick up items */
-pub static move_on: bool = false;
+// pub static move_on: bool = false;
 //bool msg_esc = FALSE;			/* Check for ESC from msg's --More-- */
 pub static msg_esc: bool = false;
 //bool running = FALSE;			/* True if player is running */
-pub static running: bool = false;
+// pub static running: bool = false;
 //bool to_death = FALSE;			/* Fighting is to the death! */
-pub static to_death: bool = false;
+// pub static to_death: bool = false;
 
 //char dir_ch;				/* Direction from last get_dir() call */
 pub static dir_ch: char = '\0';
@@ -30,67 +30,19 @@ pub static dir_ch: char = '\0';
 //char last_comm = '\0';			/* Last command typed */
 //char last_dir = '\0';			/* Last direction given */
 
-//tr_name
-pub static TRAP_NAMES: [&str; 8] = [
-    "a trapdoor",
-    "an arrow trap",
-    "a sleeping gas trap",
-    "a beartrap",
-    "a teleport trap",
-    "a poison dart trap",
-    "a rust trap",
-    "a mysterious trap"
-];
-
 //int n_objs;				/* # items listed in inventory() call */
 pub static n_objs: usize = 0;
 //int mpos = 0;				/* Where cursor is on top line */
 pub static mpos: usize = 0;
-//int a_class[MAXARMORS] = {
-//	8,	/* LEATHER */
-//	7,	/* RING_MAIL */
-//	7,	/* STUDDED_LEATHER */
-//	6,	/* SCALE_MAIL */
-//	5,	/* CHAIN_MAIL */
-//	4,	/* SPLINT_MAIL */
-//	4,	/* BANDED_MAIL */
-//	3,	/* PLATE_MAIL */
-//};
-pub static ARMOR_CLASS: [usize; MAXARMORS] = [8, 7, 7, 6, 5, 4, 4, 3];
 
 //int count = 0;				/* Number of times to repeat command */
-pub static mut repeat_command_count: usize = 0;
+// pub static mut repeat_command_count: usize = 0;
 //int no_command = 0;			/* Number of turns asleep */
 pub static no_command: usize = 0;
 //int no_move = 0;			/* Number of turns held in place */
 pub static no_move: usize = 0;
 //int vf_hit = 0;				/* Number of time flytrap has hit */
 pub static vf_hit: usize = 0;
-
-// e_levels
-pub static XP_LEVELS: [usize; 21] = [
-    10,
-    20,
-    40,
-    80,
-    160,
-    320,
-    640,
-    1300,
-    2600,
-    5200,
-    13000,
-    26000,
-    50000,
-    100000,
-    200000,
-    400000,
-    800000,
-    2000000,
-    4000000,
-    8000000,
-    0,
-];
 
 // coord delta;				/* Change indicated to get_dir() */
 pub static delta: Coord = Coord { y: 0, x: 0 };
