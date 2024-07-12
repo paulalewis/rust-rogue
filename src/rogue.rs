@@ -13,7 +13,7 @@ pub static inv_describe: bool = true;
 //bool move_on = FALSE;			/* Next move shouldn't pick up items */
 // pub static move_on: bool = false;
 //bool msg_esc = FALSE;			/* Check for ESC from msg's --More-- */
-pub static msg_esc: bool = false;
+// pub static msg_esc: bool = false;
 //bool running = FALSE;			/* True if player is running */
 // pub static running: bool = false;
 //bool to_death = FALSE;			/* Fighting is to the death! */
@@ -33,7 +33,7 @@ pub static dir_ch: char = '\0';
 //int n_objs;				/* # items listed in inventory() call */
 pub static n_objs: usize = 0;
 //int mpos = 0;				/* Where cursor is on top line */
-pub static mpos: usize = 0;
+// pub static mpos: usize = 0;
 
 //int count = 0;				/* Number of times to repeat command */
 // pub static mut repeat_command_count: usize = 0;
@@ -53,11 +53,6 @@ pub static stairs: Coord = Coord { y: 0, x: 0 };
 pub static l_last_pick: Option<Object> = None;
 //THING *last_pick = NULL;		/* Last object picked in get_item() */
 pub static last_pick: Option<Object> = None;
-
-//#define INIT_STATS { 16, 0, 1, 10, 12, "1x4", 12 }
-//struct stats max_stats = INIT_STATS;	/* The maximum for the player */
-const MAX_INITIAL_STR: usize = 16;
-pub static max_str: usize = MAX_INITIAL_STR;
 
 //#define CCHAR(x) ( (char) (x & A_CHARTEXT) )
 
