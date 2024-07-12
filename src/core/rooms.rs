@@ -1,4 +1,6 @@
-use crate::{core::{constants::{FLOOR, ISDARK, ISGONE, ISMAZE, MAXROOMS, NUMCOLS, NUMLINES}, coord::Coord, rogue_state::RogueState, room::{self, Room}, utils::rnd}, passages::put_passage};
+use crate::{core::{constants::{FLOOR, ISDARK, ISGONE, ISMAZE, MAXROOMS, NUMCOLS, NUMLINES}, coord::Coord, rogue_state::RogueState, room::{self, Room}, utils::rnd}};
+
+use super::passages::put_passage;
 
 /*
 void

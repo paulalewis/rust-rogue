@@ -1,6 +1,8 @@
-use crate::{core::{constants::{ISHELD, MAXTRAPS}, rogue_state::RogueState, utils::rnd}, passages::do_passages, rooms::do_rooms};
+use crate::core::{constants::{ISHELD, MAXTRAPS}, rogue_state::RogueState, utils::rnd};
 
 use std::cmp::max;
+
+use super::{passages::do_passages, rooms::do_rooms};
 
 // one chance in CHANCE_OF_TREASURE_ROOM for a treasure room
 const CHANCE_OF_TREASURE_ROOM: usize = 20;
