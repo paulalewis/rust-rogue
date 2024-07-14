@@ -1,6 +1,6 @@
 use crate::core::stats::Stats;
 
-use super::{coord::Coord, object::Object, room::Room};
+use super::{constants::MAX_PACK_SIZE, coord::Coord, object::Object, room::Room};
 
 /*union thing {
     struct {
@@ -37,7 +37,7 @@ use super::{coord::Coord, object::Object, room::Room};
     } _o;
 };*/
 //typedef union thing THING;
-#[derive(Debug, Clone, Hash, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub struct Creature {
     pub pos: Coord,
     pub turn: bool,
@@ -49,7 +49,7 @@ pub struct Creature {
     pub flags: usize,
     pub stats: Stats,
     pub room: Room,
-    pub pack: Vec<Object>,
+    pub pack: [Option<Object>; MAX_PACK_SIZE],
 }
 
 impl Creature {
@@ -64,7 +64,7 @@ impl Creature {
             flags: 0,
             stats: Stats::new(),
             room: Room::new(),
-            pack: Vec::new(),
+            pack: [None; MAX_PACK_SIZE],
         }
     }
 

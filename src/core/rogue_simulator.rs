@@ -6,7 +6,7 @@ use rand_chacha::ChaCha8Rng;
 
 use crate::core::direction::Direction;
 
-use super::constants::{AMULET, ARMOR, FOOD, POTION, RING, SCROLL, STICK, WEAPON, ARMOR_CLASS};
+use super::constants::{AMULET, ARMOR, ARMOR_CLASS, FOOD, POTION, RING, SCROLL, STICK, WEAPON};
 use super::{object_info::{ARMOR_INFO, POTION_INFO, RING_INFO, SCROLL_INFO, STICK_INFO, WEAPON_INFO}, rogue_action::RogueAction, rogue_state::RogueState};
 
 pub struct RogueSimulator {
@@ -69,7 +69,9 @@ impl RogueSimulator {
     fn calc_winner_rewards(state: &RogueState) -> isize {
         let mut worth = 0isize;
         let pack = &state.player.player_stats.pack;
-        for object in pack {
+        for opt_object in pack {
+            if opt_object.is_none() { continue; }
+            let object = opt_object.unwrap();
             worth += match object.object_type {
                 FOOD => 2 * object.count,
                 WEAPON => {
