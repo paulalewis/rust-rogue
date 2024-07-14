@@ -6,7 +6,7 @@ use super::creature::Creature;
     THING *p_monst;
 } PLACE;*/
 /// describe a place on the level map
-#[derive(Clone, Debug, Hash, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub struct Place {
     pub ch: char,
     pub flags: usize,
@@ -16,7 +16,7 @@ pub struct Place {
 impl Place {
     pub fn new() -> Self {
         Place {
-            ch: '\0',
+            ch: ' ',
             flags: 0,
             monst: None,
         }
