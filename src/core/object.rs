@@ -1,5 +1,6 @@
 use super::constants::{AMULET, ARMOR, ARMOR_CLASS, ISPROT, POTION, RING, SCROLL, STICK, WEAPON};
 use super::coord::Coord;
+use super::stats::DmgStats;
 
 /*union thing {
     struct {
@@ -36,16 +37,16 @@ use super::coord::Coord;
     } _o;
 };*/
 //typedef union thing THING;
-#[derive(Debug, Clone, Hash, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub struct Object {
     // type
     pub object_type: char,
     pub pos: Coord,
-    pub text: String,
+    // pub text: &'static str,
     pub launch: i32,
     pub packch: char,
-    pub damage: String,
-    pub hurldmg: String,
+    pub damage: Option<DmgStats>,
+    pub hurldmg: Option<DmgStats>,
     pub count: isize,
     pub which: usize,
     pub hplus: isize,
@@ -53,7 +54,7 @@ pub struct Object {
     pub arm: usize,
     pub flags: usize,
     pub group: i32,
-    pub label: String,
+    // pub label: &'static str, not needed since we don't allow call ability
     pub charges: usize,
 }
 
@@ -62,11 +63,11 @@ impl Object {
         Object {
             object_type: '\0',
             pos: Default::default(),
-            text: String::new(),
+            // text: "",
             launch: 0,
             packch: '\0',
-            damage: String::new(),
-            hurldmg: String::new(),
+            damage: None,
+            hurldmg: None,
             count: 0,
             which: 0,
             hplus: 0,
@@ -74,7 +75,7 @@ impl Object {
             arm: 0,
             flags: 0,
             group: 0,
-            label: String::new(),
+            // label: "",
             charges: 0,
         }
     }
