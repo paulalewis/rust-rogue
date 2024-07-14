@@ -29,10 +29,6 @@ fn draw_death_screen(purse: usize, monster: char) {
 	// screen.draw();
 }
 
-fn center_text_index(str: &str) -> usize {
-	28 - ((str.len() + 1) / 2)
-}
-
 /*
 // Code for a winner
 void
