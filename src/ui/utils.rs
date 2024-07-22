@@ -1,4 +1,4 @@
-use crate::core::object_type::{ArmorType, PotionType, RingType};
+use crate::core::{constants::STICK, object_type::{ArmorType, PotionType, RingType, ScrollType, StickType, WeaponType}};
 
 use super::constants::*;
 
@@ -63,6 +63,62 @@ pub fn get_potion_type_display_name(potion_type: PotionType) -> &'static str {
         PotionType::RestoreStrength => POTION_DISPLAY_NAME_RESTORE_STREGTH,
         PotionType::Blindness => POTION_DISPLAY_NAME_BLINDNESS,
         PotionType::Levitation => POTION_DISPLAY_NAME_LEVITATION,
+    }
+}
+
+pub fn get_scroll_type_display_name(scroll_type: ScrollType) -> &'static str {
+    match scroll_type {
+        ScrollType::MagicMapping => SCROLL_DISPLAY_NAME_MAGIC_MAPPING,
+        ScrollType::HoldMonster => SCROLL_DISPLAY_NAME_HOLD_MONSTER,
+        ScrollType::Sleep => SCROLL_DISPLAY_NAME_SLEEP,
+        ScrollType::EnchantArmor => SCROLL_DISPLAY_NAME_ENCHANT_ARMOR,
+        ScrollType::Teleportation => SCROLL_DISPLAY_NAME_TELEPORTATION,
+        ScrollType::EnchantWeapon => SCROLL_DISPLAY_NAME_ENCHANT_WEAPON,
+        ScrollType::CreateMonster => SCROLL_DISPLAY_NAME_CREATE_MONSTER,
+        ScrollType::RemoveCurse => SCROLL_DISPLAY_NAME_REMOVE_CURSE,
+        ScrollType::AggravateMonsters => SCROLL_DISPLAY_NAME_AGGRAVATE_MONSTERS,
+        ScrollType::ProtectArmor => SCROLL_DISPLAY_NAME_PROTECT_ARMOR,
+        ScrollType::MonsterConfusion => SCROLL_DISPLAY_NAME_MONSTER_CONFUSION,
+        ScrollType::IdentifyPotion => SCROLL_DISPLAY_NAME_IDENTIFY_POTION,
+        ScrollType::IdentifyScroll => SCROLL_DISPLAY_NAME_IDENTIFY_SCROLL,
+        ScrollType::IdentifyWeapon => SCROLL_DISPLAY_NAME_IDENTIFY_WEAPON,
+        ScrollType::IdentifyArmor => SCROLL_DISPLAY_NAME_IDENTIFY_ARMOR,
+        ScrollType::IdentifyRingWandOrStaff => SCROLL_DISPLAY_NAME_IDENTIFY_STICK,
+        ScrollType::ScareMonster => SCROLL_DISPLAY_NAME_SCARE_MONSTER,
+        ScrollType::FoodDetection => SCROLL_DISPLAY_NAME_FOOD_DETECTION,
+    }
+}
+
+pub fn get_weapon_type_display_name(weapon_type: WeaponType) -> &'static str {
+    match weapon_type {
+        WeaponType::Mace => WEAPON_DISPLAY_NAME_MACE,
+        WeaponType::LongSword => WEAPON_DISPLAY_NAME_LONG_SWORD,
+        WeaponType::ShortBow => WEAPON_DISPLAY_NAME_SHORT_BOW,
+        WeaponType::Arrow => WEAPON_DISPLAY_NAME_ARROW,
+        WeaponType::Dagger => WEAPON_DISPLAY_NAME_DAGGER,
+        WeaponType::TwoHandedSword => WEAPON_DISPLAY_NAME_TWO_HANDED_SWORD,
+        WeaponType::Dart => WEAPON_DISPLAY_NAME_DART,
+        WeaponType::Spear => WEAPON_DISPLAY_NAME_SPEAR,
+        WeaponType::Shuriken => WEAPON_DISPLAY_NAME_SHURIKEN,
+    }
+}
+
+pub fn get_stick_type_display_name(stick_type: StickType) -> &'static str {
+    match stick_type {
+        StickType::Light => STICK_DISPLAY_NAME_LIGHT,
+        StickType::Fire => STICK_DISPLAY_NAME_FIRE,
+        StickType::Cold => STICK_DISPLAY_NAME_COLD,
+        StickType::MagicMissile => STICK_DISPLAY_NAME_MAGIC_MISSILE,
+        StickType::HasteMonster => STICK_DISPLAY_NAME_HASTE_MONSTER,
+        StickType::SlowMonster => STICK_DISPLAY_NAME_SLOW_MONSTER,
+        StickType::DrainLife => STICK_DISPLAY_NAME_DRAIN_LIFE,
+        StickType::Nothing => STICK_DISPLAY_NAME_NOTHING,
+        StickType::Invisibility => STICK_DISPLAY_NAME_INVISIBLE,
+        StickType::Lightning => STICK_DISPLAY_NAME_LIGHTNING,
+        StickType::Polymorph => STICK_DISPLAY_NAME_POLYMORPH,
+        StickType::TeleportAway => STICK_DISPLAY_NAME_TELEPORT_AWAY,
+        StickType::TeleportTo => STICK_DISPLAY_NAME_TELEPORT_TO,
+        StickType::Cancellation => STICK_DISPLAY_NAME_CANCELLATION,
     }
 }
 
