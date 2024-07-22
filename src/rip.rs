@@ -112,10 +112,9 @@ pub fn total_winner() {
 	//screen.clear();
 }
 
-const UNKOWN_KILLER_NAME: &str = "Wally the Wonder Badger";
 // Convert a code to a monster name
 // killname
-fn killer_name(monster: char) -> (String, String) {
+fn killer_name(killer_char: char) -> (String, String) {
 	let death_causes = [
 		('a', "arrow", true),
 		('b', "bolt", true),
@@ -123,20 +122,18 @@ fn killer_name(monster: char) -> (String, String) {
 		('h', "hypothermia", false),
 		('s', "starvation", false),
 	];
-	
-	let (name, article) = if monster.is_ascii_uppercase() {
-		(String::from(MONSTERS[monster as usize - 'A' as usize].name), true)
+
+	let (name, article) = if killer_char.is_ascii_uppercase() {
+		(String::from(MONSTERS[killer_char as usize - 'A' as usize].name), true)
 	} else {
-		let mut sp = String::from(UNKOWN_KILLER_NAME);
-		let mut article = false;
+		let mut pair: Option<(String, bool)> = None;
 		for hp in death_causes.iter() {
-			if hp.0 == monster {
-				sp = String::from(hp.1);
-				article = hp.2;
+			if hp.0 == killer_char {
+				pair = Some((String::from(hp.1), hp.2));
 				break;
 			}
 		}
-		(sp, article)
+		pair.expect(format!("Unknown killer char: {}", killer_char).as_str())
 	};
 
 	(if article { format!("a{}", vowelstr(&name)) } else { "".to_string() }, name)
