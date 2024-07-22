@@ -7,6 +7,7 @@ pub mod monster;
 pub mod new_level;
 pub mod object;
 pub mod object_info;
+pub mod object_type;
 pub mod passages;
 pub mod place;
 pub mod player;

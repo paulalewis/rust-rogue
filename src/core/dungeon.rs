@@ -1,7 +1,7 @@
 use super::{constants::{ISGONE, MAXROOMS}, coord::Coord, creature::Creature, object::Object, place::Place, room::Room, utils::rnd};
 
-pub const SCREEN_HEIGHT: usize = 32; // MAXLINES
-pub const SCREEN_WIDTH: usize = 80; // MAXCOLS
+pub const MAP_HEIGHT: usize = 30; // MAXLINES
+pub const MAP_WIDTH: usize = 80; // MAXCOLS
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Dungeon {
@@ -23,7 +23,7 @@ impl Dungeon {
             level: 1,
             objects: Vec::new(),
             monsters: Vec::new(),
-            places: Vec::new(),
+            places: vec![vec![Place::new(); MAP_HEIGHT]; MAP_WIDTH],
             rooms: [Room::new(); MAXROOMS],
         }
     }

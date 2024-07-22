@@ -1,5 +1,6 @@
-use super::constants::{AMULET, ARMOR, ARMOR_CLASS, ISPROT, POTION, RING, SCROLL, STICK, WEAPON};
+use super::constants::ISPROT;
 use super::coord::Coord;
+use super::object_type::ObjectType;
 use super::stats::DmgStats;
 
 /*union thing {
@@ -39,8 +40,9 @@ use super::stats::DmgStats;
 //typedef union thing THING;
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub struct Object {
-    // type
-    pub object_type: char,
+    // pub object_type: char,
+    // pub which: usize, object_type contains this now
+    pub object_type: ObjectType,
     pub pos: Coord,
     // pub text: &'static str,
     pub launch: i32,
@@ -48,10 +50,9 @@ pub struct Object {
     pub damage: Option<DmgStats>,
     pub hurldmg: Option<DmgStats>,
     pub count: isize,
-    pub which: usize,
     pub hplus: isize,
     pub dplus: isize,
-    pub arm: usize,
+    pub arm: isize,
     pub flags: usize,
     pub group: i32,
     // pub label: &'static str, not needed since we don't allow call ability
@@ -59,23 +60,23 @@ pub struct Object {
 }
 
 impl Object {
-    pub fn new() -> Self {
+    pub fn new(
+        object_type: ObjectType,
+    ) -> Self {
         Object {
-            object_type: '\0',
+            object_type,
             pos: Default::default(),
             // text: "",
             launch: 0,
             packch: '\0',
             damage: None,
             hurldmg: None,
-            count: 0,
-            which: 0,
+            count: 1,
             hplus: 0,
             dplus: 0,
-            arm: 0,
+            arm: 11,
             flags: 0,
             group: 0,
-            // label: "",
             charges: 0,
         }
     }
@@ -85,14 +86,24 @@ impl Object {
 	    self.flags & flag != 0
     }
 
-    // Returns true if an object radiates magic
+    /// Returns true if an object radiates magic
     // is_magic(THING *obj)
     pub fn is_magic(&self) -> bool {
         match self.object_type {
+            ObjectType::Armor(armor_type) => {
+                self.on(ISPROT) || self.arm != armor_type.armor_class() as isize
+            }
+            ObjectType::Weapon(_) => {
+                self.hplus != 0 || self.dplus != 0
+            }
+            ObjectType::Potion(_) | ObjectType::Scroll(_) | ObjectType::Stick(_) | ObjectType::Ring(_) | ObjectType::Amulet => true,
+            _ => false,
+        }
+        /*match self.object_type {
             ARMOR => self.on(ISPROT) || self.arm != ARMOR_CLASS[self.which],
             WEAPON => self.hplus != 0 || self.dplus != 0,
             POTION | SCROLL | STICK | RING | AMULET => true,
             _ => false,
-        }
+        }*/
     }
 }

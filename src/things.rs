@@ -1,4 +1,4 @@
-use crate::rogue::*;
+use crate::core::{constants::ISCURSED, object::Object, object_type::{FoodType, ObjectType, RingType}, rogue_state::RogueState, stats::{Attack, DmgStats}, utils::rnd};
 
 /*
 /*
@@ -188,10 +188,6 @@ dropcheck(THING *obj)
     return TRUE;
 }
 
-/*
- * new_thing:
- *	Return a new thing
- */
 THING *
 new_thing()
 {
@@ -271,11 +267,72 @@ new_thing()
     }
     return cur;
 }
+*/
+/// new_thing
+pub fn create_object(state: &mut RogueState) -> Object {
+	let object_type: ObjectType = if state.no_food > 3 { ObjectType::generate_new_food() } else { ObjectType::generate_new() };
+    let mut object = Object::new(object_type);
+    // Decide what kind of object it will be
+    // If we haven't had food for a while, let it be food.
+	match object.object_type {
+		ObjectType::Food(_) => {
+			state.no_food = 0;
+		}
+		ObjectType::Weapon(_) => {
+	    	//init_weapon(cur, pick_one(weap_info, MAXWEAPONS));
+			match rnd(100) {
+				0..=9 => {
+					object.flags |= ISCURSED;
+					object.hplus -= (rnd(3) + 1) as isize;
+				}
+				10..=14 => {
+					object.hplus += (rnd(3) + 1) as isize;
+				}
+				_ => {}
+			}
+		}
+		ObjectType::Armor(armor_type) => {
+			object.arm = armor_type.armor_class() as isize;
+			match rnd(100) {
+				0..=19 => {
+					object.flags |= ISCURSED;
+					object.arm += (rnd(3) + 1) as isize;
+				}
+				20..=27 => {
+					object.arm -= (rnd(3) + 1) as isize;
+				}
+				_ => {}
+			}
+		}
+		ObjectType::Ring(ring_type) => {
+			match ring_type {
+				RingType::AddStrength |
+				RingType::Protection |
+				RingType::Dexterity |
+				RingType::IncreaseDamage => {
+					object.arm = rnd(3) as isize;
+					if object.arm == 0 {
+						object.arm = -1;
+						object.flags |= ISCURSED;
+					}
+				}
+				RingType::AggravateMonster |
+				RingType::Teleportation => {
+					object.flags |= ISCURSED;
+				}
+				_ => {}
+			}
+		}
+		ObjectType::Stick(_) => {
+		    // fix_stick(object);
+		}
+		_ => {}
+	}
+    return object;
+}
 
-/*
- * pick_one:
- *	Pick an item out of a list of nitems possible objects
- */
+/* 
+// Pick an item out of a list of nitems possible objects
 int
 pick_one(struct obj_info *info, int nitems)
 {
@@ -293,6 +350,11 @@ pick_one(struct obj_info *info, int nitems)
     }
     return (int)(info - start);
 }
+*/
+fn pick_one() {
+
+}
+/*
 
 /*
  * discovered:

@@ -5,6 +5,7 @@ use crate::core::object::Object;
 
 use super::constants::{HUNGERTIME, ISHALU, LEFT, MAX_PACK_SIZE, RAINBOW, RIGHT, R_PROTECT, VS_MAGIC, XP_LEVELS};
 use super::monster::save_throw;
+use super::object_type::{ObjectType, RingType};
 use super::rogue_message::RogueMessage;
 use super::rogue_state::RogueState;
 use super::room::Room;
@@ -118,20 +119,11 @@ impl Player {
         return if self.player_stats.on(ISHALU) { RAINBOW[rnd(RAINBOW.len())] } else { color };
     }
 
-    //#define ISRING(h,r)
-    pub fn is_ring(&self, h: usize, r: usize) -> bool {
-	    let cur_ring = self.cur_ring.as_ref();
-        match cur_ring[h] {
-            Some(ref ring) => {
-                ring.which == r
-            },
-            None => false
-        }
-    }
+    //#define ISRING(h,r), not needed, just check if NONE
 
     //#define ISWEARING(r)
     fn is_wearing(&self, r: usize) -> bool {
-	    self.is_ring(0, r) || self.is_ring(1, r)
+        self.cur_ring[r] != None
     }
 
     // See if the object is one of the currently used items
@@ -166,14 +158,17 @@ impl Player {
     }
 
     fn adjust_saving_throw(&self, side: usize) -> usize {
-        let cur_ring = self.cur_ring.as_ref();
-        if self.is_ring(side, R_PROTECT) {
-            match &cur_ring[side] {
-                Some(ring) => ring.arm as usize,
-                None => 0,
+        match self.cur_ring[side] {
+            Some(object) => {
+                let object_type = object.object_type;
+                match object_type {
+                    ObjectType::Ring(RingType::Protection) => {
+                        object.arm as usize
+                    }
+                    _ => 0
+                }
             }
-        } else {
-            0
+            None => 0,
         }
     }
 

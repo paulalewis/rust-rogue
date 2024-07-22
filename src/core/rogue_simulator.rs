@@ -6,8 +6,8 @@ use rand_chacha::ChaCha8Rng;
 
 use crate::core::direction::Direction;
 
-use super::constants::{AMULET, ARMOR, ARMOR_CLASS, FOOD, POTION, RING, SCROLL, STICK, WEAPON};
-use super::{object_info::{ARMOR_INFO, POTION_INFO, RING_INFO, SCROLL_INFO, STICK_INFO, WEAPON_INFO}, rogue_action::RogueAction, rogue_state::RogueState};
+use super::{constants::ISKNOW, object_type::{ObjectType, RingType}};
+use super::{rogue_action::RogueAction, rogue_state::RogueState};
 
 pub struct RogueSimulator {
     seed: u64,
@@ -72,63 +72,54 @@ impl RogueSimulator {
         for opt_object in pack {
             if opt_object.is_none() { continue; }
             let object = opt_object.unwrap();
-            worth += match object.object_type {
-                FOOD => 2 * object.count,
-                WEAPON => {
-                    WEAPON_INFO[object.which].worth as isize * (3 * (object.hplus + object.dplus) + object.count)
-                    // obj->o_flags |= ISKNOW;
+            let object_type = object.object_type;
+            let base_value = object_type.base_value() as isize;
+            worth += match object_type {
+                ObjectType::Amulet => base_value,
+                ObjectType::Food(_) => base_value * object.count,
+                ObjectType::Weapon(_) => {
+                    // object.flags |= ISKNOW;, should not mutate state here
+                    base_value * (3 * (object.hplus + object.dplus) + object.count)
                 },
-                ARMOR => {
-                    ARMOR_INFO[object.which].worth as isize + (9 - object.arm as isize) * 100 + (10 * (ARMOR_CLASS[object.which] - object.arm) as isize)
-                    // obj->o_flags |= ISKNOW;
+                ObjectType::Armor(armor_type) => {
+                    // object.flags |= ISKNOW;, should not mutate state here
+                    base_value + (9 - object.arm as isize) * 100 + (10 * (armor_type.armor_class() as isize - object.arm) as isize)
                 },
-                SCROLL => {
-                    let know = SCROLL_INFO[object.which].know;
-                    if know {
-                        SCROLL_INFO[object.which].worth as isize * object.count
-                    } else {
-                        SCROLL_INFO[object.which].worth as isize * object.count / 2
+                ObjectType::Scroll(scroll_type) => {
+                    let know = state.known_scrolls[scroll_type as usize];
+                    // state.known_scrolls[scroll_type as usize] = true;, should not mutate state here
+                    base_value * if know { object.count } else { object.count / 2 }
+                },
+                ObjectType::Potion(potion_type) => {
+                    let know = state.known_potions[potion_type as usize];
+                    // state.known_potions[potion_type as usize] = true;, should not mutate state here
+                    base_value * if know { object.count } else { object.count / 2 }
+                },
+                ObjectType::Ring(ring_type) => {
+                    let know = state.known_rings[ring_type as usize];
+                    // object.flags |= ISKNOW;, should not mutate state here
+                    // state.known_rings[ring_type as usize] = true;, should not mutate state here
+                    let value = if know { base_value } else { base_value / 2 };
+                    match ring_type {
+                        RingType::AddStrength |
+                        RingType::Protection | 
+                        RingType::Dexterity |
+                        RingType::IncreaseDamage => {
+                            if object.arm > 0 { value + object.arm as isize * 100 } else { 10 }
+                        }
+                        _ => value
                     }
-                    // op->oi_know = TRUE;
                 },
-                POTION => {
-                    let know = SCROLL_INFO[object.which].know;
-                    if know {
-                        POTION_INFO[object.which].worth as isize * object.count
+                ObjectType::Stick(stick_type) => {
+                    let know = state.known_sticks[stick_type as usize];
+                    // object.flags |= ISKNOW;, should not mutate state here
+                    // state.known_sticks[stick_type as usize] = true;, should not mutate state here
+                    base_value + if know {
+                        20 * object.charges as isize
                     } else {
-                        POTION_INFO[object.which].worth as isize * object.count / 2
+                        20 * object.charges as isize / 2
                     }
-                    //op->oi_know = TRUE;
                 },
-                RING => {
-                    let know = RING_INFO[object.which].know;
-                    if know {
-                        RING_INFO[object.which].worth as isize
-                    } else {
-                        RING_INFO[object.which].worth as isize / 2
-                    }
-                    //if (obj->o_which == R_ADDSTR || obj->o_which == R_ADDDAM ||
-                    //    obj->o_which == R_PROTECT || obj->o_which == R_ADDHIT)
-                    //{
-                    //    if (obj->o_arm > 0)
-                    //        worth += obj->o_arm * 100;
-                    //    else
-                    //        worth = 10;
-                    //}
-                    //obj->o_flags |= ISKNOW;
-                    //op->oi_know = TRUE;
-                },
-                STICK => {
-                    let know = RING_INFO[object.which].know;
-                    if know {
-                        (STICK_INFO[object.which].worth + 20 * object.charges) as isize
-                    } else {
-                        (STICK_INFO[object.which].worth + 20 * object.charges / 2) as isize
-                    }
-                    //obj->o_flags |= ISKNOW;
-                    //op->oi_know = TRUE;
-                },
-                AMULET => 1000,
                 _ => 0,
             }
         }

@@ -54,6 +54,10 @@ pub struct RogueState {
     //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} }
     //};
     pub passages: [Room; MAXPASS],
+    pub known_rings: [bool; MAXRINGS],
+    pub known_potions: [bool; MAXPOTIONS],
+    pub known_scrolls: [bool; MAXSCROLLS],
+    pub known_sticks: [bool; MAXSTICKS],
 }
 
 impl State for RogueState {}
@@ -78,6 +82,10 @@ impl RogueState {
             is_wand,
             maze: [[Spot { nexits: 0, exits: [Coord { x: 0, y: 0 }; 4], used: false }; NUMCOLS / 3 + 1]; NUMLINES / 3 + 1],
             passages: [Room::new(); MAXPASS],
+            known_rings: [false; MAXRINGS],
+            known_potions: [false; MAXPOTIONS],
+            known_scrolls: [false; MAXSCROLLS],
+            known_sticks: [false; MAXSTICKS],
         }
     }
 
