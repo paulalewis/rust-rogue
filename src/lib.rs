@@ -17,4 +17,3 @@ pub mod sticks;
 pub mod things;
 pub mod weapons;
 pub mod wizard;
-pub mod test;
