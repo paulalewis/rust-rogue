@@ -129,186 +129,186 @@ pub const NTRAPS: usize = 8;
 // *** Potion types ***
 
 //#define P_CONFUSE	0
-pub const P_CONFUSE: usize = 0;
+//pub const P_CONFUSE: usize = 0;
 //#define P_LSD		1
-pub const P_LSD: usize = 1;
+//pub const P_LSD: usize = 1;
 //#define P_POISON	2
-pub const P_POISON: usize = 2;
+//pub const P_POISON: usize = 2;
 //#define P_STRENGTH	3
-pub const P_STRENGTH: usize = 3;
+//pub const P_STRENGTH: usize = 3;
 //#define P_SEEINVIS	4
-pub const P_SEEINVIS: usize = 4;
+//pub const P_SEEINVIS: usize = 4;
 //#define P_HEALING	5
-pub const P_HEALING: usize = 5;
+//pub const P_HEALING: usize = 5;
 //#define P_MFIND		6
-pub const P_MFIND: usize = 6;
+//pub const P_MFIND: usize = 6;
 //#define	P_TFIND 	7
-pub const P_TFIND: usize = 7;
+//pub const P_TFIND: usize = 7;
 //#define	P_RAISE		8
-pub const P_RAISE: usize = 8;
+//pub const P_RAISE: usize = 8;
 //#define P_XHEAL		9
-pub const P_XHEAL: usize = 9;
+//pub const P_XHEAL: usize = 9;
 //#define P_HASTE		10
-pub const P_HASTE: usize = 10;
+//pub const P_HASTE: usize = 10;
 //#define P_RESTORE	11
-pub const P_RESTORE: usize = 11;
+//pub const P_RESTORE: usize = 11;
 //#define P_BLIND		12
-pub const P_BLIND: usize = 12;
+//pub const P_BLIND: usize = 12;
 //#define P_LEVIT		13
-pub const P_LEVIT: usize = 13;
+//pub const P_LEVIT: usize = 13;
 //#define MAXPOTIONS	14
 pub const MAXPOTIONS: usize = 14;
 
 // *** Scroll types ***
 
 //#define S_CONFUSE	0
-pub const S_CONFUSE: usize = 0;
+//pub const S_CONFUSE: usize = 0;
 //#define S_MAP		1
-pub const S_MAP: usize = 1;
+//pub const S_MAP: usize = 1;
 //#define S_HOLD		2
-pub const S_HOLD: usize = 2;
+//pub const S_HOLD: usize = 2;
 //#define S_SLEEP		3
-pub const S_SLEEP: usize = 3;
+//pub const S_SLEEP: usize = 3;
 //#define S_ARMOR		4
-pub const S_ARMOR: usize = 4;
+//pub const S_ARMOR: usize = 4;
 //#define S_ID_POTION	5
-pub const S_ID_POTION: usize = 5;
+//pub const S_ID_POTION: usize = 5;
 //#define S_ID_SCROLL	6
-pub const S_ID_SCROLL: usize = 6;
+//pub const S_ID_SCROLL: usize = 6;
 //#define S_ID_WEAPON	7
-pub const S_ID_WEAPON: usize = 7;
+//pub const S_ID_WEAPON: usize = 7;
 //#define S_ID_ARMOR	8
-pub const S_ID_ARMOR: usize = 8;
+//pub const S_ID_ARMOR: usize = 8;
 //#define S_ID_R_OR_S	9
-pub const S_ID_R_OR_S: usize = 9;
+//pub const S_ID_R_OR_S: usize = 9;
 //#define S_SCARE		10
-pub const S_SCARE: usize = 10;
+//pub const S_SCARE: usize = 10;
 //#define S_FDET		11
-pub const S_FDET: usize = 11;
+//pub const S_FDET: usize = 11;
 //#define S_TELEP		12
-pub const S_TELEP: usize = 12;
+//pub const S_TELEP: usize = 12;
 //#define S_ENCH		13
-pub const S_ENCH: usize = 13;
+//pub const S_ENCH: usize = 13;
 //#define S_CREATE	14
-pub const S_CREATE: usize = 14;
+//pub const S_CREATE: usize = 14;
 //#define S_REMOVE	15
-pub const S_REMOVE: usize = 15;
+//pub const S_REMOVE: usize = 15;
 //#define S_AGGR		16
-pub const S_AGGR: usize = 16;
+//pub const S_AGGR: usize = 16;
 //#define S_PROTECT	17
-pub const S_PROTECT: usize = 17;
+//pub const S_PROTECT: usize = 17;
 //#define MAXSCROLLS	18
 pub const MAXSCROLLS: usize = 18;
 
 // *** Weapon types ***
 
 //#define MACE		0
-pub const MACE: usize = 0;
+//pub const MACE: usize = 0;
 //#define SWORD		1
-pub const SWORD: usize = 1;
+//pub const SWORD: usize = 1;
 //#define BOW		2
-pub const BOW: usize = 2;
+//pub const BOW: usize = 2;
 //#define ARROW		3
-pub const ARROW: usize = 3;
+//pub const ARROW: usize = 3;
 //#define DAGGER		4
-pub const DAGGER: usize = 4;
+//pub const DAGGER: usize = 4;
 //#define TWOSWORD	5
-pub const TWOSWORD: usize = 5;
+//pub const TWOSWORD: usize = 5;
 //#define DART		6
-pub const DART: usize = 6;
+//pub const DART: usize = 6;
 //#define SHIRAKEN	7
-pub const SHIRAKEN: usize = 7;
+//pub const SHIRAKEN: usize = 7;
 //#define SPEAR		8
-pub const SPEAR: usize = 8;
+//pub const SPEAR: usize = 8;
 //#define FLAME		9	/* fake entry for dragon breath (ick) */
-pub const FLAME: usize = 9;
+//pub const FLAME: usize = 9;
 //#define MAXWEAPONS	9	/* this should equal FLAME */
 pub const MAXWEAPONS: usize = 9;
 
 // *** Armor types ***
 
 //#define LEATHER		0
-pub const LEATHER: usize = 0;
+//pub const LEATHER: usize = 0;
 //#define RING_MAIL	1
-pub const RING_MAIL: usize = 1;
+//pub const RING_MAIL: usize = 1;
 //#define STUDDED_LEATHER	2
-pub const STUDDED_LEATHER: usize = 2;
+//pub const STUDDED_LEATHER: usize = 2;
 //#define SCALE_MAIL	3
-pub const SCALE_MAIL: usize = 3;
+//pub const SCALE_MAIL: usize = 3;
 //#define CHAIN_MAIL	4
-pub const CHAIN_MAIL: usize = 4;
+//pub const CHAIN_MAIL: usize = 4;
 //#define SPLINT_MAIL	5
-pub const SPLINT_MAIL: usize = 5;
+//pub const SPLINT_MAIL: usize = 5;
 //#define BANDED_MAIL	6
-pub const BANDED_MAIL: usize = 6;
+//pub const BANDED_MAIL: usize = 6;
 //#define PLATE_MAIL	7
-pub const PLATE_MAIL: usize = 7;
+//pub const PLATE_MAIL: usize = 7;
 //#define MAXARMORS	8
 pub const MAXARMORS: usize = 8;
 
 // *** Ring types ***
 
 //#define R_PROTECT	0
-pub const R_PROTECT: usize = 0;
+//pub const R_PROTECT: usize = 0;
 //#define R_ADDSTR	1
-pub const R_ADDSTR: usize = 1;
+//pub const R_ADDSTR: usize = 1;
 //#define R_SUSTSTR	2
-pub const R_SUSTSTR: usize = 2;
+//pub const R_SUSTSTR: usize = 2;
 //#define R_SEARCH	3
-pub const R_SEARCH: usize = 3;
+//pub const R_SEARCH: usize = 3;
 //#define R_SEEINVIS	4
-pub const R_SEEINVIS: usize = 4;
+//pub const R_SEEINVIS: usize = 4;
 //#define R_NOP		5
-pub const R_NOP: usize = 5;
+//pub const R_NOP: usize = 5;
 //#define R_AGGR		6
-pub const R_AGGR: usize = 6;
+//pub const R_AGGR: usize = 6;
 //#define R_ADDHIT	7
-pub const R_ADDHIT: usize = 7;
+//pub const R_ADDHIT: usize = 7;
 //#define R_ADDDAM	8
-pub const R_ADDDAM: usize = 8;
+//pub const R_ADDDAM: usize = 8;
 //#define R_REGEN		9
-pub const R_REGEN: usize = 9;
+//pub const R_REGEN: usize = 9;
 //#define R_DIGEST	10
-pub const R_DIGEST: usize = 10;
+//pub const R_DIGEST: usize = 10;
 //#define R_TELEPORT	11
-pub const R_TELEPORT: usize = 11;
+//pub const R_TELEPORT: usize = 11;
 //#define R_STEALTH	12
-pub const R_STEALTH: usize = 12;
+//pub const R_STEALTH: usize = 12;
 //#define R_SUSTARM	13
-pub const R_SUSTARM: usize = 13;
+//pub const R_SUSTARM: usize = 13;
 //#define MAXRINGS	14
 pub const MAXRINGS: usize = 14;
 
 // *** Rod/Wand/Staff types ***
 
 //#define WS_LIGHT	0
-pub const WS_LIGHT: usize = 0;
+//pub const WS_LIGHT: usize = 0;
 //#define WS_INVIS	1
-pub const WS_INVIS: usize = 1;
+//pub const WS_INVIS: usize = 1;
 //#define WS_ELECT	2
-pub const WS_ELECT: usize = 2;
+//pub const WS_ELECT: usize = 2;
 //#define WS_FIRE		3
-pub const WS_FIRE: usize = 3;
+//pub const WS_FIRE: usize = 3;
 //#define WS_COLD		4
-pub const WS_COLD: usize = 4;
+//pub const WS_COLD: usize = 4;
 //#define WS_POLYMORPH	5
-pub const WS_POLYMORPH: usize = 5;
+//pub const WS_POLYMORPH: usize = 5;
 //#define WS_MISSILE	6
-pub const WS_MISSILE: usize = 6;
+//pub const WS_MISSILE: usize = 6;
 //#define WS_HASTE_M	7
-pub const WS_HASTE_M: usize = 7;
+//pub const WS_HASTE_M: usize = 7;
 //#define WS_SLOW_M	8
-pub const WS_SLOW_M: usize = 8;
+//pub const WS_SLOW_M: usize = 8;
 //#define WS_DRAIN	9
-pub const WS_DRAIN: usize = 9;
+//pub const WS_DRAIN: usize = 9;
 //#define WS_NOP		10
-pub const WS_NOP: usize = 10;
+//pub const WS_NOP: usize = 10;
 //#define WS_TELAWAY	11
-pub const WS_TELAWAY: usize = 11;
+//pub const WS_TELAWAY: usize = 11;
 //#define WS_TELTO	12
-pub const WS_TELTO: usize = 12;
+//pub const WS_TELTO: usize = 12;
 //#define WS_CANCEL	13
-pub const WS_CANCEL: usize = 13;
+//pub const WS_CANCEL: usize = 13;
 //#define MAXSTICKS	14
 pub const MAXSTICKS: usize = 14;
 
@@ -505,15 +505,3 @@ pub const XP_LEVELS: [usize; 21] = [
     8000000,
     0,
 ];
-
-//int a_class[MAXARMORS] = {
-//	8,	/* LEATHER */
-//	7,	/* RING_MAIL */
-//	7,	/* STUDDED_LEATHER */
-//	6,	/* SCALE_MAIL */
-//	5,	/* CHAIN_MAIL */
-//	4,	/* SPLINT_MAIL */
-//	4,	/* BANDED_MAIL */
-//	3,	/* PLATE_MAIL */
-//};
-pub const ARMOR_CLASS: [usize; MAXARMORS] = [8, 7, 7, 6, 5, 4, 4, 3];
