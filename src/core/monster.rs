@@ -1,6 +1,6 @@
 use std::cmp;
 
-use super::constants::{AMULETLEVEL, ISFLY, ISGREED, ISINVIS, ISMEAN, ISREGEN, LETTERS_IN_ALPHABET};
+use super::constants::{AMULET_LEVEL, ISFLY, ISGREED, ISINVIS, ISMEAN, ISREGEN, LETTERS_IN_ALPHABET};
 use super::coord::Coord;
 use super::creature::Creature;
 use super::rogue_state::RogueState;
@@ -121,7 +121,7 @@ pub fn new_monster(state: &RogueState, tp: Box<Creature>, m_type: char, cp: Opti
     let mut cp: Coord;
     // let mut mlist: Vec<Thing>;
 
-    let lev_add = cmp::max(0, state.dungeon.level as isize - AMULETLEVEL as isize);
+    let lev_add = cmp::max(0, state.dungeon.level as isize - AMULET_LEVEL as isize);
 
     /*attach(mlist, tp);
     tp.t_type = m_type;

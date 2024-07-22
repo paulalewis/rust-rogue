@@ -3,16 +3,16 @@ use crate::rogue::Stone;
 use super::utils::spread;
 
 pub const LETTERS_IN_ALPHABET: usize = 26;
+pub const AMULET_LEVEL: usize = LETTERS_IN_ALPHABET;
 pub const MAX_PACK_SIZE: usize = LETTERS_IN_ALPHABET;
 
-pub const MAXSTR: usize = 1024; // maximum length of strings
+// pub const MAXSTR: usize = 1024; // maximum length of strings, no longer need
 pub const MAXDAEMONS: usize = 20;
 pub const MAXROOMS: usize = 9;
 pub const MAXTHINGS: usize = 9;
 pub const MAXOBJ: usize = 9;
 pub const MAXPACK: usize = 23;
 pub const MAXTRAPS: usize = 10;
-pub const AMULETLEVEL: usize = 26;
 pub const NUMTHINGS: usize = 7; // number of types of things
 pub const MAXPASS: usize = 13; // upper limit on number of passages
 pub const NUMLINES: usize = 24;
