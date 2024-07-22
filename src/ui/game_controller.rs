@@ -1,7 +1,7 @@
 use abstract_game_engine::core::simulator::Simulator;
 use termion::event::Key;
 
-use crate::core::{rogue_simulator::RogueSimulator, rogue_state::RogueState, status::Status};
+use crate::core::{dungeon::{MAP_HEIGHT, MAP_WIDTH}, rogue_simulator::RogueSimulator, rogue_state::RogueState, status::Status};
 
 use super::{command::{process_command, Command}, game_screen::{SCREEN_HEIGHT, SCREEN_WIDTH}, game_view_state::{GameViewState, MainViewState}};
 
@@ -24,7 +24,7 @@ impl GameController {
             view_state: GameViewState {
                 main_view_state: MainViewState {
                     message: format!("Welcome to Rust Rogue version {}. Press '?' for help.", VERSION),
-                    map: [[' '; SCREEN_WIDTH]; SCREEN_HEIGHT - 2],
+                    map: [[' '; MAP_WIDTH]; MAP_HEIGHT],
                     status,
                 },
                 overlay_view_state: None,

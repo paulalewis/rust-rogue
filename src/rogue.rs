@@ -1,4 +1,4 @@
-use crate::{core::constants::{ISFLY, ISGREED, ISINVIS, ISMEAN, ISREGEN, MAXARMORS, MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, MAXWEAPONS, NUMTHINGS}, core::{coord::Coord, creature::Creature, object::Object, room::Room, stats::{Attack, DmgStats, Stats}}};
+use crate::core::{coord::Coord, creature::Creature, object::Object, room::Room, stats::{Attack, DmgStats, Stats}};
 
 // This file contains global values for the game
 

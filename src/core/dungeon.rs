@@ -1,7 +1,7 @@
 use super::{constants::{ISGONE, MAXROOMS}, coord::Coord, creature::Creature, object::Object, place::Place, room::Room, utils::rnd};
 
-pub const MAP_HEIGHT: usize = 30; // MAXLINES
-pub const MAP_WIDTH: usize = 80; // MAXCOLS
+pub const MAP_HEIGHT: usize = 24; // NUMLINES
+pub const MAP_WIDTH: usize = 80; // NUMCOLS
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq)]
 pub struct Dungeon {

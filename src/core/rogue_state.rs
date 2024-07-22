@@ -4,7 +4,7 @@ use abstract_game_engine::core::simulator::State;
 
 use crate::core::{dungeon::Dungeon, player::Player};
 
-use super::{constants::{MAXPASS, MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, METAL, NCOLORS, NMETAL, NSTONES, NUMCOLS, NUMLINES, NWOOD, RAINBOW, STONES, WOOD}, room::Room, utils::rnd};
+use super::{constants::{MAXPASS, MAXPOTIONS, MAXRINGS, MAXSCROLLS, MAXSTICKS, METAL, NCOLORS, NMETAL, NSTONES, NWOOD, RAINBOW, STONES, WOOD}, dungeon::{MAP_HEIGHT, MAP_WIDTH}, room::Room, utils::rnd};
 use super::{coord::Coord, rogue_message::RogueMessage, spot::Spot};
 
 // This represents the state of the game.
@@ -37,7 +37,7 @@ pub struct RogueState {
     // ws_type is it a wand or a staff
     pub is_wand: [bool; MAXSTICKS],
     // static SPOT	maze[NUMLINES/3+1][NUMCOLS/3+1];
-    pub maze: [[Spot; NUMCOLS / 3 + 1]; NUMLINES / 3 + 1],// = [[Spot { nexits: 0, exits: [Coord { x: 0, y: 0 }; 4], used: false }; NUMCOLS / 3 + 1]; NUMLINES / 3 + 1];
+    pub maze: [[Spot; MAP_WIDTH / 3 + 1]; MAP_HEIGHT / 3 + 1],// = [[Spot { nexits: 0, exits: [Coord { x: 0, y: 0 }; 4], used: false }; NUMCOLS / 3 + 1]; NUMLINES / 3 + 1];
     //struct room passages[MAXPASS] =		/* One for each passage */
     //{
     //    { {0, 0}, {0, 0}, {0, 0}, 0, ISGONE|ISDARK, 0, {{0,0}} },
@@ -80,7 +80,7 @@ impl RogueState {
             scroll_names: init_scroll_names(),
             stick_material,
             is_wand,
-            maze: [[Spot { nexits: 0, exits: [Coord { x: 0, y: 0 }; 4], used: false }; NUMCOLS / 3 + 1]; NUMLINES / 3 + 1],
+            maze: [[Spot { nexits: 0, exits: [Coord { x: 0, y: 0 }; 4], used: false }; MAP_WIDTH / 3 + 1]; MAP_HEIGHT / 3 + 1],
             passages: [Room::new(); MAXPASS],
             known_rings: [false; MAXRINGS],
             known_potions: [false; MAXPOTIONS],

@@ -2,17 +2,11 @@ extern crate term_size;
 
 use std::{env, fs, panic};
 
-use rust_rogue::{core::constants::{NUMCOLS, NUMLINES}, ui::{game::Game, game_screen::GameScreen}};
+use rust_rogue::ui::{game::Game, game_screen::{GameScreen, SCREEN_HEIGHT, SCREEN_WIDTH}};
 
 fn main() {
     check_tty();
     check_terminal_size();
-    let prev = panic::take_hook();
-    panic::set_hook(Box::new(move |info| {
-        println!("Custom panic hook called");
-        // println!("{}", info);
-        prev(info);
-    }));
     init_game().play().unwrap();
 }
 
@@ -58,8 +52,8 @@ fn handle_args(args: &Vec<String>) -> InitGame {
 fn check_terminal_size() {
     if let Some((width, height)) = term_size::dimensions() {
         dbg!(width, height);
-        if width < NUMCOLS || height < NUMLINES {
-            panic!("The screen must be at least {}x{}", NUMCOLS, NUMLINES);
+        if width < SCREEN_WIDTH || height < SCREEN_HEIGHT {
+            panic!("The screen must be at least {}x{}", SCREEN_WIDTH, SCREEN_HEIGHT);
         }
     } else {
         panic!("Unable to get term size");

@@ -1,7 +1,4 @@
-use crate::core::status::Status;
-
-pub const MAP_HEIGHT: usize = 30; // MAXLINES - 2
-pub const MAP_WIDTH: usize = 80; // MAXCOLS
+use crate::core::{dungeon::{MAP_HEIGHT, MAP_WIDTH}, status::Status};
 
 pub struct GameViewState {
     pub main_view_state: MainViewState,

@@ -1,6 +1,6 @@
-use crate::{core::{constants::{FLOOR, ISDARK, ISGONE, ISMAZE, MAXROOMS, NUMCOLS, NUMLINES}, coord::Coord, rogue_state::RogueState, room::{self, Room}, utils::rnd}};
+use crate::{core::{constants::{FLOOR, ISDARK, ISGONE, ISMAZE, MAXROOMS}, coord::Coord, rogue_state::RogueState, room::{self, Room}, utils::rnd}};
 
-use super::passages::put_passage;
+use super::{dungeon::{MAP_HEIGHT, MAP_WIDTH}, passages::put_passage};
 
 /*
 void
@@ -122,7 +122,7 @@ do_rooms()
 /// Create rooms and corridors with a connectivity graph
 pub fn do_rooms(state: &mut RogueState) {
 	// bsze
-	let max_room_size = Coord { x: NUMCOLS / 3, y: NUMLINES / 3 };
+	let max_room_size = Coord { x: MAP_WIDTH / 3, y: MAP_HEIGHT / 3 };
     // Put the gone rooms, if any, on the level
     let left_out = rnd(4);
 	for i in 0..left_out {
@@ -139,9 +139,9 @@ pub fn do_rooms(state: &mut RogueState) {
 			loop {
 				rp.pos.x = top.x + rnd(max_room_size.x - 2) + 1;
 				rp.pos.y = top.y + rnd(max_room_size.y - 2) + 1;
-				rp.size.x = NUMCOLS; // -NUMCOLS; , todo i didn't want to make Coord signed but need to check this
-				rp.size.y = NUMLINES; // -NUMLINES;
-				if rp.pos.y > 0 && rp.pos.y < NUMLINES - 1 {
+				rp.size.x = MAP_WIDTH; // -NUMCOLS; , todo i didn't want to make Coord signed but need to check this
+				rp.size.y = MAP_HEIGHT; // -NUMLINES;
+				if rp.pos.y > 0 && rp.pos.y < MAP_HEIGHT - 1 {
 					break;
 				}
 			}
@@ -302,8 +302,8 @@ do_maze(struct room *rp)
 */
 /// Dig a maze
 pub fn do_maze(state: &mut RogueState, room: &Room) {
-	for i in 0..NUMLINES / 3 {
-		for j in 0..NUMCOLS / 3 {
+	for i in 0..MAP_HEIGHT / 3 {
+		for j in 0..MAP_WIDTH / 3 {
 			state.maze[i][j].used = false;
 			state.maze[i][j].nexits = 0;
 		}

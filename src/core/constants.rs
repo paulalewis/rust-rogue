@@ -1,6 +1,6 @@
 use crate::rogue::Stone;
 
-use super::utils::spread;
+use super::{dungeon::MAP_HEIGHT, utils::spread};
 
 pub const LETTERS_IN_ALPHABET: usize = 26;
 pub const AMULET_LEVEL: usize = LETTERS_IN_ALPHABET;
@@ -15,9 +15,6 @@ pub const MAXPACK: usize = 23;
 pub const MAXTRAPS: usize = 10;
 pub const NUMTHINGS: usize = 7; // number of types of things
 pub const MAXPASS: usize = 13; // upper limit on number of passages
-pub const NUMLINES: usize = 24;
-pub const NUMCOLS: usize = 80;
-pub const STATLINE: usize = NUMLINES - 1;
 pub const BORE_LEVEL: usize = 50;
 pub const HEALTIME: usize = 30;
 pub const HUHDURATION: usize = 20;

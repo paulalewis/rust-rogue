@@ -1,4 +1,6 @@
-use crate::core::{constants::{DOOR, F_PASS, F_PNUM, F_REAL, ISGONE, ISMAZE, MAXPASS, MAXROOMS, NUMCOLS, NUMLINES, PASSAGE}, coord::Coord, rogue_state::RogueState, room, utils::{has_flag, rnd}};
+use crate::core::{constants::{DOOR, F_PASS, F_PNUM, F_REAL, ISGONE, ISMAZE, MAXPASS, MAXROOMS, PASSAGE}, coord::Coord, rogue_state::RogueState, utils::{has_flag, rnd}};
+
+use super::dungeon::{MAP_HEIGHT, MAP_WIDTH};
 
 /*
 void
@@ -579,7 +581,7 @@ numpass(int y, int x)
 */
 /// Number a passageway square and its brethren
 fn numpass(state: &mut RogueState, coord: Coord, pnum: &mut usize, newpnum: &mut bool) {
-    if coord.x >= NUMCOLS || coord.x < 0 || coord.y >= NUMLINES || coord.y <= 0 {
+    if coord.x >= MAP_WIDTH || coord.x < 0 || coord.y >= MAP_HEIGHT || coord.y <= 0 {
 		return
 	}
 
