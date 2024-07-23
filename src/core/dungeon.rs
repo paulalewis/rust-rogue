@@ -15,6 +15,8 @@ pub struct Dungeon {
     pub places: Vec<Vec<Place>>,
     // rooms[MAXROOMS] One for each room -- A level
     pub rooms: [Room; MAXROOMS],
+    // coord stairs, Location of staircase
+    pub stairs: Coord,
 }
 
 impl Dungeon {
@@ -25,6 +27,7 @@ impl Dungeon {
             monsters: Vec::new(),
             places: vec![vec![Place::new(); MAP_HEIGHT]; MAP_WIDTH],
             rooms: [Room::new(); MAXROOMS],
+            stairs: Default::default(),
         }
     }
 

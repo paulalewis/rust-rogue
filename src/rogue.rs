@@ -46,8 +46,6 @@ pub static vf_hit: usize = 0;
 
 // coord delta;				/* Change indicated to get_dir() */
 pub static delta: Coord = Coord { y: 0, x: 0 };
-// coord stairs;				/* Location of staircase */
-pub static stairs: Coord = Coord { y: 0, x: 0 };
 
 //THING *l_last_pick = NULL;		/* Last last_pick */
 pub static l_last_pick: Option<Object> = None;
