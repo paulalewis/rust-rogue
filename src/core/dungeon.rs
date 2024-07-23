@@ -59,13 +59,11 @@ impl Dungeon {
     // Pick a room that is really there
     // int rnd_room()
     pub fn rnd_room_index(&self) -> usize {
-        let mut index: usize;
         loop {
-            index = rnd(self.rooms.len());
+            let index = rnd(self.rooms.len());
             if self.rooms[index].flags & ISGONE == 0 {
-                break;
+                break index;
             }
         }
-        index
     }
 }
