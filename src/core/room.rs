@@ -1,4 +1,4 @@
-use super::{constants::{ISDARK, ISGONE}, coord::Coord};
+use super::{constants::{ISDARK, ISGONE}, coord::Coord, utils::rnd};
 
 /*struct room {
     coord r_pos;			/* Upper left corner */
@@ -34,5 +34,11 @@ impl Room {
             nexits: 0,
             exit: [Coord { x: 0, y: 0 }; 12],
         }
+    }
+
+    /// void rnd_pos(struct room *rp, coord *cp) {
+    /// Pick a random spot in the room
+    pub fn random_position(&self) -> Coord {
+        Coord { x: self.pos.x + rnd(self.size.x - 2) + 1, y: self.pos.y + rnd(self.size.y - 2) + 1 }
     }
 }

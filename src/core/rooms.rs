@@ -1,6 +1,6 @@
 use crate::{core::{constants::{FLOOR, ISDARK, ISGONE, ISMAZE, MAXROOMS}, coord::Coord, rogue_state::RogueState, room::{self, Room}, utils::rnd}};
 
-use super::{dungeon::{MAP_HEIGHT, MAP_WIDTH}, passages::put_passage};
+use super::{constants::PASSAGE, dungeon::{MAP_HEIGHT, MAP_WIDTH}, passages::put_passage, utils::{has_flag, step_ok}};
 
 /*
 void
@@ -235,7 +235,7 @@ pub fn draw_room(state: &mut RogueState, room: &Room) {
 		// Put the floor down
 		for y in room.pos.y + 1..room.pos.y + room.size.y - 1 {
 			for x in room.pos.x + 1..room.pos.x + room.size.x - 1 {
-				state.dungeon.place_at(Coord { x, y }).ch = FLOOR;
+				state.dungeon.get_place_mut(Coord { x, y }).ch = FLOOR;
 			}
 		}
 	}
@@ -253,7 +253,7 @@ vert(struct room *rp, int startx)
 /// Draw a vertical line
 pub fn vert(state: &mut RogueState, room: &Room, startx: usize) {
     for y in (room.pos.y + 1)..(room.size.y + room.pos.y) {
-		state.dungeon.place_at(Coord { x: startx, y }).ch = '|';
+		state.dungeon.get_place_mut(Coord { x: startx, y }).ch = '|';
 	}
 }
 
@@ -270,7 +270,7 @@ horiz(struct room *rp, int starty)
 /// Draw a horizontal line
 pub fn horiz(state: &mut RogueState, room: &Room, starty: usize) {
 	for x in room.pos.x..(room.pos.x + room.size.x) {
-		state.dungeon.place_at(Coord { x, y: starty }).ch = '-';
+		state.dungeon.get_place_mut(Coord { x, y: starty }).ch = '-';
 	}
 }
 
@@ -392,24 +392,12 @@ accnt_maze(int y, int x, int ny, int nx)
     cp->y = ny;
     cp->x = nx;
 }
+*/
 
 /*
- * rnd_pos:
- *	Pick a random spot in a room
- */
-
-void
-rnd_pos(struct room *rp, coord *cp)
-{
-    cp->x = rp->r_pos.x + rnd(rp->r_max.x - 2) + 1;
-    cp->y = rp->r_pos.y + rnd(rp->r_max.y - 2) + 1;
-}
-
-/*
- * find_floor:
- *	Find a valid floor spot in this room.  If rp is NULL, then
- *	pick a new room each time around the loop.
- */
+/// find_floor:
+///	Find a valid floor spot in this room.  If rp is NULL, then
+/// pick a new room each time around the loop.
 bool
 find_floor(struct room *rp, coord *cp, int limit, bool monst)
 {
@@ -443,12 +431,31 @@ find_floor(struct room *rp, coord *cp, int limit, bool monst)
 	    return TRUE;
     }
 }
+*/
+pub fn find_random_empty_floor_on_map(state: &RogueState, limit: usize, monst: bool) -> Option<Coord> {
+	let room = state.dungeon.rooms[state.dungeon.rnd_room_index()];
+	find_random_empty_floor_in_room(state, &room, limit, monst)
+}
+
+pub fn find_random_empty_floor_in_room(state: &RogueState, room: &Room, limit: usize, monst: bool) -> Option<Coord> {
+	let compchar = if has_flag(room.flags, ISMAZE) { PASSAGE } else { FLOOR };
+    let mut count = limit;
+
+    loop {
+		if limit != 0 && count == 0 { break None; }
+		count -= 1;
+
+		let rnd_coord = room.random_position();
+		let place = state.dungeon.get_place(rnd_coord);
+		if (monst && place.monst == None && step_ok(place.ch)) || place.ch == compchar {
+			break Some(rnd_coord);
+		}
+    }
+}
 
 /*
- * enter_room:
- *	Code that is executed whenver you appear in a room
- */
-
+/// enter_room:
+/// Code that is executed whenver you appear in a room
 void
 enter_room(coord *cp)
 {

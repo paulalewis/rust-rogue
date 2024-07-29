@@ -32,7 +32,11 @@ impl Dungeon {
     }
 
     //#define INDEX(y,x)	(&places[((x) << 5) + (y)])
-    pub fn place_at(&mut self, coord: Coord) -> &mut Place {
+    pub fn get_place(&self, coord: Coord) -> &Place {
+        &self.places[coord.x][coord.y]
+    }
+
+    pub fn get_place_mut(&mut self, coord: Coord) -> &mut Place {
         &mut self.places[coord.x][coord.y]
     }
 

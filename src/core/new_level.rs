@@ -1,8 +1,8 @@
-use crate::core::{constants::{ISHELD, MAXTRAPS}, rogue_state::RogueState, utils::rnd};
+use crate::{core::{constants::{ISHELD, MAXTRAPS}, rogue_state::RogueState, utils::rnd}, things::create_object};
 
 use std::cmp::max;
 
-use super::{passages::do_passages, rooms::do_rooms};
+use super::{constants::{AMULET_LEVEL, FLOOR, F_REAL, MAXOBJ, NTRAPS}, object::Object, object_type::ObjectType, passages::do_passages, rooms::{do_rooms, find_random_empty_floor_on_map}};
 
 // one chance in CHANCE_OF_TREASURE_ROOM for a treasure room
 const CHANCE_OF_TREASURE_ROOM: usize = 20;
@@ -90,31 +90,9 @@ pub fn new_level(state: &mut RogueState) {
     do_rooms(state);
     do_passages(state);
     state.no_food += 1;
-    // put_things();			/* Place objects (if any) */
-    // Place the traps
-    if rnd(10) < state.dungeon.level {
-        let ntraps = max(state.dungeon.level / 4 + 1, MAXTRAPS);
-        for _ in 0..ntraps {
-            /*
-             * not only wouldn't it be NICE to have traps in mazes
-             * (not that we care about being nice), since the trap
-             * number is stored where the passage number is, we
-             * can't actually do it.
-             */
-            // loop {
-            //     find_floor((struct room *) NULL, &stairs, FALSE, FALSE);
-            // } while (chat(stairs.y, stairs.x) != FLOOR);
-            // sp = &flat(stairs.y, stairs.x);
-            // *sp &= ~F_REAL;
-            // *sp |= rnd(NTRAPS);
-        }
-    }
-    /*
-     * Place the staircase down.
-     */
-    // find_floor((struct room *) NULL, &stairs, FALSE, FALSE);
-    // chat(stairs.y, stairs.x) = STAIRS;
-    state.seenstairs = false;
+    put_things(state);
+    place_traps(state);
+    place_stairs_down(state);
 
     // for (tp = mlist; tp != NULL; tp = next(tp))
 	// tp->t_room = roomin(&tp->t_pos);
@@ -134,8 +112,29 @@ pub fn new_level(state: &mut RogueState) {
     }
 }
 
+fn place_traps(state: &mut RogueState) {
+    if rnd(10) < state.dungeon.level {
+        let ntraps = max(state.dungeon.level / 4 + 1, MAXTRAPS);
+        for _ in 0..ntraps {
+            let floor = loop {
+                let coord = find_random_empty_floor_on_map(state, 0, false).unwrap();
+                if state.dungeon.get_place(coord).ch == FLOOR {
+                    break coord;
+                }
+            };
+            let place = state.dungeon.get_place_mut(floor);
+            place.flags &= !F_REAL;
+            place.flags |= rnd(NTRAPS);
+        }
+    }
+}
+
+fn place_stairs_down(state: &mut RogueState) {
+    state.dungeon.stairs = find_random_empty_floor_on_map(state, 0, false).unwrap();
+    state.seenstairs = false;
+}
+
 /*
-// Put potions and scrolls on this level
 void
 put_things()
 {
@@ -191,10 +190,40 @@ put_things()
 	chat(obj->o_pos.y, obj->o_pos.x) = AMULET;
     }
 }
+*/
+/// Put potions and scrolls on this level
+pub fn put_things(state: &mut RogueState) {
+    // Once you have found the amulet, the only way to get new stuff is
+    // go down into the dungeon.
+    if state.amulet && state.dungeon.level < state.max_level { return; }
+
+    // check for treasure rooms, and if so, put it in.
+    if rnd(CHANCE_OF_TREASURE_ROOM) == 0 { add_treasure_room(state); }
+
+    // Do MAXOBJ attempts to put things on a level
+    for i in 0..MAXOBJ {
+        if rnd(100) < 36 {
+            // Pick a new object and link it in the list
+            let obj = create_object(state);
+            state.dungeon.objects.push(obj);
+            // Put it somewhere
+            // find_floor(None, &obj.pos, false, false);
+            // state.dungeon.place_at(obj.pos).ch = obj.object_type.map_character();, don't do, this should be done when map rendered
+        }
+    }
+
+    // If he is really deep in the dungeon and he hasn't found the
+    // amulet yet, put it somewhere on the ground
+    if state.dungeon.level >= AMULET_LEVEL && !state.amulet {
+        let obj = Object::new(ObjectType::Amulet);
+        state.dungeon.objects.push(obj);
+        // Put it somewhere
+        // find_floor((struct room *) NULL, &obj->o_pos, false, false);
+        // state.dungeon.place_at(obj.pos).ch = obj.object_type.map_character();, don't do, this should be done when map rendered
+    }
+}
 
 /*
- *	Add a treasure room
- */
 void
 treas_room()
 {
@@ -242,3 +271,6 @@ treas_room()
     level--;
 }
 */
+fn add_treasure_room(state: &mut RogueState) {
+    todo!();
+}

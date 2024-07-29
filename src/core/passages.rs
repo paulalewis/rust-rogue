@@ -446,7 +446,7 @@ putpass(coord *cp)
 /// add a passage character or secret passage here
 pub fn put_passage(state: &mut RogueState, coord: Coord) {
 	let level = state.dungeon.level;
-	let place = state.dungeon.place_at(coord);
+	let place = state.dungeon.get_place_mut(coord);
 	place.flags |= F_PASS;
 	if rnd(10) + 1 < level && rnd(40) == 0 {
 		place.flags &= !F_REAL;
@@ -492,7 +492,7 @@ fn door(state: &mut RogueState, room_number: usize, coord: Coord) {
 
 	let room = state.dungeon.rooms[room_number];
 	let level = state.dungeon.level;
-    let place = state.dungeon.place_at(coord);
+    let place = state.dungeon.get_place_mut(coord);
     if rnd(10) + 1 < level && rnd(5) == 0 {
 		place.ch = if coord.y == room.pos.y || coord.y == room.pos.y + room.size.y - 1 { '-' } else { '|' };
 		place.flags &= !F_REAL;
@@ -603,7 +603,7 @@ fn numpass(state: &mut RogueState, coord: Coord, pnum: &mut usize, newpnum: &mut
     } else if flag & F_PASS == 0 {
 		return
 	}
-	let place = state.dungeon.place_at(coord);
+	let place = state.dungeon.get_place_mut(coord);
 	place.flags |= *pnum;
     // recurse on the surrounding places
     numpass(state, coord.inc_y(), pnum, newpnum);
