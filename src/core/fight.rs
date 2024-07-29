@@ -1,5 +1,3 @@
-use crate::rogue::*;
-
 /*
 
 #define	EQSTR(a, b)	(strcmp(a, b) == 0)

@@ -1,4 +1,4 @@
-use crate::{core::{constants::{ISHELD, MAXTRAPS}, rogue_state::RogueState, utils::rnd}, things::create_object};
+use crate::{core::{constants::{ISHELD, MAXTRAPS}, rogue_state::RogueState, utils::rnd}, core::things::create_object};
 
 use std::cmp::max;
 

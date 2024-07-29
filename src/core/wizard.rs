@@ -1,4 +1,3 @@
-use crate::rogue::*;
 
 // What a certin object is
 /*void

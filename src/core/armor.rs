@@ -1,4 +1,4 @@
-use crate::{core::constants::{AFTER, BEFORE}, daemon::{do_daemons, do_fuses}};
+use crate::{core::constants::{AFTER, BEFORE}, core::daemon::{do_daemons, do_fuses}};
 
 /*
 // The player wants to wear something, so let him/her put it on.

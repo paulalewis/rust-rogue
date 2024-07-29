@@ -1,5 +1,3 @@
-use crate::rogue::*;
-
 const EMPTY: usize = 0;
 const DAEMON: isize = -1;
 

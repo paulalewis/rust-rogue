@@ -1,6 +1,5 @@
-use crate::rogue::Stone;
-
-use super::{dungeon::MAP_HEIGHT, utils::spread};
+use super::rogue::Stone;
+use super::utils::spread;
 
 pub const LETTERS_IN_ALPHABET: usize = 26;
 pub const AMULET_LEVEL: usize = LETTERS_IN_ALPHABET;

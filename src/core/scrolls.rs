@@ -1,4 +1,3 @@
-use crate::rogue::*;
 
 /*
 // Read a scroll from the pack and do the appropriate thing
