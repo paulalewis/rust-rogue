@@ -4,8 +4,6 @@ use termion::raw::{IntoRawMode, RawTerminal};
 
 pub const SCREEN_HEIGHT: usize = 32; // MAXLINES
 pub const SCREEN_WIDTH: usize = 80; // MAXCOLS
-// pub const SIZE_OF_MORE: usize = 8; // "--More--", more no longer used
-// pub const MAX_MESSAGE_LENGTH: usize = SCREEN_WIDTH - SIZE_OF_MORE; // MAXMSG, no max message length, will wrap instead
 
 // Wrapper for terminal screen
 pub struct GameScreen {

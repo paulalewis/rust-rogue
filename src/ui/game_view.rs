@@ -7,6 +7,7 @@ use crate::core::status::Status;
 use crate::ui::command::HELP_ITEMS;
 use crate::ui::constants::PRESS_ANY_KEY_TO_CONTINUE;
 use crate::ui::game_screen::SCREEN_HEIGHT;
+use crate::ui::utils::break_string;
 
 use super::game_screen::SCREEN_WIDTH;
 use super::game_view_state::GameViewState;
@@ -43,8 +44,9 @@ impl GameView {
     }
 
     fn draw_message(&mut self, message: &String) -> Result<()> {
-        write!(self.screen.stdout, "{}", termion::cursor::Goto(1, 1))?;
-        write!(self.screen.stdout, "{}", message)
+        let (line1, line2) = break_string(message, 80);
+        write!(self.screen.stdout, "{}{}{}", termion::cursor::Goto(1, 1), termion::clear::CurrentLine, line1)?;
+        write!(self.screen.stdout, "{}{}{}", termion::cursor::Goto(2, 1), termion::clear::CurrentLine, line2)
     }
 
     fn draw_status(&mut self, status: &Status) -> Result<()> {

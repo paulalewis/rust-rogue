@@ -14,6 +14,22 @@ pub fn vowelstr(str: &str) -> &str {
 pub fn center_text_index(str: &str) -> usize {
 	28 - ((str.len() + 1) / 2)
 }
+    
+pub fn break_string(string: &String, max_length: usize) -> (String, String) {
+    let mut line1 = String::with_capacity(max_length);
+    let mut line2 = String::with_capacity(max_length);
+    let parts = string.split(char::is_whitespace);
+    for word in parts {
+        if line1.len() + word.len() < max_length {
+            if !line1.is_empty() { line1.push(' '); }
+            line1.push_str(word);
+        } else {
+            if !line2.is_empty() { line2.push(' '); }
+            line2.push_str(word);
+        }
+    }
+    (line1, line2)
+}
 
 pub fn get_armor_type_display_name(armor_type: ArmorType) -> &'static str {
     match armor_type {
