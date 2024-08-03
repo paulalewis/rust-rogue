@@ -53,9 +53,9 @@ impl GameView {
     }
 
     fn draw_map(&mut self, map: &[[char; MAP_WIDTH]; MAP_HEIGHT]) -> Result<()> {
-        for i in 0..map.len() {
-            for j in 0..map[i].len() {
-                write!(self.screen.stdout, "{}{}", termion::cursor::Goto((i + 1) as u16, (j + 3) as u16), map[i][j])?;
+        for y in 0..map.len() {
+            for x in 0..map[y].len() {
+                write!(self.screen.stdout, "{}{}", termion::cursor::Goto((x + 1) as u16, (y + 3) as u16), map[y][x])?;
             }
         }
         Ok(())

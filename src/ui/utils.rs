@@ -1,4 +1,4 @@
-use crate::core::{constants::STICK, object_type::{ArmorType, PotionType, RingType, ScrollType, StickType, WeaponType}};
+use crate::core::object_type::{ArmorType, PotionType, RingType, ScrollType, StickType, WeaponType};
 
 use super::constants::*;
 
