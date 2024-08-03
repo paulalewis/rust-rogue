@@ -6,7 +6,7 @@ use rand_chacha::ChaCha8Rng;
 
 use crate::core::direction::Direction;
 
-use super::{constants::ISKNOW, object_type::{ObjectType, RingType}};
+use super::{constants::ISKNOW, new_level::new_level, object_type::{ObjectType, RingType}};
 use super::{rogue_action::RogueAction, rogue_state::RogueState};
 
 pub struct RogueSimulator {
@@ -28,13 +28,13 @@ impl RogueSimulator {
 
 impl Simulator<RogueState, RogueAction> for RogueSimulator {
     fn generate_initial_state(&mut self) -> RogueState {
-        let mut rogue_state = RogueState::new();
-        // new_level(&mut rogue_state);
+        let mut state = RogueState::new();
+        new_level(&mut state);
         // start_daemon(runners, 0, AFTER);
         // start_daemon(doctor, 0, AFTER);
         // fuse(swander, 0, WANDERTIME, AFTER);
         // start_daemon(stomach, 0, AFTER);
-        rogue_state
+        state
     }
 
     fn calculate_rewards(&mut self, state: &RogueState) -> Vec<Reward> {

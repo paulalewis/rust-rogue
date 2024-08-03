@@ -25,7 +25,7 @@ impl Dungeon {
             level: 1,
             objects: Vec::new(),
             monsters: Vec::new(),
-            places: vec![vec![Place::new(); MAP_HEIGHT]; MAP_WIDTH],
+            places: vec![vec![Place::new(); MAP_WIDTH]; MAP_HEIGHT],
             rooms: [Room::new(); MAXROOMS],
             stairs: Default::default(),
         }
@@ -33,26 +33,26 @@ impl Dungeon {
 
     //#define INDEX(y,x)	(&places[((x) << 5) + (y)])
     pub fn get_place(&self, coord: Coord) -> &Place {
-        &self.places[coord.x][coord.y]
+        &self.places[coord.y][coord.x]
     }
 
     pub fn get_place_mut(&mut self, coord: Coord) -> &mut Place {
-        &mut self.places[coord.x][coord.y]
+        &mut self.places[coord.y][coord.x]
     }
 
     //#define chat(y,x)	(places[((x) << 5) + (y)].p_ch)
     pub fn character_at(&self, coord: Coord) -> char {
-        self.places[coord.x][coord.y].ch
+        self.places[coord.y][coord.x].ch
     }
 
     //#define flat(y,x)	(places[((x) << 5) + (y)].p_flags)
     pub fn flag_at(&self, coord: Coord) -> usize {
-        self.places[coord.x][coord.y].flags
+        self.places[coord.y][coord.x].flags
     }
 
     //#define moat(y,x)	(places[((x) << 5) + (y)].p_monst)
     pub fn monster_at(&self, coord: Coord) -> Option<Creature> {
-        self.places[coord.x][coord.y].monst.clone()
+        self.places[coord.y][coord.x].monst.clone()
     }
 
     //#define winat(y,x)	(moat(y,x) != NULL ? moat(y,x)->t_disguise : chat(y,x))

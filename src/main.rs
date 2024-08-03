@@ -5,6 +5,7 @@ use std::{env, fs, panic};
 use rust_rogue::ui::{game::Game, game_screen::{GameScreen, SCREEN_HEIGHT, SCREEN_WIDTH}};
 
 fn main() {
+    set_env_variables();
     check_tty();
     check_terminal_size();
     init_game().play().unwrap();
@@ -47,6 +48,10 @@ fn handle_args(args: &Vec<String>) -> InitGame {
     } else {
         InitGame::Init
     }
+}
+
+fn set_env_variables() {
+    env::set_var("RUST_BACKTRACE", "1");
 }
 
 fn check_terminal_size() {
