@@ -3,6 +3,8 @@ use std::io::Write;
 
 use termion::cursor::Goto;
 
+use crate::core::dungeon::MAP_HEIGHT;
+use crate::core::dungeon::MAP_WIDTH;
 use crate::core::status::Status;
 use crate::ui::command::HELP_ITEMS;
 use crate::ui::constants::PRESS_ANY_KEY_TO_CONTINUE;
@@ -40,13 +42,23 @@ impl GameView {
 
     fn draw_main_view(&mut self, main_view_state: &MainViewState) -> Result<()> {
         self.draw_message(&main_view_state.message)?;
+        self.draw_map(&main_view_state.map)?;
         self.draw_status(&main_view_state.status)
     }
 
     fn draw_message(&mut self, message: &String) -> Result<()> {
         let (line1, line2) = break_string(message, 80);
         write!(self.screen.stdout, "{}{}{}", termion::cursor::Goto(1, 1), termion::clear::CurrentLine, line1)?;
-        write!(self.screen.stdout, "{}{}{}", termion::cursor::Goto(2, 1), termion::clear::CurrentLine, line2)
+        write!(self.screen.stdout, "{}{}{}", termion::cursor::Goto(1, 2), termion::clear::CurrentLine, line2)
+    }
+
+    fn draw_map(&mut self, map: &[[char; MAP_WIDTH]; MAP_HEIGHT]) -> Result<()> {
+        for i in 0..map.len() {
+            for j in 0..map[i].len() {
+                write!(self.screen.stdout, "{}{}", termion::cursor::Goto((i + 1) as u16, (j + 3) as u16), map[i][j])?;
+            }
+        }
+        Ok(())
     }
 
     fn draw_status(&mut self, status: &Status) -> Result<()> {
