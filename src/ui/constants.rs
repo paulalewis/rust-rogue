@@ -1,5 +1,3 @@
-use crate::core::{constants::MAXARMORS, object_type::ArmorType};
-
 pub const FRUIT: &str = "slime-mold";
 pub const PRESS_ANY_KEY_TO_CONTINUE: &str = "--Press any key to continue--";
 

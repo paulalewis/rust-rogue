@@ -1,5 +1,3 @@
-use std::ops::Mul;
-
 use abstract_game_engine::core::simulator::Simulator;
 
 use crate::core::{direction::Direction, rogue_action::RogueAction, rogue_simulator::RogueSimulator, rogue_state::RogueState};
@@ -118,46 +116,46 @@ fn illegal_command(view_state: &mut GameViewState, character: char) -> Command {
 	Command::Continue
 }
 
-const COMMAND_CHAR_HELP: char = '?';
-const COMMAND_CHAR_IDENTIFY: char = '/';
-const COMMAND_CHAR_MOVE_LEFT: char = 'h';
-const COMMAND_CHAR_MOVE_DOWN: char = 'j';
-const COMMAND_CHAR_MOVE_UP: char = 'k';
-const COMMAND_CHAR_MOVE_RIGHT: char = 'l';
-const COMMAND_CHAR_MOVE_UP_LEFT: char = 'y';
-const COMMAND_CHAR_MOVE_UP_RIGHT: char = 'u';
-const COMMAND_CHAR_MOVE_DOWN_LEFT: char = 'b';
-const COMMAND_CHAR_MOVE_DOWN_RIGHT: char = 'n';
-const COMMAND_CHAR_FIGHT: char = 'f';
-const COMMAND_CHAR_THROW: char = 't';
-// const COMMAND_CHAR_MOVE: char = 'm';
-const COMMAND_CHAR_ZAP: char = 'z';
-const COMMAND_CHAR_IDENTIFY_TRAP: char = '^';
-const COMMAND_CHAR_SEARCH: char = 's';
-const COMMAND_CHAR_GO_DOWN: char = '>';
-const COMMAND_CHAR_GO_UP: char = '<';
-const COMMAND_CHAR_REST: char = '.';
-const COMMAND_CHAR_PICK_UP: char = ',';
-const COMMAND_CHAR_INVENTORY: char = 'i';
-const COMMAND_CHAR_QUAFF: char = 'q';
-const COMMAND_CHAR_READ: char = 'r';
-const COMMAND_CHAR_EAT: char = 'e';
-const COMMAND_CHAR_WIELD: char = 'w';
-const COMMAND_CHAR_WEAR: char = 'W';
-const COMMAND_CHAR_TAKE_OFF_ARMOR: char = 'T';
-const COMMAND_CHAR_PUT_ON_RING: char = 'P';
-const COMMAND_CHAR_REMOVE_RING: char = 'R';
-const COMMAND_CHAR_DROP: char = 'd';
-const COMMAND_CHAR_CALL: char = 'c';
-const COMMAND_CHAR_REPEAT: char = 'a';
-const COMMAND_CHAR_PRINT_WEAPON: char = ')';
-const COMMAND_CHAR_PRINT_ARMOR: char = ']';
-const COMMAND_CHAR_PRINT_RINGS: char = '=';
-const COMMAND_CHAR_RECALL: char = 'D';
-const COMMAND_CHAR_SAVE: char = 'S';
-const COMMAND_CHAR_QUIT: char = 'Q';
-// const COMMAND_CHAR_CANCEL: char = '\u{1b}'; ESC not needed, any key other than correct key will cancel
-const COMMAND_CHAR_YES: char = 'y';
+pub const COMMAND_CHAR_HELP: char = '?';
+pub const COMMAND_CHAR_IDENTIFY: char = '/';
+pub const COMMAND_CHAR_MOVE_LEFT: char = 'h';
+pub const COMMAND_CHAR_MOVE_DOWN: char = 'j';
+pub const COMMAND_CHAR_MOVE_UP: char = 'k';
+pub const COMMAND_CHAR_MOVE_RIGHT: char = 'l';
+pub const COMMAND_CHAR_MOVE_UP_LEFT: char = 'y';
+pub const COMMAND_CHAR_MOVE_UP_RIGHT: char = 'u';
+pub const COMMAND_CHAR_MOVE_DOWN_LEFT: char = 'b';
+pub const COMMAND_CHAR_MOVE_DOWN_RIGHT: char = 'n';
+pub const COMMAND_CHAR_FIGHT: char = 'f';
+pub const COMMAND_CHAR_THROW: char = 't';
+// pub const COMMAND_CHAR_MOVE: char = 'm';
+pub const COMMAND_CHAR_ZAP: char = 'z';
+pub const COMMAND_CHAR_IDENTIFY_TRAP: char = '^';
+pub const COMMAND_CHAR_SEARCH: char = 's';
+pub const COMMAND_CHAR_GO_DOWN: char = '>';
+pub const COMMAND_CHAR_GO_UP: char = '<';
+pub const COMMAND_CHAR_REST: char = '.';
+pub const COMMAND_CHAR_PICK_UP: char = ',';
+pub const COMMAND_CHAR_INVENTORY: char = 'i';
+pub const COMMAND_CHAR_QUAFF: char = 'q';
+pub const COMMAND_CHAR_READ: char = 'r';
+pub const COMMAND_CHAR_EAT: char = 'e';
+pub const COMMAND_CHAR_WIELD: char = 'w';
+pub const COMMAND_CHAR_WEAR: char = 'W';
+pub const COMMAND_CHAR_TAKE_OFF_ARMOR: char = 'T';
+pub const COMMAND_CHAR_PUT_ON_RING: char = 'P';
+pub const COMMAND_CHAR_REMOVE_RING: char = 'R';
+pub const COMMAND_CHAR_DROP: char = 'd';
+pub const COMMAND_CHAR_CALL: char = 'c';
+pub const COMMAND_CHAR_REPEAT: char = 'a';
+pub const COMMAND_CHAR_PRINT_WEAPON: char = ')';
+pub const COMMAND_CHAR_PRINT_ARMOR: char = ']';
+pub const COMMAND_CHAR_PRINT_RINGS: char = '=';
+pub const COMMAND_CHAR_RECALL: char = 'D';
+pub const COMMAND_CHAR_SAVE: char = 'S';
+pub const COMMAND_CHAR_QUIT: char = 'Q';
+// pub const COMMAND_CHAR_CANCEL: char = '\u{1b}'; ESC not needed, any key other than correct key will cancel
+pub const COMMAND_CHAR_YES: char = 'y';
 
 pub static HELP_ITEMS: [(char, &str); 31] = [
     (COMMAND_CHAR_IDENTIFY, "identify object"),

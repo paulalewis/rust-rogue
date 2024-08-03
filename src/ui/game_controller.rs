@@ -3,7 +3,7 @@ use termion::event::Key;
 
 use crate::core::{dungeon::{MAP_HEIGHT, MAP_WIDTH}, rogue_simulator::RogueSimulator, rogue_state::RogueState, status::Status};
 
-use super::{command::{process_command, Command}, game_view_state::{GameViewState, MainViewState}};
+use super::{command::{process_command, Command, COMMAND_CHAR_HELP}, game_view_state::{GameViewState, MainViewState}};
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
@@ -23,7 +23,7 @@ impl GameController {
             current_state,
             view_state: GameViewState {
                 main_view_state: MainViewState {
-                    message: format!("Welcome to Rust Rogue version {}. Press '?' for help.", VERSION),
+                    message: format!("Rust Rogue version {}. Press '{}' for help.", VERSION, COMMAND_CHAR_HELP),
                     map: [['0'; MAP_WIDTH]; MAP_HEIGHT],
                     status,
                 },
