@@ -53,6 +53,15 @@ impl Simulator<RogueState, RogueAction> for RogueSimulator {
         actions.insert(RogueAction::Move(Direction::Right));
         actions.insert(RogueAction::Move(Direction::Up));
         actions.insert(RogueAction::Move(Direction::Down));
+        actions.insert(RogueAction::Move(Direction::UpLeft));
+        actions.insert(RogueAction::Move(Direction::UpRight));
+        actions.insert(RogueAction::Move(Direction::DownLeft));
+        actions.insert(RogueAction::Move(Direction::DownRight));
+        actions.insert(RogueAction::PickUp);
+        actions.insert(RogueAction::Search);
+        actions.insert(RogueAction::Rest);
+        actions.insert(RogueAction::StairsDown);
+        actions.insert(RogueAction::StairsUp);
         vec![LegalActions(actions)]
     }
 
